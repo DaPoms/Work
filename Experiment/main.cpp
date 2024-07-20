@@ -3,6 +3,10 @@
 
 int main()
 {
-//    std::cout << std::setprecision(6);
-	std::cout << 6.69420420420420420;
+
+bool x = 0;
+
+
+std::cout << x;
+
 }

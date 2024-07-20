@@ -1,6 +1,6 @@
 #include <iostream>
 
-int totalTobillscoins(int x, int cash) // Separates user's money by whatever specified currency value is put in for x, but times 100 (EX: 100 = 1 USD)
+int totalTobillscoins(int x, int cash) // Separates user's money by whatever specified currency value is put in for x, but in cents (EX: 100 = 1 USD)
 {
     std::cout << cash / x << " " << x / 100.0 << " dollar bills.\n";
 
