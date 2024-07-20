@@ -28,6 +28,6 @@ int main()
     std::cout << "How much $ do you have?: ";
     std::cin >> money;
 
-    currencySeparate(money * 100);
+    currencySeparate(money * 100 + .001); //Add .001 to balance out float imprecision without actually impacting the # 
 
 }
