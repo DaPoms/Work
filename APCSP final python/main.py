@@ -11,7 +11,7 @@ End = 0
 
 
 #########Pool(64 terms)########################
-#You can edit these terms to change what you are studying! Ex: List animals in one list, and their kingdom in the second one!
+#You can edit these terms to change what you are studying! Ex: List animals in one list, and their kingdom in the second one! Make sure each answer and question is different though
 # IMPORTANT: Make sure to keep track of the amount of terms you have in the list, and then SUBTRACT it by 1 (as python lists start at 0, not 1) The length of your list is then put in the call function as shown in the procedure itself. MAKE SURE both lists have equal length.
 SPpool = [
     "Cuadro", "Hogar", "Aire Acondicionado", "Alfombra", "Armario", "Ático",
