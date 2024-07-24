@@ -4,35 +4,15 @@
 
 #include <iostream>
 
-void print(int x)
-{
-	std::cout << x << '\n';
-}
 
 int main()
 {
 	system("CLS");
 
+	const char* y {"Hello, World!"}; // * = A pointer! Have yet to learn about it, just the error recommended it
+
+	std::cout << y << '\n' << y;
 	
-	//print( static_cast<int>(5.5) ); //Static cast makes the compiler happy w/casting loss
-
-
-	char x{97};
-	std::cout << static_cast<int>(x); //You can use casting to print char code #, code is an int
-
-
-
-	/*
-	char x{};
-	std::cout << "enter a 3 letter word: ";
-
-	std::cin >> x;
-	std::cout << x;
-	std::cin >> x;
-	std::cout << x;
-	std::cin >> x;
-	std::cout << x;
-*/
 	
 }
 
