@@ -15,6 +15,6 @@ int main()
     int age{};
     std::cin >> age; 
 
-    std::cout << "\nYour age + length of name is: " <<  (age + std::ssize(name) );
+    std::cout << "\nYour age + length of name is: " <<  (age + std::ssize(name));
 }
 
