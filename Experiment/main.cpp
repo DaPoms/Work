@@ -4,17 +4,15 @@
 //#include <bitset>
 #include <iostream>
 
-
-constexpr double mult(double x, double y)
+int main() //This experiment is for finding row/collumn when you don't know it (usually from user input)
 {
-	return x * y;
-}
+int arr[2][3];
 
-int main()
-{
+std::cout << sizeof(arr[0]) / sizeof(int); //gives columns
+std::cout << '\n' << sizeof(arr) / sizeof(arr[0]); //gives rows
 
-constexpr double num{ mult(3.2, 5.4) }; //to put a value from a function inside a constant, the function must be a constant
-std::cout << num;	
-	
+
+
+
 }
 
