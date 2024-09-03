@@ -1,8 +1,10 @@
 #include <iostream>
-
-constexpr bool isEven(int x)
+#include <typeinfo> //used to test how types change with ! operator
+constexpr bool isOdd(int x) //if false even
 {
-    return (x % 2) == 0;
+    std::cout << "! converts int to: " <<  typeid( !((x % 2)) ).name() << '\n'; //as shown, type changes from int to bool when using operator!
+                                                                                //note to self, do !! to convert something to bool without changing the result if needed
+    return !((x % 2)); //when even we get 0 and it is converted to a bool, so !0 = 1, when the number is not 0, 
 }
 
 int main()
@@ -14,11 +16,11 @@ int main()
 
     
 
-    if (isEven(x))
-        std::cout << x << " is odd.";
+    if (isOdd(x))
+        std::cout << x << " is even.";
 
 
 
     else
-        std::cout << x << " is even.";
+        std::cout << x << " is odd.";
 }
