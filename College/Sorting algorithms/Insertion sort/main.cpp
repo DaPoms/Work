@@ -1,31 +1,38 @@
 #include <iostream>
 
-int main() //Need to test if this is actually insertion sort, but it does work...
+void swapInts(int array[], int index1, int index2)
 {
-    int list[5] = {23,1,10,5,2};
-    int size = sizeof(list) / 4;
-    int val{1};
-    int placeholder{};
+    int placeholder = array[index1];
+    array[index1] = array[index2];
+    array[index2] = placeholder;
+} 
 
-    for(int sorted{0}; sorted < size; sorted++)
+void insertionSort(int array[], int listCount)
+{
+    for(int sortedIndex{1}; sortedIndex < listCount; sortedIndex++)
     {
-        
+        int traverseLeft{sortedIndex}; //Used to move var down till it reaches the point is belongs
 
-        while(val < size) //statement to move down the line
+        while ( (array[traverseLeft - 1] > array[traverseLeft]) && (traverseLeft > 0)) //Keeps on moving value left till it is greater than the val to the left of it
         {
-            if(list[val] < list[sorted]) //tests if next value in unsorted portion is smaller than the smallest value of the organized list, changes places if true
-                {
-                    placeholder = list[val];
-                    list[val] = list[sorted];
-                    list[sorted] = placeholder;
-                }
-            val++;
-            
+            swapInts(array, traverseLeft, traverseLeft - 1);
+            traverseLeft--;
         }
-        
-        val = sorted + 1;
-    }
+    }   
+}
 
-    for (int i{0}; i < size; i++)
+
+
+
+
+int main() 
+{
+    int list[6] = {120,23,1,10,5,2};
+   
+
+    insertionSort(list, 6);
+
+
+    for (int i{0}; i < sizeof(list) / 4 ; i++)
         std::cout << list[i] << " ";
 }
