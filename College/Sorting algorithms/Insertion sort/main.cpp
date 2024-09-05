@@ -1,5 +1,5 @@
 #include <iostream>
-
+//should I add forward declaration
 void swapInts(int array[], int index1, int index2)
 {
     int placeholder = array[index1];
