@@ -7,7 +7,7 @@ void swapInts(int array[], int index1, int index2)
     array[index2] = placeholder;
 } 
 
-void insertionSort(int array[], int listCount)
+void insertionSort(int array[], int listCount) //NEED TO FIX!!!
 {
     for(int sortedIndex{1}; sortedIndex < listCount; sortedIndex++)
     {

@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------
-      Name: Daniel Tripoli
+      Name:             Daniel Tripoli
       Last Edited:
       Due Date:         9/14/2024
       Course:           CPSC136 - Computer Science II

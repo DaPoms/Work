@@ -99,7 +99,7 @@ def scramble(list1, list2, transLang):
             
             
             inputAns = input("-------------\nWhat is \033[4;1;94m" + list1[ans] + "\033[0m in " + transLang + "? \n A: " + problem[0] + "\n B: " + problem[1] + "\n C: " + problem[2] + "\n D: " + problem[3] + "\n\n E: \033[31;1;38mGo to shop\033[0m" + "\n-------------\n You say: ")
-          #The os.system('cls') is for aesthetic purposes, clss the screen for every user input.
+          #The os.system('cls') is for aesthetic purposes, clears the terminal between every user input.
         os.system('cls')
 #User input for the answer
         if inputAns == "A" or inputAns == "a":
