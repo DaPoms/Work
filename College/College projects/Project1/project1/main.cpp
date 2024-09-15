@@ -10,20 +10,18 @@
 /* Purpose: Demonstrate knowledge of structs, functions, and sorting */
 /*********************************************************************/
 
-#include <fstream> //for I/O stream
+#include <fstream> //for file stream
 #include <iostream>
 #include <string>
 #include <cmath>
-#include <iomanip>
+#include <iomanip> 
 
-//MAKE SURE TO MAKE OUTPUTS ALL HAVE 2 DECIMAL PLACES
-//Need to program allowing sin( > 360 degrees)
-struct swing //can you make constexpr structs
+struct swing //Do you need direct intialization? I did because my debugger was warning about it
 {
-    std::string name;
-    float angle;
-    float initVelocity;
-    double distance;
+    std::string name{};
+    float angle{};
+    float initVelocity{};
+    double distance{};
 };
 
 ////////forward declarations///////////////////////////////////
@@ -45,7 +43,7 @@ Description:    closes file stream / access to the given file
 Parameters:     ifstream extract - a file stream variable
 Returns:        void
 **/
-void closeFile(std::ifstream& extract); //NOT CURRENTLY WORKING HUHRGEHRGERGERHRERUHgerhhgH
+void closeFile(std::ifstream& extract);
 
 /**
 Name:           openUserFile
@@ -57,20 +55,20 @@ Returns:        ifstream - input file stream to extract data from said file
 std::ifstream openUserFile();
 /**
 Name:           swingFromUserFileToArray
-Description:    Makes a sorted array of 10 structs max, with a separate function (selectionSort) organizing the structs by distance
+Description:    Makes a sorted array of 10 structs max, with a separate function (insertionSort) organizing the structs by distance
 Parameters:     swing arr[] - a list of struct swing (golfers)
 Returns:        void
 **/
 void swingFromUserFileToArray(swing arr[]);
 
 /**
-Name:           selectionSort
+Name:           insertionSort
 Description:    Sorts the array of swing structs by distance, done by moving lesser distance swing structs left
 Parameters:     swing arr[] - a list of swing structs (golfers)
 Returns:        void
 **/
 
-void selectionSort(swing arr[], int sorted); //Need to make so it sorts every time I put swing var into arr
+void insertionSort(swing arr[], int sorted); //Need to make so it sorts every time I put swing var into arr
 
 /**
 Name:           swapSwingArray
@@ -84,13 +82,13 @@ void swapSwingArray(swing& left, swing& right);
 
 /**
 Name:           caclDist
-Description:    Uses a projectile formula to find and return the distance of a swing struct, based on its member variables 
+Description:    Uses a projectile formula to calculate the distance of a swing struct and assign it to said swing struct, based on the values of its member variables 
 Parameters:     swing person - a golfer, used to access their values
-Returns:        double - the distance of the golfer's hit
+Returns:        void
 **/
 
 
-double calcDist(swing person);
+void calcDist(swing& person);
 
 /**
 Name:           returnCoterminal
@@ -141,16 +139,17 @@ int main()
 
 swing fillSwing(std::string name, float velocity, float angle) //allows swing struct member vars to be filled
 {
-    swing person; //throwing warning of "synthesized method constexpr swing::swing required here"
+    swing person;
+
     person.name = name;
     person.initVelocity = velocity;
     person.angle = angle;
-    person.distance = calcDist(person);
+    calcDist(person);
 
     return person;
 }
 
-void closeFile(std::ifstream& extract) //NOT WORKING!
+void closeFile(std::ifstream& extract) 
 {
     extract.close();
 }
@@ -187,29 +186,23 @@ void swingFromUserFileToArray(swing arr[])
     {
         if(i == 10) //checks if file is too big
             {
-                std::cout << "=============================================\nThe file has exceeded the size of the array, stopping process at the 10th row...\n =============================================\n";
+                std::cout << "The file has exceeded the size of the array, stopping process at the 10th row...\n =============================================\n";
                 break;
             }
 
-        extract >> initVelocity;
+        extract >> initVelocity; // A.4 ANSWER HERE!
         extract >> angle; 
 
         
         arr[i] = fillSwing(name, initVelocity, angle);
         ++i;
-        selectionSort(arr, i);
+        insertionSort(arr, i);
     }
 
-    closeFile(extract); //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //extract >> name;
-    //std::cout << "NOT AN ERROR 1" << name;
-
-    //extract.close();
-    //extract >> name;
-    //std::cout << "NOT AN ERROR 2" << name;
+    closeFile(extract); 
 }
 
-void selectionSort(swing arr[], int numElements) //Sorts swing structs in array arr by swing distances, from least to greatest
+void insertionSort(swing arr[], int numElements) //Sorts swing structs in array arr by swing distances, from least to greatest
 {
     int traverse{};
 
@@ -218,7 +211,7 @@ void selectionSort(swing arr[], int numElements) //Sorts swing structs in array 
 
         traverse = i;
     
-        while( (arr[traverse].distance < arr[traverse - 1].distance) && (traverse > 0)) //Moves swing structs left while they are less than the value to the left of them, traverse cannot = 0 as it would lead to out of bounds
+        while( (arr[traverse].distance < arr[traverse - 1].distance) && (traverse > 0)) // A.3 ANSWER HERE! REPLACE .distance WITH .name. Moves swing structs left while they are less than the value to the left of them, traverse cannot = 0 as it would lead to out of bounds
         {
             swapSwingArray(arr[traverse - 1], arr[traverse] );
             --traverse;  
@@ -234,10 +227,10 @@ void swapSwingArray(swing& left, swing& right) //& operator so we dont have to p
     right = placeholder;
 }
 
-double calcDist(swing person) //calculates distance with the formula for a projectile
+void calcDist(swing& person) //calculates distance with the formula for a projectile
 {
     constexpr double GRAVITY{9.81};
-    return  ( ( (person.initVelocity * person.initVelocity) * std::sin( 2 * ( returnCoterminal(person.angle) * ( ( 2 * acos(0.0) ) / 180 ) ) ) / GRAVITY ) ); //Used inverse cos for finding pi, as cos is 0 at 90 degrees, so 90 * 2 = 180 degrees = pi
+    person.distance = ( (person.initVelocity * person.initVelocity) * std::sin( 2 * ( returnCoterminal(person.angle) * ( ( 2 * acos(0.0) ) / 180 ) ) ) / GRAVITY ) ; //Used inverse cos for finding pi, as cos is 0 at 90 degrees, so 90 * 2 = 180 degrees = pi
 } 
 
 float returnCoterminal(float angle) //Gives reference angle when the angle is above 360 or below 0 degrees. Also make distance positive from 270-360 degrees and negative from 180-270 degrees not inclusive  
@@ -256,15 +249,15 @@ float returnCoterminal(float angle) //Gives reference angle when the angle is ab
         return angle;
     }
 
-    else if ( (angle > 180) && (angle < 360) ) //makes it so downward left angles give negative dist, and lower right angles give positive
-        return -angle;
+    else if ( (angle > 180) && (angle < 360) ) //Makes any angle hitting below the ground = 0, which always results in 0 distance
+        return 0.0;
 
     return angle;
 }
 
 void printCosmeticBorder()
 {
-    std::cout << "=============================================\n";
+    std::cout << "=========================================================================\n";
 }
 
 void printSwingArr(swing arr[])
@@ -279,7 +272,7 @@ void printSwingArr(swing arr[])
     {
         std::cout << std::setw(dist + 4) << arr[i].name << std::setw(dist - 4) << "|" << std::setw(dist + 4) 
         << std::fixed << std::setprecision(2) << arr[i].initVelocity << " m/s" << std::setw(dist - 4) << "|" << std::setw(dist + 6) //Used geekforgeek to learn about std::fixed of iomanip
-        << arr[i].angle << '\370' <<  std::setw(dist - 4) << "|" << std::setw(dist + 1) << arr[i].distance << " m\n"; // \370 is the code for degree symbol, though this doesn't work in unix, only vscode
+        << arr[i].angle << '\370' <<  std::setw(dist - 4) << "|" << std::setw(dist + 1) << arr[i].distance << " m\n"; // \370 is the code for degree ° symbol, though this doesn't work in unix, only vscode
     
     }
         

@@ -14,16 +14,14 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include <iomanip>
+#include <iomanip> 
 
-//MAKE SURE TO MAKE OUTPUTS ALL HAVE 2 DECIMAL PLACES
-//Need to program allowing sin( > 360 degrees)
-struct swing //can you make constexpr structs
+struct swing //Do you need direct intialization? Its throwing a warning HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 {
-    std::string name;
-    float angle;
-    float initVelocity;
-    double distance;
+    std::string name{};
+    float angle{};
+    float initVelocity{};
+    double distance{};
 };
 
 ////////forward declarations///////////////////////////////////
@@ -141,7 +139,8 @@ int main()
 
 swing fillSwing(std::string name, float velocity, float angle) //allows swing struct member vars to be filled
 {
-    swing person; //throwing warning of "synthesized method constexpr swing::swing required here"
+    swing person;
+
     person.name = name;
     person.initVelocity = velocity;
     person.angle = angle;
@@ -191,7 +190,7 @@ void swingFromUserFileToArray(swing arr[])
                 break;
             }
 
-        extract >> initVelocity;
+        extract >> initVelocity; // A.4 ANSWER HERE!
         extract >> angle; 
 
         
@@ -218,7 +217,7 @@ void selectionSort(swing arr[], int numElements) //Sorts swing structs in array 
 
         traverse = i;
     
-        while( (arr[traverse].distance < arr[traverse - 1].distance) && (traverse > 0)) //Moves swing structs left while they are less than the value to the left of them, traverse cannot = 0 as it would lead to out of bounds
+        while( (arr[traverse].name < arr[traverse - 1].name) && (traverse > 0)) // A.3 ANSWER HERE!; Moves swing structs left while they are less than the value to the left of them, traverse cannot = 0 as it would lead to out of bounds
         {
             swapSwingArray(arr[traverse - 1], arr[traverse] );
             --traverse;  

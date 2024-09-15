@@ -1,0 +1,3 @@
+Anira 10 10
+Mulich 10 370
+Blorb 10 180
