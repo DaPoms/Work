@@ -1,0 +1,7 @@
+All you need to do is make a project2.cpp file and edit that; you need not, and should not, edit any other files. That said, you should read Grocery.h to understand what methods there are and how they are formatted.
+
+To compile the project, run:
+   make
+
+To run the project, run:
+   ./application

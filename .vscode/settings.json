@@ -51,6 +51,11 @@
         "sstream": "cpp",
         "bitset": "cpp",
         "fstream": "cpp"
-    }
+    },
+    "sshfs.configs": [
+        {
+            "name": "ACAD"
+        }
+    ]
     
 }

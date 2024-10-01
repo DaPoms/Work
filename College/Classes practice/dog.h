@@ -15,6 +15,8 @@ class dog
 
         ~dog();
 
+        dog(const dog& referencedDog);
+
         std::string getName();
 
         void setName(std::string dogsName);

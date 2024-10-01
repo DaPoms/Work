@@ -1,21 +1,29 @@
 #include "dog.h"
 #include <iostream>
 
+
+
 int main()
 {
-    dog puppy{};
     dog animal{"Borbert", "Mastiff", 'M', true, gigantic};
-
+    dog puppy(animal);
+    
+    puppy.printDog();
+    std::cout << "\n================\n";
     animal.printDog();
+
+
 }
 
 ///////dog class////////////////////////////////////////////////////////////////
-dog::dog()
+dog::dog() //Why do you needd this if you can do default vars
 {
+
     name = "NULL";
     breed = "NULL";
     sex = 'N';
     isCute = false;
+
 }
 
 dog::dog(std::string nameInput, std::string breedInput, char sexInput , bool isCuteInput, size sizeInput)
@@ -25,6 +33,15 @@ dog::dog(std::string nameInput, std::string breedInput, char sexInput , bool isC
     sex = sexInput;
     isCute = isCuteInput;
     dogSize = sizeInput;
+}
+
+dog::dog(const dog& passedReference) //copy constructor
+{
+    name = passedReference.name;
+    breed = passedReference.breed;
+    sex = passedReference.sex;
+    isCute = passedReference.isCute;
+    dogSize = passedReference.dogSize;
 }
 
 dog::~dog()
