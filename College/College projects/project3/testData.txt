@@ -1,0 +1,10 @@
+Banana 10 produce
+Cereal 7 aisle 6
+swordfish 1 meat
+printer
+WATER 32 aisle 17
+OatMeal 4 aisle 1
+apple 100 produce 4
+cereal 6
+eggs 2 dairy
+banana
