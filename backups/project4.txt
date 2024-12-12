@@ -1,0 +1,66 @@
+ if(addingList.head) //For efficiency and preventing seg fault if passed list for += is empty
+    {
+                    
+        if (isEmpty() || *head >= *traversePassedList) //case of being at first
+        {
+            tempNode = new Node{traversePassedList -> data};
+            head = tempNode;
+            
+            if(!isEmpty()) //Sets head's next to point to the node that was previously the first, we do not have to worry about the empty case as the default param of member variable "next" is NULL by default.
+                tempNode -> next = currLeftList;
+            
+            else //Sets new head  GO OVER REGUGHUEREIOGHERUHGhdfyhrtdtyftjtj
+            {
+                currLeftList = head; //Likely add exclusive function for when empty
+            }
+                
+            if(traversePassedList -> next)
+                traversePassedList = traversePassedList -> next; //prepares for search
+            
+            
+           
+
+        }
+        
+        if(traversePassedList)
+            tempNode = new Node{traversePassedList -> data}; // For first case
+       
+        while(traversePassedList) //Search till end (need special case if needs to be added to the end)
+        {
+            if(tempNode -> next == currLeftList) //If the Node has been added, go onto the next one
+                tempNode = new Node{traversePassedList -> data};
+
+            if (!currLeftList)
+            {
+                prevLeftList -> next = tempNode;
+            }
+
+            else
+            {
+                prevLeftList = currLeftList; 
+                currLeftList = currLeftList -> next;
+
+
+                if(*currLeftList > *tempNode)
+                {
+                    prevLeftList -> next = tempNode;
+                    tempNode -> next = currLeftList;
+
+                    traversePassedList = traversePassedList -> next;
+                }
+            }
+            
+
+        }
+        
+        
+        
+
+      //  if( (*traversePassedList > *currLeftList)) //Case where node is meant to be added at end
+            //    currLeftList -> next = tempNode; //Temp node is already pointing to null
+        
+
+    }
+
+        return (*this);
+}
