@@ -29,7 +29,8 @@ class Vector {
 		T* newPtr = new T[cap];
 		for(int i{0}; i < sz; i++)
 		{
-			*(newPtr + i) = *(data + i); 
+			//*(newPtr + i) = *(data + i); //both these do the same thing
+			newPtr[i] = data[i];
 		}
 
 		data = newPtr; 
@@ -51,7 +52,7 @@ class Vector {
 			// Remove an element from the end of the vector
 			if(sz == cap)
 			{
-				updateCap(max( 1,2 * cap ));
+				updateCap(-1);
 				--sz;
 			}
 			else
