@@ -23,9 +23,9 @@ class Vector {
     Vector(){}				// Constructs an empty vector
     int capacity() {return cap;}		// Returns current capacity of the array
 
-	void updateSize()
+	void updateCap(int newSize)
 	{
-		cap = max(1, cap * 2);
+		cap = newSize;
 		T* newPtr = new T[cap];
 		for(int i{0}; i < sz; i++)
 		{
@@ -42,7 +42,7 @@ class Vector {
     void push_back(const T& elem) {
             // Insert an element at the end of the vector
 			if(sz == cap)
-				updateSize();
+				updateCap(max( 1,2 * cap ));
 			sz++;
 			*(data + (sz - 1)) = elem;
     }
@@ -51,7 +51,7 @@ class Vector {
 			// Remove an element from the end of the vector
 			if(sz == cap)
 			{
-				updateSize();
+				updateCap(max( 1,2 * cap ));
 				--sz;
 			}
 			else
@@ -60,7 +60,30 @@ class Vector {
 			
 	}
 
+	
+	void insert(int i, const T& elem)
+	{
+		if (sz == cap)
+			updateCap(max( 1,2 * cap ) );
+		for(int k = sz - 1; k >=i; k--)
+			data[k + 1] = move(data[k]); //Teacher showed us move(), removes the need of a placeholder var for data swapping
+		data[i] = elem;
+		sz++;
+	}
+
+	void erase(int i) //Do we need to change size in erase?
+	{
+		for(int k{i}; k < sz - 1; k++)
+		{
+			data[k] = move(data[k + 1]);
+		}
+		sz--;
+	}
+
 };
+
+
+	
 
 template <typename T>
 void disp_vector (T& v) 
@@ -87,6 +110,10 @@ int main ()
 	disp_vector (v) ;	v.pop_back() ;
 	disp_vector (v) ;	v.pop_back() ;
 	disp_vector (v) ;	v.pop_back() ;
+	disp_vector (v) ;
+	v.insert(2, 69);
+	disp_vector (v) ;
+	v.erase(1);
 	disp_vector (v) ;
 	return 0 ;
 }
