@@ -29,7 +29,9 @@ class Vector {
 		T* newPtr = new T[cap];
 		for(int i{0}; i < sz; i++)
 		{
-			//*(newPtr + i) = *(data + i); //both these do the same thing
+			//Lesson learned!: both these do the same thing, operator[] 
+		    //opens up to the start array address and whatever is inside of operator[] adds to the address by the passed value
+			//*(newPtr + i) = *(data + i); 
 			newPtr[i] = data[i];
 		}
 
@@ -37,7 +39,7 @@ class Vector {
 		
 	}
     int size() {return sz;}				 // Returns the number of elements stored
-    T operator[](int i) {return *(data + i);}    // Returns reference to the element at index i; 
+    T operator[](int i) {return data[i];}    // Returns reference to the element at index i; 
 								// behavior is undefined if i is out of bounds
 
     void push_back(const T& elem) {
@@ -45,7 +47,7 @@ class Vector {
 			if(sz == cap)
 				updateCap(max( 1,2 * cap ));
 			sz++;
-			*(data + (sz - 1)) = elem;
+			data[sz - 1] = elem;
     }
     
     void pop_back() {

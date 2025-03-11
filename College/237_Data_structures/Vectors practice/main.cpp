@@ -5,7 +5,7 @@ using namespace std;
 template <typename T>
 void displayVector(vector<T> v)
 {
-    for(int i{0}; i < v.capacity(); i++)
+    for(int i{0}; i < v.capacity(); i++) //prints everything, including empty space, I could use v.size() to only print actual elements of the vector
     {
         cout << v.at(i) << " ";
     }
@@ -14,14 +14,16 @@ void displayVector(vector<T> v)
 
 int main()
 {
-    vector<int> vect{1,2,3,4,5};
-    vector<int> vect2{12,12,12};
+    vector<char> vect{'Q','U','I','T'};
+    vector<char> vect2{'2','1','1'};
 
     //vect.pop_back();
-    //vect.erase(vect.begin());
-    //cout << vect.at(0) << '\n';
+    //vect.erase(vect.begin() + 1); Erases index 1, the 2nd element
+    //vect.erase(vect.begin()); //Erases index 0, the 1st element
+    //vect.insert(vect.begin() + 4,'E');
+    //cout << vect.at(4) << '\n';
     //vect.assign(vect2.begin(), vect2.end());
-    //vect.insert(vect.begin(), 60);
+    vect.insert(vect.begin() + 4, 'E');
     cout << vect[0] << "\n";
     displayVector(vect);
 }   
