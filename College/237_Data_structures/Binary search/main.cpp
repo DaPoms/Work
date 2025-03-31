@@ -1,17 +1,17 @@
-//I only wrote main for this, not binary_search(). That was supplied by my teacher
+//I only wrote main for this, not binary_search(), though I wrote the comments. binary_search() was supplied by my teacher
 #include <iostream>
 using namespace std;
 
 bool binary_search(int data[], int target, int low, int high) {
-    if (low > high)
+    if (low > high) //Case of item not being found
         return false;
     else {
-        int mid{(low + high) / 2};
-        if (target == data[mid])
+        int mid{(low + high) / 2}; //Finding midpoint
+        if (target == data[mid]) //Case of element being found
             return true;
-        else if (target < data[mid])
+        else if (target < data[mid]) //Case of element being on the left side of the array
             return binary_search(data, target, low, mid - 1);
-        else
+        else //Case of element being on the right side of the array
             return binary_search(data, target, mid + 1, high);
     }
  }
