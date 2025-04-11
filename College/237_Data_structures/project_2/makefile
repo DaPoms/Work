@@ -1,5 +1,5 @@
-taxtracker: p2.o stock.o stockhist.o
-	g++ p2.o stock.o stockhist.o -o taxtracker
+stocktracker: p2.o stock.o stockhist.o
+	g++ p2.o stock.o stockhist.o -o stocktracker
 
 p2.o: p2.cpp stock.h stockhist.h
 	g++ -c p2.cpp
@@ -7,7 +7,7 @@ p2.o: p2.cpp stock.h stockhist.h
 stockhist.o: stockhist.cpp stockhist.h
 	g++ -c stockhist.cpp
 
-stock.o: stock.cpp stock.h
+stock.o: stock.cpp stock.h stockhist.h
 	g++ -c stock.cpp
 
 

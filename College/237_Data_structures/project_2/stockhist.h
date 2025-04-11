@@ -6,11 +6,13 @@
 using namespace std;
 class StockHist
 {
+    
+        
     private:
-        int date;
         string ticker;
-        char action;
         int shares;
+        int date;
+        char action;
         double price;
     public:
        StockHist(int passedDate = -1, string passedTicker = "NULL", char passedAction = '\0', int passedShares = -1, double passedPrice = 0.00);
@@ -26,9 +28,6 @@ class StockHist
        int getShares();
        void setPrice(double passedPrice);
        double getPrice();
-       
-
-       
 };
 
 
