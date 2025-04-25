@@ -1,3 +1,15 @@
+/* 
+Author:         Daniel Tripoli                                  
+Major:          Computer Science                                 
+Creation Date:  April 1st, 2025                       
+Due Date:       April 14th, 2025                             
+Course:         CSC237 010                                      
+Professor Name: Dr.Hussain                              
+Project:        #2                                          
+Filename:       p2.cpp                                 
+Purpose:        Runner file, organizes stock data
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,7 +20,17 @@
 #include "stockhist.h"
 using namespace std;
 
-//PS: Make sure txt file you input does not have open space (especially at the end of the txt file), I purposefully implimented an error call for that case
+//PS: Make sure txt file you input does not have open space (INCLUDING at the end of the txt file), I purposefully implimented an error call for that case
+
+/* 
+ Function name:     assignToVar                      
+ Description:       Reads one element from the passed input string stream, does error checking 
+                    to make sure the element is able to be assigned to the passed variable, and assigns it if possible.    
+ Parameters:        istringstream& lineReader - The input string stream is read from
+                    T& word - The variable we want to assign the element we read from the string stream to
+                    const int& lineNum - The line which we got the string stream from
+ Return Value:      none
+*/
 template <typename T>
 void assignToVar(istringstream& lineReader, T& word, const int& lineNum) //Helper function for readToStockHist, Does error checking in a more compact way for reading from a line in the txt file
 
@@ -54,6 +76,14 @@ void assignToVar(istringstream& lineReader, T& word, const int& lineNum) //Helpe
     }    
 }   
 
+/* 
+ Function name:     readToStockHist                      
+ Description:       Opens a file stream to a passed file name and stores each line in as a separate StockHist object 
+                        in the passed vector as long as the given txt file follows the accepted format (int, string, char, int, double). 
+ Parameters:        vector<StockHist>& transactions - The vector which we store each stock transaction in
+                    string fileName - The name of the file we want to read for input
+ Return Value:      none
+*/
 void readToStockHist(vector<StockHist>& transactions, string fileName) //Reads from a txt at the passed name file of proper stock transaction formatting and stores each transaction in the passed vector
 {
     ifstream fileReader{fileName};
@@ -87,6 +117,12 @@ void readToStockHist(vector<StockHist>& transactions, string fileName) //Reads f
 
 }
 
+/* 
+ Function name:     displayTransactions                     
+ Description:       Prints out all the StockHist elements of a StockHist vector in a tabular manner
+ Parameters:        const vector<StockHist>& transactions - The vector we are printing the contents of    
+ Return Value:      none
+*/
 void displayTransactions(const vector<StockHist>& transactions) //Prints out all StockHist elements in a StockHist vector
 {
     cout << "All Transactions:\nDate       Stock    Type    #Shares    Share Price ($)\n-----------------------------------------------------------------------\n";
@@ -95,6 +131,12 @@ void displayTransactions(const vector<StockHist>& transactions) //Prints out all
     cout << "\n";
 }
 
+/* 
+ Function name:     displayPortfolio                     
+ Description:       Prints out all the Stock elements of a Stock vector in a tabular manner
+ Parameters:        vector<Stock> passedPortfolio - The Stock vector we are printing the contents of       
+ Return Value:      none
+*/
 void displayPortfolio(vector<Stock> passedPortfolio) //Prints out all Stock elements in a Stock vector
 {
     cout << "Portfolio:\nStock   #Shares   Price Paid ($)  Avg Price ($)\n------------------------------------------------------------------\n";
@@ -105,7 +147,13 @@ void displayPortfolio(vector<Stock> passedPortfolio) //Prints out all Stock elem
     cout << '\n';
 }
 
-
+/* 
+ Function name:     locateInVector                       
+ Description:       Attempts to locate a passed ticker in a given vector of Stock objects
+ Parameters:        string elem
+                    vector<Stock> passedVector      
+ Return Value:      int - The index where a stock ticker was found in the passed vector
+*/
 int locateInVector(string elem, vector<Stock> passedVector) //Attempts to locate a passed ticker in a given vector of Stock objects, returning the index it was found
 {
     for(int i{0}; i < passedVector.size(); i++)
@@ -116,7 +164,13 @@ int locateInVector(string elem, vector<Stock> passedVector) //Attempts to locate
     return -1;
 }
 
-
+/* 
+ Function name:     cancelOutSell                        
+ Description:       Searches above the passed index of a sell transaction, cancelling out the sold shares with past buy transactions
+ Parameters:        int sellIndex - Index where sell transaction occurs
+                    vector<StockHist>& passedTransactions - The vector of StockHist objects where the sell occurs
+ Return Value:      double - the price spent on the stocks that were sold
+*/
 double cancelOutSell(int sellIndex, vector<StockHist>& passedTransactions) //returns the amount of money required to cancel out a single sell transaction,
 {                                                                          //assuming the user did not make a sale with a stock they don't own/own yet in the provied txt
     string beingSoldTicker = passedTransactions[sellIndex].getTicker(); //The stock ticker of the sell call
@@ -153,6 +207,14 @@ double cancelOutSell(int sellIndex, vector<StockHist>& passedTransactions) //ret
     return sumSold;
 }
 
+/* 
+ Function name:     readToPortfolio                       
+ Description:       Reads the passed StockHist vector and stores it as a vector of Stocks,
+                        each Stock holds the stock name, share count, and the total money spent on that specific stock, which accounts for stocks sold
+ Parameters:        vector<Stock>& passedPortfolio - The Stock vector we want to add Stock elements to
+                    vector<StockHist> passedTransactions - the StockHist vector we want to read the transactions of to fill the Portfolio
+ Return Value:      none
+*/
 void readToPortfolio(vector<Stock>& passedPortfolio, vector<StockHist> passedTransactions) //Reads a vector of StockHist's and adds the stocks to the passed Stock vector with the 
                                                                                            //total shares and money spent calculated 
 {    
@@ -185,6 +247,13 @@ void readToPortfolio(vector<Stock>& passedPortfolio, vector<StockHist> passedTra
     } 
 }
 
+/* 
+ Function name:     countBuys                    
+ Description:       Counts the number of StockHist items that are buy transactions
+ Parameters:        string passedTicker - The name of the stock we are counting the buys of
+                    vector<StockHist>& passedTransactions - The StockHist vector we want to count the buys of 
+ Return Value:      int - the number of buy transactions found of that specific stock
+*/
 int countBuys(string passedTicker, vector<StockHist>& passedTransactions) // Counts the number of buys in a vector of transactions for a given stock, tells us when we have reached the end
 {
     int end = passedTransactions.size() - 1;
@@ -203,7 +272,15 @@ int countBuys(string passedTicker, vector<StockHist>& passedTransactions) // Cou
     return buyCount;
 }
 
-
+/* 
+ Function name:     displayAdvisoryTable                        
+ Description:       Prints in a tabular format the most recent unsold stock transaction of each 
+                        stock found in the passed StockHist vector. The only case where partially
+                        sold stock is displayed is if the last buy is partially sold, and that partial amount is printed.
+ Parameters:        vector<StockHist>& passedTransactions - The StockHist vector we traverse to find the 1st unsold stock of 
+                    vector<Stock>& passedPortfolio - The Stock vector we use to know which stocks we are looking for
+ Return Value:      none
+*/
 void displayAdvisoryTable(vector<StockHist>& passedTransactions, vector<Stock>& passedPortfolio) //Idea: start from bottom, subtract = adds to debt, buy = takes away from debt. Print sale that is one after debt
 {
     int end;
