@@ -4,7 +4,6 @@
 using namespace std;
 string longestCommonPrefix(vector<string>& strs) {
         string prefix{""};
-
         int smallest{static_cast<int>(strs[0].size())}; //This is a bandaid solution, but I wanted to use this for loop type for once
         for(string word : strs)// finds the smallest word
         {
@@ -29,12 +28,11 @@ string longestCommonPrefix(vector<string>& strs) {
             prefix += letter;
             letterIndex++;
         }
-
         return prefix;
     }
 
 int main()
 {
     vector<string> words = {"flower","flow","flight"};
-    cout << "Answer: "  << longestCommonPrefix(words);
+    cout << "Answer: " << longestCommonPrefix(words);
 }
