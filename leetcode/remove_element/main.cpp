@@ -19,7 +19,7 @@ int removeElement(vector<int>& nums, int val)
 }
 
 
-//library approach
+//library approach (using vector functions)
 /* int removeElement(vector<int>& nums, int val) 
 {
     int k{0}; //K is the count of elements that are != val
