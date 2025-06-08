@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std; 
 
+//I am aware you could use a binary search algorithm for this, but this is much more straight forward and understandable in my opinion, with little difference in big O
+
 int searchInsert(vector<int>& nums, int target) 
     {
         int greaterIndex{-1};
