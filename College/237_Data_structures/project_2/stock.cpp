@@ -11,7 +11,7 @@ Purpose:        Impliments the Stock class, which holds the information pertaini
 */
 #include "stock.h"
 
-Stock::Stock(string passedTicker, int passedShares, double passedMoneySpent) : ticker{passedTicker}, shares{passedShares}, moneySpent{passedMoneySpent}{}; //Construcftor for Stock object
+Stock::Stock(string passedTicker, int passedShares, double passedMoneySpent) : ticker{passedTicker}, shares{passedShares}, moneySpent{passedMoneySpent}{}; //Constructor for Stock object
 string Stock::getTicker() const {return ticker;}                    //Getter for ticker member variable
 void Stock::setTicker(string passedTicker) {ticker = passedTicker;} //Setter for Ticker member variable
 int Stock::getShares() const {return shares;}                       //Getter for shares member variable
