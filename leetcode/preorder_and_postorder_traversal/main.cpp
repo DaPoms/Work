@@ -27,10 +27,31 @@ struct TreeNode
         return ans;
     }
 
+        void postHelper(TreeNode* root, vector<int>& ans)
+    {  
+        if(!root)
+            return;
+        postHelper(root -> left, ans);
+        postHelper(root -> right, ans);
+        ans.push_back(root -> val);
+    }
+    vector<int> postOrderTraversal(TreeNode* root) 
+    {
+        vector<int> ans;
+        postHelper(root, ans);
+        return ans;
+    }
+
     int main()
     {
         TreeNode* test = new TreeNode(1, new TreeNode(2), new TreeNode(3));
         vector<int> ans = preorderTraversal(test);
+        for(int num : ans)
+            cout << num << " ";
+
+        cout << '\n';
+
+        ans = postOrderTraversal(test);
         for(int num : ans)
             cout << num << " ";
     }
