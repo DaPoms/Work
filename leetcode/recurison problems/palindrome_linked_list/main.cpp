@@ -1,4 +1,5 @@
  #include <deque>
+ #include <stack>
  #include <iostream>
  using namespace std;
  struct ListNode { //struct listnode copied from leetcode (not made by me)
@@ -8,7 +9,36 @@
     ListNode(int x) : val(x), next(nullptr) {}
     ListNode(int x, ListNode *next) : val(x), next(next) {}
  };
-void helper(ListNode* node, deque<int>& ans, bool& isFalse)
+ //Better + simpler recursive approach (though very memory inefficient)
+ void helper(ListNode* node, stack<int>& leftToRight, stack<int>& rightToLeft)
+{
+    if(!node) //Base case
+        return;
+    leftToRight.push(node -> val);
+    helper(node -> next, leftToRight, rightToLeft);
+    rightToLeft.push(node -> val);
+}
+bool isPalindrome(ListNode* head) 
+{
+    stack<int> leftToRight;
+    stack<int> rightToLeft; 
+    helper(head, leftToRight, rightToLeft);
+
+    while(!leftToRight.empty())
+    {
+        if(leftToRight.top() != rightToLeft.top())
+            return false;
+        else
+        {
+            leftToRight.pop();
+            rightToLeft.pop();
+        }
+    }
+    return true;
+}   
+
+ //recursive approach (very scuffed)
+/* void helper(ListNode* node, deque<int>& ans, bool& isFalse)
 {
     if(!node)
         return;
@@ -40,7 +70,7 @@ bool isPalindrome(ListNode* head)
     if(isFalse)
         return false;
     return true;
-}
+} */
 /* bool isPalindrome(ListNode* head) 
 {
     if(!head -> next)
