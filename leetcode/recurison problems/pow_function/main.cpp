@@ -9,10 +9,10 @@ double myPow(double x, int n) //I had to make some statements for edge cases tha
         else //Else x stays negative
             return x;
     }
-    if( ( x > 0 && x < 0.8 && n > 1000) || n < -2000) return 0.0; //If a decimal value for x is done to a postiive power high enough, we simplify to 0 (simplification), same for a negative value
+    if( ( x > 0 && x < 0.8 && n > 1000) || n < -2000) return 0.0; //If a decimal value for x is done to a postiive power high enough, we simplify to 0 (no need to do all the work), same for a negative value
     if(n == 0) return 1.0; //Base case, anything to the 0th power is 1. Works for increments negative powers and decrementing positive ones
     if(n < 0) return myPow(x, n + 1 ) * 1/x; //recursion for negative powers
-    else return myPow(x, n-1 ) * x; //recursion for positive powers 
+    else return myPow(x, n - 1 ) * x; //recursion for positive powers 
 }
 
 int main()
