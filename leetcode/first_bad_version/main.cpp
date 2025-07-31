@@ -7,8 +7,7 @@ int helper(long low, long high) //All I did was a binary search but for calling 
 {
     long mid = (low + high) / 2;
     bool target = isBadVersion(mid);
-    bool leftOfTarget = isBadVersion(mid - 1);
-    if(target == true && leftOfTarget == false) //If this is the first bad version, we found it!
+    if(target == true && isBadVersion(mid - 1) == false) //If this is the first bad version, we found it! Only calls the API for mid - 1 if the 1st part is true
         return mid;
     else if(target == true) //If this is a bad version, but not the first one, we need to go left to find the first bad version
         return helper(low, mid - 1);
