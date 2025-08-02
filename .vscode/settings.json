@@ -50,7 +50,8 @@
         "iomanip": "cpp",
         "sstream": "cpp",
         "bitset": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "map": "cpp"
     },
     "sshfs.configs": [
         {
