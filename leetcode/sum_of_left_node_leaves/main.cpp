@@ -31,5 +31,4 @@ int main()
 {
     TreeNode *test = new TreeNode(1, new TreeNode(3, new TreeNode(12), nullptr), new TreeNode(5, new TreeNode(3), new TreeNode(1)));
     std::cout << sumOfLeftLeaves(test); //should return 15
-
 }
