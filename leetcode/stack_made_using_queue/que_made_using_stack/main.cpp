@@ -47,5 +47,17 @@ class MyQueue {
 
 int main()
 {
-    
+    MyQueue test;
+    test.push(1); //oldest element(should be at the front)
+    cout << test.peek() << '\n';
+    test.push(2);
+    cout << test.peek() << '\n';
+    test.push(3); //youngest element (should be at the back)
+    cout << test.peek() << "\n\n";
+    cout << test.peek() << '\n';
+    test.pop();
+    cout << test.peek() << '\n';
+    test.pop();
+    cout << test.peek() << '\n';
+
 }
