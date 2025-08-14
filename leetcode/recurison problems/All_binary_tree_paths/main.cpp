@@ -46,8 +46,8 @@ vector<string> binaryTreePaths(TreeNode* root)
     
 }
  */
-//Second attempt made from looking at other people's code, makes my program faster, but shows how close I was to the most optimal approach. 
-//All I had to do was traverse from the root instead of left and right subtrees, and doing this simplifies the code significantly in terms of creating the path which is to be added to the paths vector
+//Second attempt made from looking at other people's code, makes my program slightly faster, but shows how close I was to the most optimal approach. 
+//All I had to do was traverse from the root instead of left and right subtrees, and doing this simplifies (increases readability) the code significantly in terms of creating the path which is to be added to the paths vector
 void helper(TreeNode* node, string path, vector<string>& paths)
 {
     if(node -> left == nullptr && node-> right == nullptr) //Case of reaching leaf node, means we are at the end of a path
