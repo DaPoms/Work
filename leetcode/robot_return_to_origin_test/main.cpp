@@ -7,15 +7,12 @@ using namespace std;
         {
             switch(command) //This implimentation taught me about the "fall through" behavior of switch cases, where unless you have a break in each case, everything below the case which "command" is valid for will also be run
             {
-                //I also learned this unique format for when you're doing one thing in each case, it's only readable in cases where similar actions are being done for each case
-                case 'L': coords.first++;
-                    break;
-                case 'R': coords.first--;
-                    break;
-                case 'U': coords.second++;
-                    break;
-                case 'D': coords.second--;
-                    break;
+                // Heres another even more compact format with brackets. 
+                //I now understand what people mean by how you can make "one line" programs! (although anything past this amount on one line is unnecessarily unreadable)
+                case 'L': coords.first++; break;
+                case 'R': coords.first--; break;
+                case 'U': coords.second++; break;
+                case 'D': coords.second--; break;
             }
         }
         if(coords.first == 0 && coords.second == 0)
