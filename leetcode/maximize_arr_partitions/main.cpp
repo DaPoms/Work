@@ -13,7 +13,7 @@ int arrayPairSum(vector<int>& nums)
     while(leftI >= 0)
     {
         sum += nums[leftI];
-        leftI-=2; //this only works as we assume we have an even nums.size(), due to pairings requiring 2 vals, do we can traverse in pairs knowing we will not seg fault
+        leftI-=2; //this only works as we assume we have an even nums.size(). Due to pairings requiring 2 vals, do we can traverse in pairs knowing we will not seg fault
         rightI-=2;
     }
     return sum;
