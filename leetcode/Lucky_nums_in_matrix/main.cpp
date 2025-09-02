@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
+//This approach only works because leetcode clarifies that all elements are distinct in the matrix
 vector<int> luckyNumbers(vector<vector<int>>& matrix) 
 {
     int colI{0}; //Index of row that we want to traverse
@@ -40,7 +41,7 @@ vector<int> luckyNumbers(vector<vector<int>>& matrix)
     
     for(int num : minRows)
     {
-        if(find(maxCols.begin(), maxCols.end(), num) != maxCols.end())
+        if(find(maxCols.begin(), maxCols.end(), num) != maxCols.end()) //This is the part that only works due to all vals being unique, otherwise we'd have to make an algorithm to compare each row with its corresponding column as you traverse it
             ans.push_back(num);
     } 
     return ans;
