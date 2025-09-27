@@ -12,9 +12,19 @@
             "stopAtEntry": true,
             "cwd": "${fileDirname}",
             "environment": [],
+/* 
+                //added for GUROBI
+                {
+                   "name": "PATH",
+                    "value": "C:\\gurobi1203\\win64\\bin;${env:PATH}" // CRITICAL: Adds DLL directory to 
+                }
+                ///// ADDED FOR GUROBI
+                 */
+            //],
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
+            
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",

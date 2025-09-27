@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+                //"C:/gurobi1203/win64/include" //GUROBI
+                
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            
+            "cStandard": "c23",
+            "intelliSenseMode": "windows-gcc-x64" //for g++ debugger
+           
+        }
+    ],
+    "version": 4
+}

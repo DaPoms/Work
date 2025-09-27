@@ -5,7 +5,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe", //for g++
             "args": [
                 "-fdiagnostics-color=always",
                 "-g", 
@@ -14,17 +14,35 @@
                 //"-DNDEBUG",
                 "-pedantic-errors", //Removes extensions
                 "-Wall",//All the W's below report all error types
-                "-Weffc++",
+                //////////////////////////////////////////////////////////////////"-Weffc++",
                 "-Wextra",
                 "-Wconversion",
                 "-Wsign-conversion",
                 //"-Werror",//Treats warnings as errors
                 "-std=c++23",//Uses language standard/version of 2023
-                "main.cpp", //Previously "${file}", ** add here to compile more files!!! ** 
+                
+                ///////////////////////////////////////////////////////////////////////////"main.cpp", //Previously "${file}", ** add here to compile more files!!! ** 
+
+                //"-I", "C:/gurobi1203/win64/include", // <- The ONLY -I flag should be here
+                "-I/source/includes", //Searches for headers from other directory //possible gurobi fix?    
+                "${file}", ///CHANGED HERE BLAUFWHFGIUUEWH
                 //"io.cpp",
                 //"test.cpp",
+
+                //Gurobi args
+
+                /* "-I", "C:/gurobi1203/win64/include", // Path to HEADER files
+                "-L", "C:/gurobi1203/win64/lib",     // Path to LIBRARY files
+                "-lgurobi_c++",                      // Link the C++ library
+                "-lgurobi120", */
+
+                //"-L", "C:/gurobi1203/win64/lib", // Library path for the LINKER
+                //"-lgurobi_c++",                  // Libraries for the LINKER
+                //"-lgurobi120",                   // Libraries for the LINKER
               
-                "-I/source/includes", //Searches for headers from other directory
+                /////////////
+
+                //"-I/source/includes", //Searches for headers from other directory
              
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
