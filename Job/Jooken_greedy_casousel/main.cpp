@@ -7,6 +7,39 @@
 using namespace std;
 //namespace fs = std::filesystem;
 
+        
+void contestCandidate(vector<int>& answerElems, int targetI, vector<long long>& values, vector<long long>& weights, vector<int>& bestRatioIndexes)
+{
+    vector<int> replacement;
+    int startingSize{int(answerElems.size())};
+    //currentWeight -= weights[bestRatioIndexes[targetI]]; //"takes out" the object we want to substitute 
+    int count = bestRatioIndexes.size();
+    long long weightDeficit{weights[bestRatioIndexes[targetI]]};
+    long long currentWeight{0};
+
+    //for candidate searching, we only check past the bestRatioIndex    
+    int i{targetI};
+    while(i < count && currentWeight < weightDeficit) //first phase of greedy
+            {
+                if(weights[bestRatioIndexes[i]] + currentWeight <= weightDeficit) //had to do this to make sure it checks past objects it cannot fit
+                {
+                    replacement.push_back(bestRatioIndexes[i]);
+                    currentWeight += weights[bestRatioIndexes[i]]; 
+                }
+                i++;
+            }
+            if(answerElems.size() == startingSize) return; //case of no candidates being able to fit (optimziation), and allows us to test the next for loop without a seg fault
+            long long sum{0};
+            for(int i{targetI + 1}; i < answerElems.size(); i++)
+            {
+                sum += values[answerElems[i]];
+            }
+            if(sum > values[answerElems[targetI]])
+                answerElems.erase(answerElems.begin() + targetI);
+            else
+                while(answerElems.size() != startingSize) //remove elements we tried to substitute 
+                    answerElems.pop_back();
+}
 void readFile(ifstream& problemFile, vector<long long>& weights, vector<long long>& values, int& count, long long& capacity)
 {
     //First val is number of elems/count, last val is capacity of knapsack
@@ -30,7 +63,7 @@ int main()
     //formatting and creating a csv file following an excel format
     ofstream excel("results.csv"); //creates file for data to be put in, ios::app allows appending so .open doesn't overwrite
     excel << "Name:" << "," << "Obj Fn" << "," << "Runtime" << "," << "MIPGAP" << '\n';
-    std::filesystem::path problems{"C:/Users/Pomer/Desktop/Gurobi projects/Jooken_test/mySample"}; //Problem instances are provided by JorikJooken github: https://github.com/JorikJooken/knapsackProblemInstances 
+    std::filesystem::path problems{"C:/Users/Pomer/projects/Job/Jooken_greedy_casousel/mySample"}; //Problem instances are provided by JorikJooken github: https://github.com/JorikJooken/knapsackProblemInstances 
     ifstream testFile;  
     vector<long long> values = {};
     vector<long long> weights = {};
@@ -48,10 +81,10 @@ int main()
                 
                 //greedy algorithm
                 //pair<vector<long long>, vector<long long>> objects = {weights, values};
-                vector<int> bestRatioIndex; //index 0 has the highest ratio, last is the worst
+                vector<int> bestRatioIndexes; //index 0 has the highest ratio, last is the worst
                 for(int i{0}; i < count; i++)
-                    bestRatioIndex.push_back(i);
-                sort(bestRatioIndex.begin(), bestRatioIndex.end(), [&values, &weights](int i, int j) 
+                    bestRatioIndexes.push_back(i);
+                sort(bestRatioIndexes.begin(), bestRatioIndexes.end(), [&values, &weights](int i, int j) 
                 {
                     return (double(values[i]) / weights[i]) > (double(values[j]) / weights[j]);
                 } 
@@ -60,16 +93,27 @@ int main()
             vector<int> answerElems;
             int currentWeight{0};
             int i{0};
-            long long profits{0};
-            while(i < count && weights[bestRatioIndex[i]] + currentWeight <= capacity)
+            //long long profits{0}; //calculate at the end
+
+           while(i < count && currentWeight < capacity) //first phase of greedy
             {
-                    answerElems.push_back(bestRatioIndex[i]);
-                    currentWeight += weights[bestRatioIndex[i]];
-                    profits += values[bestRatioIndex[i]];
-                    i++;
-                
+                if(weights[bestRatioIndexes[i]] + currentWeight <= capacity) //had to do this to make sure it checks past objects it cannot fit
+                {
+                    answerElems.push_back(bestRatioIndexes[i]);
+                    currentWeight += weights[bestRatioIndexes[i]]; 
+                }
+                i++;
             }
-                i = 0;
+           
+            int backIndex{int(answerElems.size()) - 1};
+            //improvement phase of greedy
+            for(int targetI{backIndex}; targetI >= 0; targetI--) //by starting from the end of our bag, we get rid of our worst candidates first
+            {
+                contestCandidate(answerElems, targetI, values, weights, bestRatioIndexes);
+                cout << "TEST!";
+            }
+
+                
                 //Puts results in CSV file
                 //excel << entry.path().parent_path().filename() << "," << model.get(GRB_DoubleAttr_ObjVal) << "," << model.get(GRB_DoubleAttr_Runtime) << "," << model.get(GRB_DoubleAttr_MIPGap) << "\n";
                 //excel.close(); //Close here if samples size is too large
