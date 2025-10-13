@@ -27,32 +27,32 @@ void improvement(vector<int>& answerElems, vector<long long>& values, vector<lon
 {
     vector<int> candidates;
     long long weightDeficit{0};
-    long long candidateWeight{0};
+    long long candidatesWeight{0};
     int count = int( bestRatioIndexesRemaining.size() );
     //for candidate searching, we check the pool of unused objects
     //implimenting ability to test ALL/most plausible substitutions?
     int i{0}; //traverses candidates
     for(int targetI{int(answerElems.size()) - 1}; targetI >= 0; targetI--) //by starting from the end of our bag, we try to swap our worst candidates first (using greedy alg)
     {
-        candidateWeight = 0;
+        candidatesWeight = 0;
          //The current amount of weight in our substitution, allowed to be <= the deficit
         count = int( bestRatioIndexesRemaining.size() ); // bestRatioIndexesRemaining could change size if we swap any previous elems
         weightDeficit = weights[answerElems[targetI]]; //how much weight we can replace in the substitution, includes the weight of the object and any leftover space we didn't use
         
-        while(i < count && candidateWeight < weightDeficit) 
+        while(i < count && candidatesWeight + (currentWeight - weightDeficit) < capacity) //using capacity allows us to use spare space!
         {
             int possibleCandidate = bestRatioIndexesRemaining[i];
-            if((weights[bestRatioIndexesRemaining[i]] + candidateWeight <= weightDeficit)) //&& NOT ALREADY IN ANSWER //had to do this to make sure it checks past objects it cannot fit
+            if((weights[bestRatioIndexesRemaining[i]] + candidatesWeight + (currentWeight - weightDeficit) <= capacity)) //&& NOT ALREADY IN ANSWER //had to do this to make sure it checks past objects it cannot fit
             {
-                candidates.push_back(possibleCandidate);
-                candidateWeight += weights[possibleCandidate]; 
+                candidates.push_back(possibleCandidate); 
+                candidatesWeight += weights[possibleCandidate]; 
             }
             i++;
         }
         
         if(candidates.size() == 0) break; //case of no candidates being able to fit (optimziation)
-// this is never occuring FIX
         long long candidateValSum{0};
+
         for(int candidateI : candidates)
             candidateValSum += values[candidateI];
         //Adds elements to knapsack if they are a better set of candidates
@@ -73,13 +73,13 @@ void improvement(vector<int>& answerElems, vector<long long>& values, vector<lon
                 answerElems.push_back(candidateI); //adds new candidates to knapsack
             }
             //removes candidates from bestRatioIndex
-            for(int index : candidates) //erases from right to left of bestRatio to prevent improper deletion
-                bestRatioIndexesRemaining.erase(find(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), index)); //significantly inefficient
+            for(int elem : candidates) //erases from right to left of bestRatio to prevent improper deletion
+                bestRatioIndexesRemaining.erase(find(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), elem)); //significantly inefficient
         }
         candidates.clear(); //try another set of candidates, more optimal for some cases
-        i = 0; //traverses candidates
+        i = 0; //sets up for retraversing candidates
     }
-
+/* 
     //One last greedy to fill any space freed up
     i = 0;
     while(i < int(bestRatioIndexesRemaining.size()) && currentWeight < capacity) //difference here is spare space, which is any space left before all the swaps 
@@ -93,7 +93,7 @@ void improvement(vector<int>& answerElems, vector<long long>& values, vector<lon
                 i--;
             }
             i++;
-        }
+        } */
 }
 
 void addOneGreedy( vector<int>& answerElems, vector<int>& bestRatioIndexesRemaining, int& count, long long& capacity, long long& currentWeight, vector<long long>& weights)
@@ -138,8 +138,6 @@ void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<
         addOneGreedy(answerElems, bestRatioIndexesRemaining, count, capacity, currentWeight, weights); //current issues: items being added are immediately deleted in the next iteration
     }
     
-    
-    //greedyKnapsack()
 }
 
 
@@ -181,10 +179,7 @@ int main()
                 excel.open("results.csv", ios::app); //opens file again (allows adding results 1 by 1 rather than by bulk) app stands for append (prevents overwriting)
                 testFile.open(entry.path()); //MAKE SURE TO USE .CLEAR BEFORE NEXT FILE
                 //testFile.open("test.in");
-                readFile(testFile, weights, values, count, capacity); //we assume the testFile is formatted properly (starts with count, then all the elements in the problem, and ends with the capacity of the knapsack)
-                
-                //greedy algorithm
-                //pair<vector<long long>, vector<long long>> objects = {weights, values};
+                readFile(testFile, weights, values, count, capacity); //we assume the testFile is formatted properly (starts with count, then all the elements in the problem, and ends with the capacity of the knapsack)    
                 vector<int> bestRatioIndexesRemaining; //index 0 has the highest ratio, last is the worst. Only contains elements NOT in our knapsack
                 for(int i{0}; i < count; i++)
                     bestRatioIndexesRemaining.push_back(i);
@@ -197,19 +192,36 @@ int main()
             vector<int> answerElems; //what is in our knapsack
             long long currentWeight{0};
      
-           greedyKnapsack(count, capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //stage 1 of the algorithm
+            greedyKnapsack(count, capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //stage 1 of the algorithm
            
             double a = 0;
             double b = 0;
-            //improvement phase of greedy            
+            //improvement phase of greedy    
+             long long BEFOREprofit{0}; //DELETE THIS, THIS IS FOR HELP W/DEBUGGER
+            for(int elem : answerElems)///////////////////
+            { ////////////////////
+                BEFOREprofit += values[elem];//////////////
+            }/////////////////// 
             improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //Stage 2 - improvement of greedy outcome
-            carouselGreedy(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight, a, b);//Add carousel here
-            improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //Stage 2 - improvement of greedy outcome
+            //carouselGreedy(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight, a, b);//Add carousel here
             long long profit{0};
             for(int elem : answerElems)
             {
                 profit += values[elem];
             }
+            ///////////////// Debugging block (DELETE WHEN DONE!!)
+            long long weightChecker{0};
+             if(profit != BEFOREprofit)
+            {
+                cout << "HI! I changed!\n"; 
+
+            }
+            for(int elem : answerElems) //DELETE EWOGJKERGEIGIG
+                    weightChecker += weights[elem];
+            if(weightChecker != currentWeight)
+                cout << "HOLY THIS IS BAD";
+            //////////////////
+            
             cout << profit << '\n';
             //stage 3: Carousel of outcome
 

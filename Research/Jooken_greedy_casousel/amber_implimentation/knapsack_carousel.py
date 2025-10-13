@@ -5,7 +5,7 @@ import random
 from pathlib import Path
 import csv
 import os
-#from tqdm import tqdm
+from tqdm import tqdm
 import time
 import numpy as np 
 
@@ -71,13 +71,13 @@ def improvement(selectedItems, itemDictionary, capacity, totalWeight, profits):
 
         for newItem in sortedRemaining:
             newProfit, newWeight = sortedRemaining[newItem]
-            if newWeight + potentialWeight < weight:
+            if newWeight + potentialWeight < weight: #case never reached
                 potentialItems[newItem] = (newProfit, newWeight) 
                 potentialWeight += newWeight
                 potentialProfits += newProfit
 
         if potentialProfits > profit:
-            print("Updating")
+            print("Updating") ##case never reached
             reversedSelected, totalWeight, profits = removeItem(reversedSelected, weight, totalWeight, profit, profits, item)
             # Add the item removed into the remaining items and re-sort
             sortedRemaining.push(item, (profit, weight))
@@ -163,7 +163,7 @@ if __name__ == '__main__':
     a = 6
     b = 0.1
     finalMatrix = []
-    directory = Path('mySample') #change to folder you want to explore the models of
+    directory = Path("C:/Users/Pomer/projects/Research/Jooken_greedy_casousel/mySample") #change to folder you want to explore the models of
     selectedItems = {}
     totalWeight = 0
     profits = 0
@@ -188,7 +188,7 @@ if __name__ == '__main__':
                     startTime = time.time()
                     with open(inputFile, 'r') as fptr:
                         itemsDictionary, capacity, numItems = readTXT(inputFile)
-                    # Only do this once
+                    # Only do this once, the no carousel case (which we feed into the carousel)
                     if a == 6 and b == 0.1:
                         selectedItems = {}
                         greedyItems, greedyWeight, greedyProfits = greedyHeuristic(selectedItems, itemsDictionary, capacity)
@@ -200,7 +200,7 @@ if __name__ == '__main__':
                         greedyItemsList[dir] = greedyItems
                         greedyItemsProfitsList[dir] = greedyProfits
                         greedyWeightsList[dir] = greedyWeight
-
+#is greedyItems supposed to be our greedy answer? If so, it is too large
                     # carouselSelectedItems, carouselTotalWeights, carouselProfits = carouselGreedy(greedySelectedItems, capacity, itemsDictionary, greedyTotalWeights, greedyProfits, a, b)
                     # carouselTime = time.time() - startTime
                     # carouselSelectedItemsImproved, carouselTotalWeightsImproved, carouselProfitsImproved = improvement(carouselSelectedItems, itemsDictionary, capacity, carouselTotalWeights, carouselProfits)
