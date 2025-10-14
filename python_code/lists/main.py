@@ -20,8 +20,5 @@ def main(): #main allows it to be tested in other files (by calling this file's 
     #concatList()
     #stringChainList()
 
-
-
-
 if __name__ == "__main__": main()#learned of the practice of specifying main, any code put in this statement will only run if this file is the file being run first (top-level) EX: If the makefile has this file at the top, then it will run this
      

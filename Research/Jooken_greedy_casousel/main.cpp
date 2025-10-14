@@ -7,7 +7,7 @@
 using namespace std;
 //namespace fs = std::filesystem;
 //Warning: This algorithm only works for < 1 objects, but it's normal to assume that there'd be no need to solve a knapsack with 1 element (it's already solved at that point!)
-void greedyKnapsack(int& count, long long& capacity, long long& currentWeight, vector<long long>& weights, vector<int>& bestRatioIndexesRemaining, vector<int>& answerElems)
+void greedyKnapsack(long long& capacity, long long& currentWeight, vector<long long>& weights, vector<int>& bestRatioIndexesRemaining, vector<int>& answerElems)
 {
     int i{0};
     while(i < int(bestRatioIndexesRemaining.size()) && currentWeight < capacity) //first phase of greedy
@@ -98,48 +98,49 @@ void improvement(vector<int>& answerElems, vector<long long>& values, vector<lon
 
 void addOneGreedy( vector<int>& answerElems, vector<int>& bestRatioIndexesRemaining, int& count, long long& capacity, long long& currentWeight, vector<long long>& weights)
 {
+
      int i{0};
     while(i < count) //first phase of greedy
             {
                 if(weights[bestRatioIndexesRemaining[i]] + currentWeight <= capacity) //had to do this to make sure it checks past objects it cannot fit
                 {
                     answerElems.push_back(bestRatioIndexesRemaining[i]);
-                    bestRatioIndexesRemaining.erase(bestRatioIndexesRemaining.begin() + i);
                     currentWeight += weights[bestRatioIndexesRemaining[i]]; 
+                    bestRatioIndexesRemaining.erase(bestRatioIndexesRemaining.begin() + i);
+                    
                     return;
                 }
                 i++;
             }
 }
 
-void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<long long>& weights, vector<int>& bestRatioIndexesRemaining, long long& capacity, long long& currentWeight, double a, double b)
+void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<long long>& weights, vector<int>& bestRatioIndexesRemaining, long long& capacity, long long& currentWeight, int a, double b)
 {
+    //Note: removed items are NOT reconsidered, or else there'd be no change
     int carouselCounter{0};
     int startingSize{int(answerElems.size())};
     int numToRemove = int(answerElems.size()) * b; //amount of elements we are removing from the back
-    if(numToRemove == 0) return;
-    for(int i{int(answerElems.size()) - 1}; i != startingSize - numToRemove; i--)
+    if(numToRemove == 0 && a == 0) return;
+    for(int i{int(answerElems.size()) - 1}; i >= startingSize - numToRemove; i--)
     {
         currentWeight -= weights[answerElems[i]];
         answerElems.pop_back();
     }
-    //Note: we do not consider candidates that have been removed
 
-    while(carouselCounter < a) //need to fix which values we are allowed to consider
+    int startingIndex = int(answerElems.size() - 1);
+    while(carouselCounter < a) //we assume the user inputs an "a" less than the elements left after "b" (the % of answers removed from the bag)
     {
-        currentWeight -= weights[answerElems[0]];
-        answerElems.erase(answerElems.begin());
-        carouselCounter++;
-        sort(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), [&values, &weights](int i, int j) 
-        {
-            return (double(values[i]) / weights[i]) > (double(values[j]) / weights[j]);
-        });
+        currentWeight -= weights[answerElems[startingIndex - carouselCounter]]; //takes weight from back of answerElems out of our knapsack
+        answerElems.erase(answerElems.begin() + (startingIndex - carouselCounter) );
         int count = int(bestRatioIndexesRemaining.size());
         addOneGreedy(answerElems, bestRatioIndexesRemaining, count, capacity, currentWeight, weights); //current issues: items being added are immediately deleted in the next iteration
+        carouselCounter++;
     }
-    
+    greedyKnapsack(capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //We do greedy one last time to fill any freed up weight from the b or a removal
 }
-
+    
+ //Do note, the way that I made this, answerElems will not be sorted by bestRatio anymore (as the addOneGreedy() pushes back, but we remove from right to left)
+  //I primarily did this because we do not do anything relating to sortedness with the result of carousel
 
 //Only need to re-sort when adding element back to remaining bestRatioIndexesRemaining pool
 void readFile(ifstream& problemFile, vector<long long>& weights, vector<long long>& values, int& count, long long& capacity)
@@ -173,6 +174,7 @@ int main()
     long long capacity{-1};
         for (const auto& entry : std::filesystem::recursive_directory_iterator(problems)) //traverses every "entity" in the given folder
         { 
+            //add for loop here to change a value, and store the answer in a vector instead
             if(entry.path().filename() == "test.in") //Specifies what file we want to use that we find in any folder
             {
                 //File reading + writing section
@@ -192,18 +194,19 @@ int main()
             vector<int> answerElems; //what is in our knapsack
             long long currentWeight{0};
      
-            greedyKnapsack(count, capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //stage 1 of the algorithm
-           
-            double a = 0;
-            double b = 0;
+            
+            int a = 6;
+            double b = 0.1;
             //improvement phase of greedy    
-             long long BEFOREprofit{0}; //DELETE THIS, THIS IS FOR HELP W/DEBUGGER
-            for(int elem : answerElems)///////////////////
-            { ////////////////////
-                BEFOREprofit += values[elem];//////////////
-            }/////////////////// 
+             //long long BEFOREprofit{0}; //DELETE THIS, THIS IS FOR HELP W/DEBUGGER
+            //for(int elem : answerElems)///////////////////
+            //{ ////////////////////
+                //BEFOREprofit += values[elem];//////////////
+           // }/////////////////// 
+            greedyKnapsack(capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //stage 1 of the algorithm
             improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //Stage 2 - improvement of greedy outcome
-            //carouselGreedy(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight, a, b);//Add carousel here
+            carouselGreedy(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight, a, b);//Stage 3 - carousel
+            improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //stage 4 - improvement again. saw a very minor increase in some cases
             long long profit{0};
             for(int elem : answerElems)
             {
@@ -211,15 +214,18 @@ int main()
             }
             ///////////////// Debugging block (DELETE WHEN DONE!!)
             long long weightChecker{0};
-             if(profit != BEFOREprofit)
+ /*             if(profit != BEFOREprofit)
             {
                 cout << "HI! I changed!\n"; 
 
-            }
+            } */
             for(int elem : answerElems) //DELETE EWOGJKERGEIGIG
                     weightChecker += weights[elem];
             if(weightChecker != currentWeight)
+            {
                 cout << "HOLY THIS IS BAD";
+                exit(0);
+            }
             //////////////////
             
             cout << profit << '\n';

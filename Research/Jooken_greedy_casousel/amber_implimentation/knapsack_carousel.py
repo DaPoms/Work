@@ -95,9 +95,9 @@ def improvement(selectedItems, itemDictionary, capacity, totalWeight, profits):
 
     return reversedSelected, totalWeight, profits
             
-def addOneGreedy(selectedItems, itemDictionary, capacity, totalWeight, profits):
-    remainingItems = {k: v for k, v in itemDictionary.items() if k not in selectedItems}
-    sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
+def addOneGreedy(selectedItems, sortedRemaining, capacity, totalWeight, profits):
+    #remainingItems = {k: v for k, v in itemDictionary.items() if k not in selectedItems}
+    #sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
     for item in sortedRemaining:
         profit, weight = sortedRemaining[item]
         if totalWeight + weight <= capacity:
@@ -107,7 +107,7 @@ def addOneGreedy(selectedItems, itemDictionary, capacity, totalWeight, profits):
 
 def carouselGreedy(InitialSelectedItems, capacity, itemDictionary, totalWeight, profits, a, b):
     remainingItems = {k: v for k, v in itemDictionary.items() if k not in InitialSelectedItems}
-    sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
+    #sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
     
     percentageToRemove = int(InitialSelectedItems.keys().__len__() * b)
     selectedItems = dict(list(InitialSelectedItems.items())[percentageToRemove:])
@@ -118,17 +118,21 @@ def carouselGreedy(InitialSelectedItems, capacity, itemDictionary, totalWeight, 
         profits -= profit
     
     carouselCounter = 0
-
     while carouselCounter < a:
         # Remove one item from selected items and update everything
         item, stuff = selectedItems.popitem()
         profit, weight = stuff
         totalWeight -= weight
         profits -= profit
-        sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
-
-        selectedItems, totalWeight, profits = addOneGreedy(InitialSelectedItems, itemDictionary, capacity, totalWeight, profits) #Issue??? should initialselectedItems = selectedItems
+        #sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
+        selectedItems, totalWeight, profits = addOneGreedy(selectedItems, remainingItems, capacity, totalWeight, profits) #Issue??? should initialselectedItems = selectedItems
         carouselCounter += 1
+    weightChecker = 0
+    for object in selectedItems:
+        weightChecker += itemsDictionary[object][1]
+    if weightChecker != totalWeight:
+        print("BADDDD!")
+        exit()
     selectedItems, totalWeight, profits = greedyHeuristic(selectedItems, itemDictionary, capacity, totalWeight, profits) #fills in possible gaps?
     
     return selectedItems, totalWeight, profits
@@ -163,9 +167,9 @@ if __name__ == '__main__':
     a = 6
     b = 0.1
     finalMatrix = []
-    directory = Path("C:/Users/Pomer/projects/Research/Jooken_greedy_casousel/mySample") #change to folder you want to explore the models of
+    directory = Path("C:/Users/Pomer/projects/Research/Jooken_greedy_casousel/problemInstances") #change to folder you want to explore the models of
     selectedItems = {}
-    totalWeight = 0
+    #totalWeight = 0
     profits = 0
     greedyItemsList = {}
     greedyTimesList = {}
@@ -193,20 +197,35 @@ if __name__ == '__main__':
                         selectedItems = {}
                         greedyItems, greedyWeight, greedyProfits = greedyHeuristic(selectedItems, itemsDictionary, capacity)
                         # greedyTime = time.time() - startTime
-                        greedyItems, greedyWeight, greedyProfits = improvement(selectedItems, itemsDictionary, capacity, totalWeight, profits)
+                        greedyItems, greedyWeight, greedyProfits = improvement(selectedItems, itemsDictionary, capacity, greedyWeight, greedyProfits)
+                            #greedyItems, greedyWeight, greedyProfits = improvement(selectedItems, itemsDictionary, capacity, totalWeight, profits)
                         improvedTime = time.time() - startTime
                         # finalObjectives.append(greedyProfits)
                         greedyTimesList[dir] = improvedTime
                         greedyItemsList[dir] = greedyItems
                         greedyItemsProfitsList[dir] = greedyProfits
                         greedyWeightsList[dir] = greedyWeight
-#is greedyItems supposed to be our greedy answer? If so, it is too large
                     # carouselSelectedItems, carouselTotalWeights, carouselProfits = carouselGreedy(greedySelectedItems, capacity, itemsDictionary, greedyTotalWeights, greedyProfits, a, b)
                     # carouselTime = time.time() - startTime
                     # carouselSelectedItemsImproved, carouselTotalWeightsImproved, carouselProfitsImproved = improvement(carouselSelectedItems, itemsDictionary, capacity, carouselTotalWeights, carouselProfits)
                     # improvedCarouselTime = time.time() - startTime
+                    
+                    # weightChecker = 0
+                    # for object in selectedItems:
+                    #     weightChecker += itemsDictionary[object][1]
+                    # if weightChecker != greedyWeight:
+                    #     print("BADDDD!")
+                    #     exit()
+
                     carouselSelectedItemsGI, carouselTotalWeightsGI, carouselProfitsGI = carouselGreedy(greedyItemsList[dir], capacity, itemsDictionary, greedyWeightsList[dir], greedyItemsProfitsList[dir], a, b)
                     # improvedCarouselTimeGI = time.time() - startTime
+                    weightChecker = 0
+                    for object in carouselSelectedItemsGI:
+                        weightChecker += itemsDictionary[object][1]
+                    if weightChecker != carouselTotalWeightsGI:
+                        print("BADDDD!")
+                        exit()
+
                     carouselSelectedItemsGIImproved, carouselTotalWeightsGIImproved, carouselProfitsGIImproved = improvement(carouselSelectedItemsGI, itemsDictionary, capacity, carouselTotalWeightsGI, carouselProfitsGI)
                     improvedCarouselTimeGIImproved = time.time() - startTime
                     rowList.append((carouselProfitsGIImproved, improvedCarouselTimeGIImproved))
