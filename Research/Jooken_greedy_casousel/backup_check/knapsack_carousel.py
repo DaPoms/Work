@@ -95,26 +95,22 @@ def improvement(selectedItems, itemDictionary, capacity, totalWeight, profits):
 
     return reversedSelected, totalWeight, profits
             
-def addOneGreedy(selectedItems, remainingItems, capacity, totalWeight, profits): #changed to remainingItems
-    remainingItems = {k: v for k, v in itemDictionary.items() if k not in selectedItems} #This means we include items back in the list even after we remove them -> no change
-    remainingItems = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]))) #previously was sortedRemaining and reverse = true
+def addOneGreedy(selectedItems, itemDictionary, capacity, totalWeight, profits): #changed to remainingItems
+    remainingItems = {k: v for k, v in itemDictionary.items() if k not in selectedItems}
+     #This means we include items back in the list even after we use them -> no change
+    #sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True)) 
     for item in remainingItems:
         profit, weight = remainingItems[item]
         if totalWeight + weight <= capacity:
             selectedItems, totalWeight, profits = addItem(selectedItems, weight, totalWeight, profit, profits, item)
-            remainingItems.pop(item)
-
-            weightChecker = 0
-            for object in selectedItems:
-                weightChecker += itemsDictionary[object][1]
-            if weightChecker != totalWeight:
-                print("ruh roh!")
-                exit()
+            #remainingItems.pop(item)
+            
             break
     return selectedItems, totalWeight, profits
 
 def carouselGreedy(InitialSelectedItems, capacity, itemDictionary, totalWeight, profits, a, b):
-    remainingItems = {k: v for k, v in itemDictionary.items() if k not in InitialSelectedItems} 
+    remainingItems = {k: v for k, v in itemDictionary.items() if k not in InitialSelectedItems}
+    sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
     
     percentageToRemove = int(InitialSelectedItems.keys().__len__() * b)
     selectedItems = dict(list(InitialSelectedItems.items())[percentageToRemove:])
@@ -125,25 +121,28 @@ def carouselGreedy(InitialSelectedItems, capacity, itemDictionary, totalWeight, 
         profits -= profit
     
     carouselCounter = 0
+
     while carouselCounter < a:
         # Remove one item from selected items and update everything
         item, stuff = selectedItems.popitem()
-        #to talk about: We should be removing only items from the original selectedItems onward (not including newly added ones)
         profit, weight = stuff
         totalWeight -= weight
         profits -= profit
-        selectedItems, totalWeight, profits = addOneGreedy(selectedItems, remainingItems, capacity, totalWeight, profits) #changed initialselectedItems = selectedItems amd remainingItems instead itemdict
-        carouselCounter += 1 # also added remainingItems instead of itemDict
+        sortedRemaining = dict(sorted(remainingItems.items(), key=lambda x: (x[1][0] / x[1][1]), reverse=True))
+
+        selectedItems, totalWeight, profits = addOneGreedy(selectedItems, itemDictionary, capacity, totalWeight, profits) #changed initialselectedItems to selectedItems
+        carouselCounter += 1
+        selectedItems, totalWeight, profits = greedyHeuristic(selectedItems, itemDictionary, capacity, totalWeight, profits)
+        bob = 1
 
         weightChecker = 0
         for object in selectedItems:
             weightChecker += itemsDictionary[object][1]
         if weightChecker != totalWeight:
-            print("ruh roh!")
+            print("Uh oh!")
             exit()
-    selectedItems, totalWeight, profits = greedyHeuristic(selectedItems, itemDictionary, capacity, totalWeight, profits) #fills in possible gaps?
-    
     return selectedItems, totalWeight, profits
+
 
 
 def writeToCSV(filename, matrix, headers, directory, greedyItemsProfitsList, greedyTimesList):

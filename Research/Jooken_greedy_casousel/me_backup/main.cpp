@@ -117,7 +117,6 @@ void addOneGreedy( vector<int>& answerElems, vector<int>& bestRatioIndexesRemain
 // NOTE: REMOVE FROM FRONT FOR A REMOVAL, ADD ELEMENT TO BACK, but RESORT, Can element back in after removal
 void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<long long>& weights, vector<int>& bestRatioIndexesRemaining, long long& capacity, long long& currentWeight, int a, double b)
 {
-    vector<int> removedUsingB; //we add answerElems we remove back to the candidate pool (bestRatioIndexesRemaining) after carousel is done
     //Note: removed items are NOT reconsidered, or else there'd be no change
     int carouselCounter{0};
     int startingSize{int(answerElems.size())};
@@ -126,7 +125,6 @@ void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<
     for(int i{int(answerElems.size()) - 1}; i >= startingSize - numToRemove; i--)
     {
         currentWeight -= weights[answerElems[i]];
-        removedUsingB.push_back(answerElems[i]);
         answerElems.pop_back(); // we do NOT add these removed elements back
     }
 
@@ -135,14 +133,14 @@ void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<
     {
         currentWeight -= weights[answerElems[0]]; //takes weight from front of answerElems out of our knapsack
 
-        int addABack = answerElems[0]; // Adds element from answer pool to candidate pool after addOneGreedy finds a new candidate
+        int addBack = answerElems[0]; ///COMMENT OUT!!!! Adds element from answer pool to candidate pool after addOneGreedy finds a new candidate
 
         answerElems.erase(answerElems.begin()); // once again inefficient, all elements have to be shifted left one
         int count = int(bestRatioIndexesRemaining.size()); //bestRatioIndexesRemaining changes IF we REMOVE the functionality of adding removed elements back to pool
         addOneGreedy(answerElems, bestRatioIndexesRemaining, count, capacity, currentWeight, weights); 
         carouselCounter++;
 
-        bestRatioIndexesRemaining.push_back(addABack); ///COMMENT OUT!!!!
+        bestRatioIndexesRemaining.push_back(addBack); ///COMMENT OUT!!!!
         
         ///This makes it so we consider the candidate we removed from the last while in the next while iteration, VERY INEFFICIENT, but our samples are small
         sort(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), [&values, &weights](int i, int j) 
@@ -151,13 +149,10 @@ void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<
         }); 
     }
     //we must re-sort afterwards as greedyKnapsack needs a sorted by value/weight bestRatioIndexesRemaining and carousel ruined the ratio at the back.
-    for(int removed : removedUsingB)
-        bestRatioIndexesRemaining.push_back(removed);
     sort(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), [&values, &weights](int i, int j) 
     {
         return (double(values[i]) / weights[i]) > (double(values[j]) / weights[j]);
     }); 
-
     greedyKnapsack(capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //We do greedy one last time to fill any freed up weight from the b or a removal
 }
     
@@ -195,80 +190,72 @@ int main()
     int count;
     long long capacity{-1};
 
-        for(const auto& entry : std::filesystem::recursive_directory_iterator(problems)) //tests removing 10% - 50% of elements
+        for(double b{0.1}; b <= 0.5; b += 0.1) //tests removing 10% - 50% of elements
         {
-            //excel.open("results.csv", ios::app);
-            if(entry.path().filename() == "test.in") //Specifies what file we want to use that we find in any folder
-            {
-                //File reading + writing section
-                //excel.open("results.csv", ios::app); //opens file again (allows adding results 1 by 1 rather than by bulk) app stands for append (prevents overwriting)
-                testFile.open(entry.path()); //MAKE SURE TO USE .CLEAR BEFORE NEXT FILE
-                readFile(testFile, weights, values, count, capacity); //we assume the testFile is formatted properly (starts with count, then all the elements in the problem, and ends with the capacity of the knapsack) 
-                excel << entry.path().parent_path().filename();
-            } else continue; //makes sure we skip all the for loops where the file isn't our testFile
-
-            for(double b{0.1}; b <= 0.5; b += 0.1) 
-            {
+            for (const auto& entry : std::filesystem::recursive_directory_iterator(problems)) //traverses every "entity" in the given folder
+            { 
                 
-                for (int a{6}; a <= 30; a += 6) //traverses every "entity" in the given folder
-                {  
-                 
-                            vector<int> bestRatioIndexesRemaining; //index 0 has the highest ratio, last is the worst. Only contains elements NOT in our knapsack
-                            for(int i{0}; i < count; i++)
-                                bestRatioIndexesRemaining.push_back(i);
-                            sort(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), [&values, &weights](int i, int j) 
-                            {
-                                return (double(values[i]) / weights[i]) > (double(values[j]) / weights[j]);
-                            } 
-                            );
-                        //NEW THING LEARNED! Lambda functions, they're inline functions! negative: lambda is not very readable
-                        vector<int> answerElems; //what is in our knapsack
-                        long long currentWeight{0};
-                        //improvement phase of greedy    
-                        greedyKnapsack(capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //stage 1 of the algorithm
-                        improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //Stage 2 - improvement of greedy outcome
-                        carouselGreedy(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight, a, b);//Stage 3 - carousel
-                        improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //stage 4 - improvement again. saw a very minor increase in some cases
-                        long long profit{0};
-                        for(int elem : answerElems)
-                        {
-                            profit += values[elem];
-                        }
-                        ///////////////// Debugging block (DELETE WHEN DONE!!)
-                        //long long weightChecker{0};
-                        /* for(int elem : answerElems) 
-                                weightChecker += weights[elem];
-                        if(weightChecker != currentWeight)
-                        {
-                            cout << "HOLY THIS IS BAD";
-                            exit(0);
-                        } */
+                //add for loop here to change a value, and store the answer in a vector instead
+                if(entry.path().filename() == "test.in") //Specifies what file we want to use that we find in any folder
+                {
+                    //File reading + writing section
+                    excel.open("results.csv", ios::app); //opens file again (allows adding results 1 by 1 rather than by bulk) app stands for append (prevents overwriting)
+                    testFile.open(entry.path()); //MAKE SURE TO USE .CLEAR BEFORE NEXT FILE
+                    //testFile.open("test.in");
+                    readFile(testFile, weights, values, count, capacity); //we assume the testFile is formatted properly (starts with count, then all the elements in the problem, and ends with the capacity of the knapsack)    
+                    vector<int> bestRatioIndexesRemaining; //index 0 has the highest ratio, last is the worst. Only contains elements NOT in our knapsack
+                    for(int i{0}; i < count; i++)
+                        bestRatioIndexesRemaining.push_back(i);
+                    sort(bestRatioIndexesRemaining.begin(), bestRatioIndexesRemaining.end(), [&values, &weights](int i, int j) 
+                    {
+                        return (double(values[i]) / weights[i]) > (double(values[j]) / weights[j]);
+                    } 
+                    );
+                //NEW THING LEARNED! Lambda functions, they're inline functions! negative: lambda is not very readable
+                vector<int> answerElems; //what is in our knapsack
+                long long currentWeight{0};
+                int a = 0;
+                double b = 0;
 
-            
-                    
-                        //////////////////
-                        
-                        cout << profit << '\n';
-                        //stage 3: Carousel of outcome
-
-                            
-                            //Puts results in CSV file
-                            excel << "," << profit;
-                            //excel.close(); //Closes to update results.csv (just to let me see vls)
-                            //Resetting values before the next model   
-                            //testFile.seekg(0); // moves back to beggining 
-                            
+                //improvement phase of greedy    
+                greedyKnapsack(capacity, currentWeight, weights, bestRatioIndexesRemaining, answerElems); //stage 1 of the algorithm
+                improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //Stage 2 - improvement of greedy outcome
+                carouselGreedy(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight, a, b);//Stage 3 - carousel
+                improvement(answerElems, values, weights, bestRatioIndexesRemaining, capacity, currentWeight); //stage 4 - improvement again. saw a very minor increase in some cases
+                long long profit{0};
+                for(int elem : answerElems)
+                {
+                    profit += values[elem];
                 }
+                ///////////////// Debugging block (DELETE WHEN DONE!!)
+                //long long weightChecker{0};
+                 /* for(int elem : answerElems) 
+                        weightChecker += weights[elem];
+                if(weightChecker != currentWeight)
+                {
+                    cout << "HOLY THIS IS BAD";
+                    exit(0);
+                } */
+
+    
+            
+                //////////////////
                 
-                
+                cout << profit << '\n';
+                //stage 3: Carousel of outcome
+
+                    
+                    //Puts results in CSV file
+                    excel << entry.path().parent_path().filename() << "," << profit << '\n';
+                    excel.close(); //Close here if samples size is too large
+                    //Resetting values before the next model   
+                    testFile.close(); // to move onto the next model file
+                    values.clear();
+                    weights.clear();
+                }
+                excel.close(); //updates the csv file at the end of every model
             }
-            excel << endl; //next file. LESSON LEARNED: endl FLUSHES buffer, which then writes the values into the buffer file, allows sending in pieces rather than all at once (that could lead to buffer overflow)
-            values.clear();
-            weights.clear();
-            testFile.close(); 
-            //excel.close();
         }
-    excel.close();
 }
 
 
