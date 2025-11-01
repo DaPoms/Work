@@ -58,7 +58,8 @@ _start:
     
     imul eax, [presetMutiplier] # STEP 2: Multiply user input by presetMutiplier!
 
-    #STEP 3: Counts how many digits we have in our product
+    #STEP 2: Store number back in ioArray while converting it into chars, with highest digit being in the first address of ioArray, will overwrite old values
+    
  
     mov edx, 0 #edx must be 0 or else you get a really high value for div
     mov ecx, 0 # ecx acts as the incrementer for counting the size of the value in eax
@@ -83,8 +84,7 @@ _start:
     jmp putCharInArr
     exitputCharInArr:
 
-    ##STEP 4: Store number back in ioArray while converting it into chars, with highest digit being in the first address of ioArray, will overwrite old values
-    
+   
     # output ioArray
     mov eax, 4 
     mov ebx, 1

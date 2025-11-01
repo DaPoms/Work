@@ -7,5 +7,5 @@ int fib(int n)
 }
 int main()
 {
-    std::cout << fib(3); //Answer should be 2 (0 + 1 = 1, 1 + 1 = 2)
+    std::cout << fib(8); //Answer should be 2 (0 + 1 = 1, 1 + 1 = 2)
 }

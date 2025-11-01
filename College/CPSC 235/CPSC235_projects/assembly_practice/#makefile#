@@ -1,0 +1,2 @@
+all: 
+	as --32 -g main.s -o main.o

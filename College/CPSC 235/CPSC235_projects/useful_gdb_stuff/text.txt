@@ -1,0 +1,12 @@
+set disassembly-flavor intel
+layout asm
+layout reg
+
+x/[COUNT][SIZE][FORMAT]
+x/20xb ADDRESS              Change 20 to whatever bytes it is!
+    x = examine (display)
+    /20 = amount of bytes
+    x = hexadecimal
+    b = defines /20 as bytes
+
+info address VARNAME    to find where to look for data var!

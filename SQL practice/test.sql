@@ -1,58 +1,46 @@
-DROP table license; --FreeSQL requires manual deletion of tables (liveSQL has a button to do it)
-DROP table ticket;
-DROP table student;
-DROP table code;
-
-
-CREATE table student(
-    studentID number(5,0),
-    lName varchar2(20),
-    fName varchar2(20),
-    phoneNumber char(8), --requires format: 123-4567
-    CONSTRAINT captain_PK primary key(studentID)
+Create table captain(
+    captainID char(6),
+    firstName varchar2(20),
+    lastName varchar2(20),
+    Constraint captain_PK primary key(captainID)
 );
 
-CREATE table license(
-    licenseNumber char(7), -- Requires this format: 'XYZ 123'
-    licenseState char(2),
-    studentID number(5,0),
-    CONSTRAINT license_PK primary key(licenseNumber),
-    CONSTRAINT license_FK foreign key(studentID) REFERENCES student(studentID)
+Create table shipment(
+shipmentID char(7),
+origin varchar2(20),
+destination varchar2(20),
+shipmentDate Date,
+arrivalDate Date,
+shipnumber Number(3,0),
+captainID char(6),
+Constraint shipment_pk primary key(shipmentID),
+Constraint shipment_fk foreign key(captainID)
+    references captain(captainID) --must tell where we reference foreign key
 );
 
-CREATE table code(
-    codeNumber number(1,0), --I assumed that the code was only 1 digit (as all the examples entities are 1 digit)
-    fine number(7,0), -- this is just a guess that the max fine is 7 digits
-    CONSTRAINT code_PK primary key(codeNumber)
+
+
+Create table item(
+    itemNo Number(4,0), -- 0 specifies int not decimal
+    item_description varchar2(30),
+    item_type char(2),
+    unit_weight Number(6,0),
+    Constraint item_pk primary key(itemNo)
 );
 
-CREATE table ticket(
-    ticketNumber number(5,0),
-    ticketDate char(8), -- NOTE: I decided to use char instead of date a date includes hours, which was throwing the date off
-    studentID number(5,0),
-    codeNumber number(1,0),
-    CONSTRAINT ticket_PK primary key(ticketNumber),
-    CONSTRAINT ticket_FK1 foreign key(studentID) REFERENCES student(studentID),
-    CONSTRAINT ticket_FK2 foreign key(codeNumber) REFERENCES code(codeNumber)
+Create table shipmentLine(
+    shipmentID char(7),
+    itemNo number (4,0),
+    quantity number(5,0),
+    Constraint shipmentLine_pk primary key(shipmentID, itemNo),
+    Constraint shipmentLine_fk1 foreign key(shipmentID) -- foreign key must be referenced one by one
+        references shipment(shipmentID),
+    Constraint shpmentLine_fk2 foreign key(itemNo)
+        references item(itemNo)
 );
 
-INSERT into student values(38249, 'Brown', 'Thomas', '111-7804');
-INSERT into student values(82453, 'Green', 'Sally', '391-1689');
 
-INSERT into license values('BRY 123', 'FL', 38249);
-INSERT into license values('TRE 141', 'AL', 82453);
-
-INSERT into code values(1, 15);
-INSERT into code values(2, 25);
-INSERT into code values(3, 100);
-
-INSERT into ticket values(15634, '10/17/12', 38249, 2); --brown's tickets
-INSERT into ticket values(16017, '11/13/12', 38249, 1);
-INSERT into ticket values(14987, '10/05/12', 82453, 3); -- Green's tickets
-INSERT into ticket values(16293, '11/18/12', 82453, 1);
-INSERT into ticket values(17892, '12/13/12', 82453, 2);
-
-SELECT * FROM student;
-SELECT * FROM license;
-SELECT * FROM code;
-SELECT * FROM ticket;
+Insert into shipment values('1111111', 'china', 'cool', '20-JAN-2024', '21-JAN-2024', 3, "aaaaaaa");
+Insert into item values(5, '20', 'YO', 5);
+Insert into shipmentline values('1111111', 5, 100);
+Select * from SHIPMENTLINE;
