@@ -6,9 +6,7 @@
 #include <algorithm>
 #include <unordered_map>
 using namespace std;
-//namespace fs = std::filesystem;
-//I admit it would've been more efficient to use a unordered_map where the key = 0 is the highest profit/weight ratio and it holds the index of the item and a bool 0/1 for if it is still a candidate
-//Warning: This algorithm only works for < 1 objects, but it's normal to assume that there'd be no need to solve a knapsack with 1 element (it's already solved at that point!)
+//Warning: This algorithm only works for > 1 objects, but it's normal to assume that there'd be no need to solve a knapsack with 1 element (it's already solved at that point!)
 void greedyKnapsack(long long& capacity, long long& currentWeight, vector<long long>& weights, unordered_map<int, pair<int, bool> >& candidates, vector<int>& answerElems)
 {
     int i{0};
@@ -122,13 +120,13 @@ int main()
     vector<long long> weights = {};
     int count;
     long long capacity{-1};
-
+    int a{1};
         for(const auto& entry : std::filesystem::recursive_directory_iterator(problems)) //tests removing 10% - 50% of elements
         {
             //excel.open("results.csv", ios::app);
             if(entry.path().filename() == "test.in") //Specifies what file we want to use that we find in any folder
             {
-                if(entry.path().parent_path().filename() <= "n_1000_c_100000000_g_2_f_0.2_eps_0.1_s_200") continue;
+                //if(entry.path().parent_path().filename() <= "n_1000_c_100000000_g_2_f_0.2_eps_0.1_s_200") continue; // allows for continuing from file if it stopped for some reason (just put the file name it stopped on)
                 //File reading + writing section
                 //excel.open("results.csv", ios::app); //opens file again (allows adding results 1 by 1 rather than by bulk) app stands for append (prevents overwriting)
                 testFile.open(entry.path()); //MAKE SURE TO USE .CLEAR BEFORE NEXT FILE
@@ -139,8 +137,8 @@ int main()
             for(double b{0.1}; b <= 0.5; b += 0.1) 
             {
                 
-                for (int a{6}; a <= 30; a += 6) //traverses every "entity" in the given folder
-                {  
+                //for (int a{1}; a <= 5; a++) //traverses every "entity" in the given folder
+                //{  
                  
                     vector<int> bestRatioIndexesRemaining; //index 0 has the highest ratio, last is the worst. Only contains elements NOT in our knapsack
                     for(int i{0}; i < count; i++)
@@ -162,11 +160,8 @@ int main()
                     vector<int> answerElems; //what is in our knapsack
                     long long currentWeight{0};  
                     greedyKnapsack(capacity, currentWeight, weights, candidates, answerElems); //stage 1 of the algorithm
-                    long long B4profit{0};
-                    for(int elem : answerElems)
-                    {
-                        B4profit += values[elem];
-                    }
+                    
+            
                     carouselGreedy(answerElems, values, weights, candidates, capacity, currentWeight, a, b);//Stage 3 - carousel
                     
                     long long profit{0};
@@ -182,7 +177,7 @@ int main()
                         //Resetting values before the next model   
                         //testFile.seekg(0); // moves back to beggining 
                             
-                }
+                //}
             }
             excel << endl; //next file. LESSON LEARNED: endl FLUSHES buffer, which then writes the values into the file, allows sending in pieces rather than all at once (that could lead to buffer overflow)
             values.clear();
