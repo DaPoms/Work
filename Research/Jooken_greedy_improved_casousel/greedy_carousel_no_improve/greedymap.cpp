@@ -31,7 +31,7 @@ void addOneGreedy( vector<int>& answerElems, unordered_map<int, pair<int, bool> 
             {
                 if(candidates[i].second == 1 && weights[candidates[i].first] + currentWeight <= capacity) //had to do this to make sure it checks past objects it cannot fit
                 {
-                    answerElems.push_back(candidates[i].first); //we don't know where it belongs, so we put in back and sort later (with an ugly lambda function)
+                    answerElems.push_back(candidates[i].first); // element added to the back
                     currentWeight += weights[candidates[i].first]; 
                     candidates[i].second = 0; //removes element from candidate pool
                     return;
@@ -70,11 +70,14 @@ void carouselGreedy(vector<int>& answerElems, vector<long long>& values, vector<
         for(int i{0}; i < candidates.size(); i++)
         {
             if(candidates[i].first == addABack)
+            {
                 candidates[i].second = 1;
+                break;
+            }
+            
         }
     }
 
-    //we must re-sort afterwards as greedyKnapsack needs a sorted by value/weight bestRatioIndexesRemaining and carousel ruined the ratio at the back.
     for(int removed : removedUsingB)
     {
         for(int i{0}; i < candidates.size(); i++)
@@ -120,7 +123,7 @@ int main()
     vector<long long> weights = {};
     int count;
     long long capacity{-1};
-    int a{1};
+    int a{1}; //comment out in case of NOT constant a and uncomment the for loop with the a variable in it for making variable a values
         for(const auto& entry : std::filesystem::recursive_directory_iterator(problems)) //tests removing 10% - 50% of elements
         {
             //excel.open("results.csv", ios::app);
@@ -134,7 +137,7 @@ int main()
                 excel << entry.path().parent_path().filename();
             } else continue; //makes sure we skip all the for loops where the file isn't our testFile
 
-            for(double b{0.1}; b <= 0.5; b += 0.1) 
+            for(double b{0.2}; b <= 0.4; b += 0.05) 
             {
                 
                 //for (int a{1}; a <= 5; a++) //traverses every "entity" in the given folder
@@ -160,8 +163,6 @@ int main()
                     vector<int> answerElems; //what is in our knapsack
                     long long currentWeight{0};  
                     greedyKnapsack(capacity, currentWeight, weights, candidates, answerElems); //stage 1 of the algorithm
-                    
-            
                     carouselGreedy(answerElems, values, weights, candidates, capacity, currentWeight, a, b);//Stage 3 - carousel
                     
                     long long profit{0};

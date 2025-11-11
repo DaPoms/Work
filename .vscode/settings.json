@@ -53,10 +53,10 @@
         "fstream": "cpp",
         "map": "cpp"
     },
-    "sshfs.configs": [
+/*     "sshfs.configs": [
         {
             "name": "ACAD"
         }
-    ]
+    ] */
     
 }
