@@ -1,6 +1,6 @@
 import random
 import os
-
+ 
 #Var initialize######################
 Trans = ""
 End = 0
