@@ -29,3 +29,7 @@ select invoice_num, invoice_date from invoices where invoice_num IN -- in versio
     (
     	Select invoice_num from invoice_line where (invoices.invoice_num = invoice_line.invoice_num) AND (item_id = 'KH81')
     );
+
+select invoices.invoice_num, invoice_date from invoices join invoice_line -- join + on version of above
+	on invoices.invoice_num = invoice_line.invoice_num
+	where item_id = 'KH81'
