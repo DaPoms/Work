@@ -33,3 +33,27 @@ select invoice_num, invoice_date from invoices where invoice_num IN -- in versio
 select invoices.invoice_num, invoice_date from invoices join invoice_line -- join + on version of above
 	on invoices.invoice_num = invoice_line.invoice_num
 	where item_id = 'KH81'
+
+
+-- returns total sales $ at a city
+select c.city, sum(il.quantity * il.quoted_price) "total sales" from customer c, invoices i, invoice_line il
+where c.cust_id = i.cust_id AND i.invoice_num = il.invoice_num
+group by c.city
+order by "total sales";
+
+
+select c.city, sum(il.quantity * il.quoted_price) "total sales"
+from customer c, invoices i, invoice_line il -- 3 needed for the where statement
+where c.cust_id = i.cust_id AND i.invoice_num = il.invoice_num
+group by c.city-- required
+having sum(quoted_price * quantity) > 200
+order by "total sales";
+
+--gets customers who havent made a purchase
+select distinct c.cust_id, invoice_num
+from customer c left join invoices i
+on c.cust_id = i.cust_id
+where invoice_num IS NULL
+order by c.cust_id;
+
+
