@@ -93,3 +93,24 @@ where amount_purchased IN
 (
 	select max(sum(quantity)) as amount_purchased from invoice_line il join invoices i using (invoice_num) group by cust_id -- groups the customer with the most quantity
 );
+
+
+-- second extra credit approach (with the help of the internet)
+
+WITH customer_total_purchased AS
+(
+    SELECT 
+    	cust_id, 
+    	sum(quantity) as amount_purchased
+    FROM invoices i JOIN invoice_line using (invoice_num)
+    GROUP BY cust_id
+)
+SELECT 
+    c.first_name, 
+    c.last_name, 
+    amount_purchased 
+FROM customer c 
+JOIN customer_total_purchased ctp
+USING (cust_ID)
+where ctp.amount_purchased = (SELECT MAX(amount_purchased) FROM customer_total_purchased);
+
