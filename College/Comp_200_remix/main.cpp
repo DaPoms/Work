@@ -21,7 +21,7 @@ void pickMood(string& face, int num)
 int main()
 {
     string face;
-    enum mood //bad practice to put this enum here but because this is a simple project it is fine. I did enum just for the sake of trying something new
+    enum mood //bad practice to put this enum here but because this is a simple project, it is fine. I did enum just for the sake of trying something new as it makes my code slightly more readable
     {
         HAPPY,
         NEUTRAL,
