@@ -57,3 +57,29 @@ where invoice_num IS NULL
 order by c.cust_id;
 
 
+-- HW 1
+select item_id, count(invoice_num), sum(quantity), avg(quoted_price) from invoice_line il join item i 
+    using(item_id)
+    where category = 'DOG'
+    group by item_id;
+
+
+-- HW 2
+select sr.rep_id, sr.first_name, sr.last_name from 
+sales_rep sr left join customer on sr.rep_id = customer.rep_id  -- can also use: using(rep_id)
+where cust_id IS NULL;
+
+-- equivalent solution to HW 2, but HW 3 (problem 3)
+select rep_id, first_name, last_name from sales_rep where rep_id NOT IN
+(
+    select distinct rep_id from customer
+);
+
+
+-- Two different approaches to HW 4
+select c.cust_id, first_name, last_name from customer c left join invoices i on i.cust_id = c.cust_id
+    where i.cust_id IS NULL;
+
+select first_name, last_name from customer left join invoices using (cust_id) 
+    where invoice_num IS NULL;
+
