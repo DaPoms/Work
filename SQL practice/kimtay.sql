@@ -84,26 +84,14 @@ select first_name, last_name from customer left join invoices using (cust_id)
     where invoice_num IS NULL;
 
 -- extra credit code
-SELECT cust_id, first_name, last_name, amount_purchased from customer c 
-JOIN
-    (
-        SELECT 
-        	sum(quantity * quoted_price) as amount_purchased, 
-        	cust_id 
-    	FROM invoice_line il 
-        JOIN invoices i 
-        USING (invoice_num)
-        GROUP BY cust_id
-    ) 
-using (cust_id)
+select first_name, last_name, amount_purchased from customer c JOIN
+(
+    select sum(quantity) as amount_purchased, cust_id from invoice_line il join invoices i using (invoice_num)
+        group by cust_id
+) using (cust_id)
 where amount_purchased IN
 (
-	select 
-        max(sum(quantity * quoted_price)) 
-    from invoice_line il 
-    join invoices i 
-    using (invoice_num) 
-    group by cust_id -- groups the customer with the most quantity
+	select max(sum(quantity)) as amount_purchased from invoice_line il join invoices i using (invoice_num) group by cust_id -- groups the customer with the most quantity
 );
 
 
@@ -125,6 +113,7 @@ SELECT
     amount_purchased 
 FROM customer c 
 JOIN customer_total_purchased ctp
-USING (cust_ID)
-where ctp.amount_purchased = (SELECT MAX(amount_purchased) FROM customer_total_purchased);
+USING (cust_ID) -- effectively adds on the total quantities purchased to each customer
+where amount_purchased = (SELECT MAX(amount_purchased) FROM customer_total_purchased); 
+-- isolates max quantity purchased case
 
