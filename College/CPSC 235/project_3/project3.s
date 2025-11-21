@@ -11,6 +11,8 @@
 #	       user inputted int, and return it as a char     	   #                        
 #                                                              #
 # **************************************************************#
+
+# DO NOTE: PROJECT DOES NOT COMPLETELY FOLLOW THE ASSEMBLY PROGRAMMING STANDARD (thus it really only works properly on its own, not within other code)
 .intel_syntax noprefix
 .global _start 
 
