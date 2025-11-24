@@ -31,29 +31,16 @@ class MDMKRawProblem // each MDMKRawProblem is actually a set of 6 problems in 1
 
 };
 
-struct MDMKCandidate
-{
-   /*  vector<long> capacityVal; // How much capacity this candidate takes up for each capacity constraint
-    vector<long> demandVal; //How much demand value this candidate contributes */
-    long value; // "Cost": how much this item is worth (either +/- depending on the case)
-};
+
 
 struct problemSet
 {
-    vector < vector <long> > problemsByCase;
+    vector < vector <long> > costCoefficientsByCase;
     vector<long> knapsackCapacityVals;
     vector<long> knapsackDemandRequirementVals;
     
     vector<vector<long>> capacityVals;
 };
-
-/* struct candidateCoefficients // holds both the >= <= values of the MDMKP entity
-{
-    vector<problemSet> allCases;
-    vector<long> capacityVal;
-    vector<long> demandVal;
-};
- */
 
 //Formats MKMDProblem into their 6 respective cases, in accordance to the brunel paper. Here is a definition of each case:
 /* 
@@ -73,7 +60,7 @@ void separateCandidatesByCases(MDMKRawProblem& problem, problemSet& candidatesBy
 
     
 
-    candidatesByCase.problemsByCase.resize(6); // new thing learned! Can be used to easily create uninitialized values inside of the vector (or reshape vector to fit this function's usage)
+    candidatesByCase.costCoefficientsByCase.resize(6); // new thing learned! Can be used to easily create uninitialized values inside of the vector (or reshape vector to fit this function's usage)
     vector<vector<long>> MDMKCapacityAttributes = problem.getcandidateCapacityAtrributes(); 
     vector<vector<long>> MDMKDemandAttributes = problem.getcandidateDemandAtrributes();
     vector<vector<long>> MDMKValue = problem.getCandidateValue();
@@ -104,7 +91,7 @@ void separateCandidatesByCases(MDMKRawProblem& problem, problemSet& candidatesBy
 
                 if ( (currDemand == caseDemand3 - 1 && (currentCase == 2 || currentCase == 5)) || (currDemand == caseDemand2 - 1 && (currentCase == 1 || currentCase == 4) ) || (currDemand == caseDemand1 - 1 && (currentCase == 0 || currentCase == 3)) ) //these checks are really inefficient but they work!
                 {
-                    candidatesByCase.problemsByCase[currentCase].push_back(candidateValue);
+                    candidatesByCase.costCoefficientsByCase[currentCase].push_back(candidateValue);
                 }      
             }
             
@@ -117,7 +104,7 @@ void separateCandidatesByCases(MDMKRawProblem& problem, problemSet& candidatesBy
 void RawProblemsToCases(vector<MDMKRawProblem>& problems, vector<problemSet>& cases)
 {
     problemSet candidatesByCase;
-    candidatesByCase.problemsByCase.resize(6);
+    candidatesByCase.costCoefficientsByCase.resize(6);
         
     
     int size = problems.size();
@@ -132,7 +119,7 @@ void RawProblemsToCases(vector<MDMKRawProblem>& problems, vector<problemSet>& ca
         cases[i].knapsackDemandRequirementVals = problems[i].getknapsackDemandRequirementVals();
         cases[i].capacityVals = candidatesByCase.capacityVals; // rehgheoigreiioerhgoeiugrehhriheogereiu
         candidatesByCase.capacityVals.clear(); 
-        candidatesByCase.problemsByCase.clear();
+        candidatesByCase.costCoefficientsByCase.clear();
     }
 }
 
@@ -188,14 +175,12 @@ void readMDMKP(string fileName, vector<MDMKRawProblem>& MDMKRawProblems) // read
     }
 }
 
-
-
 int main()
 {
     vector<MDMKRawProblem> MDMKRawProblems;
     readMDMKP("datac7.txt", MDMKRawProblems);
-    vector<vector<MDMKCandidate>> candidatesByCase;
+    vector<vector<long>> candidatesByCase;
     vector<problemSet> problemSets;
     RawProblemsToCases(MDMKRawProblems, problemSets);
-    return 0;
+    return 1;
 }
