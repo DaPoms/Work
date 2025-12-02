@@ -40,6 +40,7 @@ struct problemSet
     vector<long> knapsackDemandRequirementVals;
     
     vector<vector<long>> capacityVals;
+    vector<vector<long>> demandVals;
 };
 
 //Formats MKMDProblem into their 6 respective cases, in accordance to the brunel paper. Here is a definition of each case:
@@ -76,8 +77,12 @@ void separateCandidatesByCases(MDMKRawProblem& problem, problemSet& candidatesBy
         vector<long> capacityVal; // How much capacity this candidate takes up for each capacity constraint
         vector<long> demandVal; //How much demand value this candidate contributes */
         for(int c{0}; c < capacityVarsCount; c++)
+        {
             capacityVal.push_back(MDMKCapacityAttributes[c][i]);
+            demandVal.push_back(MDMKDemandAttributes[c][i]);
+        }
         candidatesByCase.capacityVals.push_back(capacityVal);
+        candidatesByCase.demandVals.push_back(demandVal);
        
         for(int caseNum{0}; caseNum < 6; caseNum++) //Changes candidate to each case (note that caseNum = 0 is case 1 and caseNum = 5 is case 6)
         {
@@ -87,7 +92,7 @@ void separateCandidatesByCases(MDMKRawProblem& problem, problemSet& candidatesBy
             for(int currDemand{0}; currDemand < capacityVarsCount; currDemand++) //stops at case 6 (where same # of demands as capacity constraints)
             {
                 // WARNING: Very ugly if statement below!
-                demandVal.push_back(MDMKDemandAttributes[currDemand][i]);
+                
 
                 if ( (currDemand == caseDemand3 - 1 && (currentCase == 2 || currentCase == 5)) || (currDemand == caseDemand2 - 1 && (currentCase == 1 || currentCase == 4) ) || (currDemand == caseDemand1 - 1 && (currentCase == 0 || currentCase == 3)) ) //these checks are really inefficient but they work!
                 {
@@ -95,7 +100,7 @@ void separateCandidatesByCases(MDMKRawProblem& problem, problemSet& candidatesBy
                 }      
             }
             
-            demandVal.clear();///
+        
         }
         
     }

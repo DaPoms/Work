@@ -3,6 +3,12 @@
 #include <sstream>
 #include <vector>
 using namespace std;
+
+/* 
+NOTE: While this approach is less efficient than the fileread.cpp version, I decided on 
+this approach as it is more readable, and the heuristics will take long anyways, so a few extra 
+seconds of processing the data read from the file means nothing in the end
+ */
 //reads one block of data from MDMKP .txt file (one block = either <=, >= constraints or cost coefficient vals)
 /* 
 Function name: readAttributeOfMDMKP
@@ -173,8 +179,6 @@ void readMDMKP(string fileName, vector<MDMKRawProblem>& MDMKRawProblems) // read
         MDMKRawProblems.push_back(problemSet);
     }
 }
-
-
 
 int main()
 {
