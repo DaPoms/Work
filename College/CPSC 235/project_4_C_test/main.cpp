@@ -22,7 +22,7 @@ struct cacheLine
 
 int main()
 {
- int memoryAddress = 43121;
+/*  int memoryAddress = 43121;
  int offsetSize = (int)log2(CACHELINESIZE); // This is where in the cache line data block we want
     int indexSize = (int)log2(CACHESIZE / CACHELINESIZE); // This is the cache line the address belongs to
 
@@ -55,6 +55,9 @@ int main()
             (test).data[i] = dataBus[i - offset]; // i - offset is just the indexes for the data bus we are reading (always 0-3)
 
     int b = 0;
+     */
+
+
     /*     
     struct cacheLine emptyLine; // used to initialize all cache lines of cache
 emptyLine.tag = 0;
@@ -70,5 +73,33 @@ int memoryAddr = 65535;
 int ans = sizeof(memoryAddr);
 printf("%i", ans);
 int i = 0; */
+
+    cacheLine cache;
+    for(int i{0}; i < 32; i++)
+    {
+        cache.data[i] = 'a' + (i / 2);
+    }
+
+
+
+   
+
+
+
+
+            int endCase = DATABUSSIZE;
+        char replacementBus[DATABUSSIZE]; // Utilized for copying to ram
+        for(int i = 0; i < (CACHELINESIZE / DATABUSSIZE); i++) //copies all data from cache to ram, 1 bus at a time
+        {
+            int busI = 0;
+            for(int dataTraverse = (i * DATABUSSIZE); dataTraverse < endCase; dataTraverse++) // i * dataBusSize separates the buses to make sure we are reading right
+            {
+                replacementBus[busI] = cache.data[dataTraverse];     
+                busI++;
+            }
+          
+            endCase += DATABUSSIZE;
+        }
+
 }
  
