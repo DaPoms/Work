@@ -19,9 +19,38 @@ struct cacheLine
     bool validBit; // 0 at start
 };
 
+void writeBack(int memoryAddress, struct cacheLine *cacheLineToBeTransferred) //memory Address is that of the one we are adding
+{
+    int endCase = DATABUSSIZE;
+    int amountWritten = 0;
+    char replacementBus[DATABUSSIZE]; // Utilized for copying to ram
+    for(int i = 0; i < (CACHELINESIZE / DATABUSSIZE); i++) //copies all data from cache to ram, 1 bus at a time
+    {
+        int busI = 0;
+        for(int dataTraverse = (i * DATABUSSIZE); dataTraverse < endCase; dataTraverse++) // i * dataBusSize separates the buses to make sure we are reading right
+        {
+            replacementBus[busI] = (*cacheLineToBeTransferred).data[dataTraverse];     
+            busI++;
+        }
+        printf("Address: %d     Associated bus: %c %c %c %c\n", (memoryAddress + amountWritten), replacementBus[0], replacementBus[1], replacementBus[2], replacementBus[3]);
+        endCase += DATABUSSIZE;
+        amountWritten += 4;
+    }
+}
 
 int main()
 {
+
+
+
+    cacheLine cache;
+    for(int i{0}; i < 32; i++)
+    {
+        cache.data[i] = 'a' + (i / 2);
+    }
+
+    writeBack(10000, &cache);
+    int i = 0;
 /*  int memoryAddress = 43121;
  int offsetSize = (int)log2(CACHELINESIZE); // This is where in the cache line data block we want
     int indexSize = (int)log2(CACHESIZE / CACHELINESIZE); // This is the cache line the address belongs to
