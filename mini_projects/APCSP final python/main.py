@@ -586,7 +586,7 @@ def scramble(list1, list2, transLang):
 ################################################################
               
           
-        else:
+        else: # for case of answering with D
           inputAns = 3  
 
 

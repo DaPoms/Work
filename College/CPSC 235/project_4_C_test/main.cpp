@@ -37,6 +37,8 @@ int main()
 
     printf("%d %d %d", offset, index, tag);
 
+    */
+   /*
     char dataBus[4] = {1,2,3,4};
     cacheLine test;
     for(int i = 0 ; i < CACHELINESIZE; i++)
@@ -58,6 +60,8 @@ int main()
      */
 
 
+
+     
     /*     
     struct cacheLine emptyLine; // used to initialize all cache lines of cache
 emptyLine.tag = 0;
@@ -74,19 +78,18 @@ int ans = sizeof(memoryAddr);
 printf("%i", ans);
 int i = 0; */
 
+
+
+
+
+
+
+/* 
     cacheLine cache;
     for(int i{0}; i < 32; i++)
     {
         cache.data[i] = 'a' + (i / 2);
     }
-
-
-
-   
-
-
-
-
             int endCase = DATABUSSIZE;
         char replacementBus[DATABUSSIZE]; // Utilized for copying to ram
         for(int i = 0; i < (CACHELINESIZE / DATABUSSIZE); i++) //copies all data from cache to ram, 1 bus at a time
@@ -100,6 +103,33 @@ int i = 0; */
           
             endCase += DATABUSSIZE;
         }
+ */
+
+
+
+
+    
+    int memoryAddress = 43121;
+ int offsetSize = (int)log2(CACHELINESIZE); // This is where in the cache line data block we want
+    int indexSize = (int)log2(CACHESIZE / CACHELINESIZE); // This is the cache line the address belongs to
+
+    //(Learned of approach from user maskacovnik at https://stackoverflow.com/questions/30291562/how-to-generate-a-new-int-with-a-specific-amount-of-bits-in-it 
+    //Works by shifting binary for value 1 (0b1) a single place ahead of where we want all 1's, then by subtracting by 1 it makes the single bit that was 1, 0, and all the bits before it now 1.
+    unsigned int bitDigitsWantedOffset = (0b1 << offsetSize) - 1; 
+    unsigned int bitDigitsWantedIndex = (0b1 << indexSize) - 1;
+
+    int offset = (memoryAddress & bitDigitsWantedOffset); // AND'ing the address's bits with the digits we wanted only being 1 (DigitsWanted variable) and everything else being 0 means it isolates the offset
+    int index = ((memoryAddress >> offsetSize) & bitDigitsWantedIndex); // % CACHELINECOUNT tells which cacheline address will be stored at. We do memAddress >> to remove the offset val and focus on the index val
+    int tag = (memoryAddress >> (offsetSize + indexSize) ); // Tag is just an identifier, we'll use to check if cache contains the address we want for reading 
+
+    //printf("%d %d %d", offset, index, tag);
+
+    int calcMemoryAddress = tag;
+    calcMemoryAddress = calcMemoryAddress << indexSize; //makes room for index size
+    calcMemoryAddress += index; //adds to the 
+    calcMemoryAddress =  calcMemoryAddress << offsetSize;
+
+    printf( "%d", calcMemoryAddress); // result should be similar (to be exact, it should be memoryAddress - offset) as starting memory address
 
 }
  
