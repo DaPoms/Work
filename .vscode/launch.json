@@ -1,8 +1,12 @@
 {
     "configurations": [
-        
-             
-      
+        {
+            "type": "java",
+            "name": "HelloWorld",
+            "request": "launch",
+            "mainClass": "HelloWorld",
+            "projectName": "projects_995f6a6d"
+        },
         {
             "name": "C/C++: g++.exe build and debug active file",
             "type": "cppdbg",
@@ -12,19 +16,9 @@
             "stopAtEntry": true,
             "cwd": "${fileDirname}",
             "environment": [],
-/* 
-                //added for GUROBI
-                {
-                   "name": "PATH",
-                    "value": "C:\\gurobi1203\\win64\\bin;${env:PATH}" // CRITICAL: Adds DLL directory to 
-                }
-                ///// ADDED FOR GUROBI
-                 */
-            //],
             "externalConsole": false,
             "MIMode": "gdb",
             "miDebuggerPath": "C:\\msys64\\ucrt64\\bin\\gdb.exe",
-            
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
