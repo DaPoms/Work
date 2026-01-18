@@ -53,6 +53,7 @@
         "fstream": "cpp",
         "map": "cpp"
     },
+    "java.dependency.syncWithFolderExplorer": false,
 /*     "sshfs.configs": [
         {
             "name": "ACAD"
