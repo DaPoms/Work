@@ -13,7 +13,8 @@ public class VarsTest
         char letter = 'c';
         final int favNum = 2; //final == const in c++
         byte lil = 52;
-        byte biglil = (byte)2000;
+        byte biglil = (byte) 2000; 
+        var autoVar = 2.31; // var is equivalent to the 'auto' keyword in c++, double is used as the preferred type for var. Only determines type at instantiation
 
 
         System.out.println(myString + " I am " + num + " years old and have $" + deci + " to my name. This is all " + bool);
@@ -21,6 +22,7 @@ public class VarsTest
         System.out.println(num + deci);
         System.out.println("Woah I'm different!: " + num + deci); //everything past a string is interpreted as a string
         System.out.println(x + " " + y + " " + z);
+        System.out.println(autoVar);
     }
     
 }
