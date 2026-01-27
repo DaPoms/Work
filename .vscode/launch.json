@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Arr",
+            "request": "launch",
+            "mainClass": "Arr",
+            "projectName": "Work_e12e0c9c"
+        },
+        {
+            "type": "java",
             "name": "HelloWorld",
             "request": "launch",
             "mainClass": "HelloWorld",

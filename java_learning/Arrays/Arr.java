@@ -27,8 +27,7 @@ public class Arr
             for(int c = 0; c < intMatrix[r].length; c++) // because of the possibility of uneven matrices, using r for the .length is important to make sure we account for all differences
             {
                 System.out.print(intMatrix[r][c] + " ");
-            }
-            System.out.println();
+            }            System.out.println();
         }
     }
 }
