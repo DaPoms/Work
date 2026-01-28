@@ -3,7 +3,7 @@ public class UserInput
 {
     public static void main(String[] args)
     {
-        Scanner myObj = new Scanner(System.in);
+        Scanner myObj = new Scanner(System.in); //Think of it as that we are scanning the system's input to store in myObj
         String adjective;
         do //forces the user to say they are stinky (how rude!) :C
         {
