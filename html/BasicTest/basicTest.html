@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+    <head>
+        <title> My Cool Website </title>
+        <meta charset = "UTF-8">
+        
+    </head>
+        
+    <body style = "background-color:rgb(155, 221, 230);"> <!-- This is the YUCKY way of doing styling, a separate CSS (styling sheet) is recommended-->
+        <h1> What I have to say:  </h1>
+        <h6> I'm a way smaller heading! </h6>
+        <p>[insert cool quote] </p>
+        <p> I'm on the second line! </p>    <!---note that doing another praragraph puts it on a newline-->
+        <a href = "https://github.com/DaPoms"> Here is my github! </a> <!-- <a> is unique in that you specify the link within the tag -->
+        <br> 
+        <br> <!-- using breaks can be avoided through css-->
+        <a href = "https://kirby.fandom.com/wiki/Kirby%27s_Epic_Yarn" >  
+            <img src = "kirb.jpg" alt = "Cute kirby's epic yarn art" width = 500> <!-- Cool! If you provide only width/height, it will scale the other dimension-->
+        </a> <!-- The text used in the anchor/<a> can be any (visual) oobject too! including images -->
+        <p> Kirby's epic yarn is peak! Click the image above to learn more! </p>
+        <hr> <!-- horizontal rule: Makes a looooong line-->
+        <p title = "AAAAAAAAH YOU FOUND ME!"> Don't you dare hover over me! >:C
+        <pre>
+        Here is some code. I wrote this in the &ltpre&gt tag as it preserves formatting!: <!-- notice the use of &lt and &gt for the < and > signs-->
+            public class Main
+            {
+                public static void main(String[] args)
+                {
+                    System.out.println("Hello world!");
+                }
+            }
+        </pre>
+        <audio controls src = ./cheer.mp3> </audio> <!--controls allows the audio box to start/stop the audio on the webpage. Autoplay would allows it to play automatically on load-->
+        <img src = "./birb.jpg" width = 300 alt = "Cute photo of my pet cockatiel">
+
+        <p> here is my beautiful emoji: &#x1F424 and the summation symbol &#x03A3. It works due to UTF encoding</p>
+    </body>
+    
+</html>
