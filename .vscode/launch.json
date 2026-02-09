@@ -2,6 +2,19 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Facts",
+            "request": "launch",
+            "mainClass": "Facts",
+            "projectName": "Work_e12e0c9c"
+        },
+        {
+            "type": "java",
+            "name": "Fact",
+            "request": "launch",
+            "mainClass": "Fact"
+        },
+        {
+            "type": "java",
             "name": "Arr",
             "request": "launch",
             "mainClass": "Arr",
