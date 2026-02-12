@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+
+<head>
+  <title>A Simple HTML Table</title>
+  <style>
+  .bold 
+  {
+    font-weight: 700;
+  }
+  table, th, td
+  {
+    border: 1px solid black;
+  }
+</style> <!--Although not the most straight forward approach, you can also use inheritance by applying border to all tr and the table, and then set th and td to inherit the border-->
+
+</head>
+
+<body>
+<table>
+  <caption class = "bold"> Table of Fruits with Their Associated Price and Quantity </caption> <!-- You can also use <b> for bolding, but I like to follow the convention of most styling being done with css. You can use <span> for css styling inbetween text-->
+  <thead>
+    <tr>
+      <th> Fruit </th>
+      <th> Price </th>
+      <th> Quantity </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td> Apple </td>
+      <td> $0.25 </td>
+      <td> 4 </td>
+
+    </tr>
+    <tr>
+      <td> Orange </td>
+      <td> $0.50 </td>
+      <td> 6 </td>
+    </tr>
+
+    <tr>
+      <td> Banana </td>
+      <td> $1.00 </td>
+      <td> 2 </td>
+    </tr>
+
+    <tr>
+      <td> Pineapple </td>
+      <td> $2.00 </td>
+      <td> 5 </td>
+    </tr>
+  </tbody>
+  
+  <tfoot class = "bold" style = "text-align:center">
+    <td> Total </td>
+    <td> $3.75 </td>
+    <td> 17 </td>
+  </tfoot>
+</table>
+
+</body>
