@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<head>
+  <title> Site Registration </title>
+
+  <style>
+    
+    .formSpacing, br
+    {
+      margin-bottom:20px;
+    }
+    
+   
+
+
+
+
+  </style>
+</head>
+
+<body>
+  
+  <form>
+    <h1> Site Registration Form </h1>
+    <p> Please complete the following form to register for our site </p>
+    <label for = "fname" > First Name: </label> 
+    <input type = "text" name = "fname" id = "fname" placeholder = "First name"/> <br>
+    <label for = "lname" > Last Name: </label>
+    <input type = "text" name = "lname" id = "lname" placeholder = "Last name"/> <br>
+    <label for = "email" > Email: </label>
+    <input type = "text" name = "email" id = "email"  placeholder = "name@domain.com"/> <br>
+    <details class = "inputFormat"> 
+      <summary class = "formSpacing"> Please fill out our optional survey: </summary>
+      
+      <input type ="radio" name = "collStatus" id = "notIC"/>
+      <label for = "notIC"> Not yet in College </label>
+      <input type ="radio" name = "collStatus" id = "fman"/>
+      <label for = "fman"> Freshmen </label>
+      <input type ="radio" name = "collStatus" id = "sophomore"/>
+      <label for = "sophomore"> Sophomore </label>
+      <input type ="radio" name = "collStatus" id = "junior"/>
+      <label for = "junior"> Junior </label>
+      <input type ="radio" name = "collStatus" id = "senior"/>
+      <label for = "senior"> Senior </label>
+      <input type ="radio" name = "collStatus" id = "graduate"/>
+      <label for = "graduate"> Graduate </label>
+      <br>
+    </details> 
+    <input type = "submit" value = "Submit"/>
+    <input type = "reset" value = "Clear">
+  </form>
+
+</body>

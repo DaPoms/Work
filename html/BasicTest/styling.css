@@ -1,0 +1,53 @@
+p
+{
+    background-color:pink;
+    padding: 10px; /* Padding is the  */
+    font-size: 17px;
+    text-align: center;
+}
+
+a, pre
+{
+    display: block;    
+    margin: 10px 0px;
+}
+
+div.code /* I had to specify this for the pre text I wrote. We use a div to effectively put a shell around the pre text, so we can move it without affecting the text structure*/
+{
+    text-align: center;
+}
+
+div.code pre /*This affects the actual text of a pre tag that is inside of a div of the code class*/
+{
+    display:inline-block; /* */
+    text-align: left;
+}
+
+
+img, audio
+{
+    border-color: rgb(0, 0, 0);
+    border-style: solid;
+    border-width: 30;
+    border-radius: 50px; /*Radius has to do with rounding the edges*/
+    display: block;
+    margin: auto; /* params for margin follows: margin: verticalVal horizontalVal*/
+    
+}
+
+audio
+{
+    width: 20%;
+}
+
+img
+{
+    width: 30%;
+}
+
+h1,h6, a
+{
+    text-align: center;
+}
+
+

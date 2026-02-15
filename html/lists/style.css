@@ -1,0 +1,35 @@
+div.titled-olist /*will only apply to div's of the titled-list class*/
+{
+    text-align: center;
+    display: inline-block;
+    background-color: rgb(252, 237, 104);
+    margin : auto;
+    border-style: solid;
+    border-radius: 20px;
+    border-color: rgb(255, 248, 186);
+}
+
+
+
+div.titled-ulist /*will only apply to div's of the titled-list class*/
+{
+    display: inline-block;
+    background-color: rgb(229, 164, 238);
+    text-align: center;
+    border-style: solid;
+    border-radius: 20px;
+    border-width: 10px;
+    border-color: rgb(240, 184, 237);
+}
+
+div.titled-dlist
+{
+    display: inline-block;
+    background-color: rgb(113, 230, 97);
+    width : auto;
+    text-align: center;
+    border-style: solid;
+    border-radius: 20px;
+    border-width: 10px;
+    border-color: rgb(186, 241, 122);
+}

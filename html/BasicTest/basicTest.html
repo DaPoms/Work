@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang = "en-US">
+    <head>
+        <title> My Cool Website </title>
+        <!--Would be used for mobile scaling:  <meta name="viewport" content="width=device-width">-->
+        <meta charset = "utf-8"/>
+        <meta name = "author" content = "Daniel T"/>
+        <meta name = "description" content = "This is my first real play around with html + CSS">
+        <link rel = "icon" href = "birb.JPG" type = "image/jpeg"><!--Favicon implimentation (bookmark + website icon). rel attribute means "relationship" and also type and has fixed values it can be (look up)-->
+        <!-- type attribute is in MIME format (Multipurpose internet mail extension)-->
+        <link rel = "stylesheet" href = "styling.css" type = "text/css" /> <!--Note that the attribute "src" entails embedding the document whereas "href" entails referencing it-->
+        <!--BEcause of haven't gotten to learning JS yet, here is an example link to note something I learned:
+        <script src = "myJS.js" defer></script>
+        the defer attribute is recommended, as it waits to run the JS until all the HTML is loaded, preventing errors. Note that defer is a boolean attribute, its presence enables it (NO need to do something like defer = "true")
+        Note that <script> is not a void element / self closing tag, mianly as you ca write direct JS in the field between the script tags.
+        
+        -->
+        
+    </head>
+        
+    <body style = "background-color:rgb(155, 221, 230);"> <!-- This is the YUCKY way of doing styling, a separate CSS (styling sheet) is recommended-->
+      <h1> What I have to say:  </h1>
+      <h6> I'm a way smaller heading! </h6>
+      <p>[insert cool quote] </p>
+      <p> I'm on the second line! </p>    <!---note that doing another praragraph puts it on a newline-->
+      <a href = "https://github.com/DaPoms"> Here is my github! </a> <!-- <a> is unique in that you specify the link within the tag -->
+       
+      <!-- using breaks can be avoided through css-->
+      <a href = "https://kirby.fandom.com/wiki/Kirby%27s_Epic_Yarn">  
+        <img src = "kirb.jpg" alt = "Cute kirby's epic yarn art" width = 500> <!-- Cool! If you provide only width/height, it will scale the other dimension-->
+      </a> <!-- The text used in the anchor/<a> can be any (visual) oobject too! including images -->
+      <p> Kirby's epic yarn is peak! Click the image above to learn more! </p>
+      <hr> <!-- horizontal rule: Makes a looooong line-->
+      <p title = "AAAAAAAAH YOU FOUND ME!"> Don't you dare hover over me! >:C
+      <div class = "code">
+        <pre>
+        Here is some code. I wrote this in the &ltpre&gt tag as it preserves formatting!: <!-- notice the use of &lt and &gt for the < and > signs-->
+            public class Main
+            {
+                public static void main(String[] args)
+                {
+                    System.out.println("Hello world!");
+                }
+            }
+        </pre>
+      </div>
+      <audio controls src = ./cheer.mp3> </audio> <!--controls allows the audio box to start/stop the audio on the webpage. Autoplay would allows it to play automatically on load-->
+      <img src = "./birb.jpg" width = 300 alt = "Cute photo of my pet cockatiel">
+
+      <p> here is my beautiful emoji: &#x1F424 and the summation symbol &#x03A3. It works due to UTF encoding</p>
+    </body> <!--indentation is recommended to be 2 spaces-->
+    
+</html>
