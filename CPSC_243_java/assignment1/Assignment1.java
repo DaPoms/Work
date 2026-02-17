@@ -16,6 +16,21 @@ import java.util.HashSet;
 import java.util.Arrays; // Is this allowed ?!?!?!?!?!??!?!?!?!?
 
 public class Assignment1 {
+    // ranked from lowest to highest value (royal flush is better than high card)
+    private enum Ranking 
+    {
+        HIGH_CARD, //0 (this is the assigned .ordinal() value of the enum)
+        ONE_PAIR, //1
+        TWO_PAIR, //2
+        THREE_OF_A_KIND, //3
+        STRAIGHT, //4
+        FLUSH, //5
+        FULL_HOUSE, //6
+        FOUR_OF_A_KIND, //7
+        STRAIGHT_FLUSH, //8
+        ROYAL_FLUSH //9
+    }
+    
     private static final String[] ranks = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
     private static final String[] suits = {"C","D","H","S"};
     public static void main(String[] args) {
@@ -40,16 +55,49 @@ public class Assignment1 {
         String[] stringDealer = stringifyHand(dealer);
 
         
-
-        determineRanking(player);
-        determineRanking(dealer);
+        
+        System.out.println("player rank = " + determineRanking(player));
+        System.out.println("dealer rank = " + determineRanking(dealer));
+        
         displayStringifiedHand(stringPlayer, "Your hand:");
         displayStringifiedHand(stringDealer, "Dealer's hand:");
     }//end main
 
-public static boolean top2RankDuplicates() //returns the 2 cards in hand with the most occurences of their rank (EX: 3 Aces and 1 Jack)
+public static int[][] top2RankDuplicates(int[] ranks) //returns the 2 cards in hand with the most occurences of their rank (EX: 3 Aces and 1 Jack)
 {
-    return -1;
+    int top2CardRanks[][] = new int[2][2]; // by "rank" I mean the value of the card. We are tracking the amount of pairs in this
+    int i = 0;
+    int topArrI = 0;
+    while(topArrI < 2) // initializes top2CardRank array with the 1st two cards (the count of the lowest rank cards)
+    {
+        if(ranks[i] != 0) 
+        {
+            top2CardRanks[topArrI][0] = i;
+            top2CardRanks[topArrI][1] = ranks[i];
+            topArrI++;
+        }
+        i++;
+    }
+
+    for(; i < ranks.length; i++) // for remaining cards, we try to find cards in our hand that have a higher quantity than the current top values
+    {
+        for(int[] currHighestStruct: top2CardRanks)
+            if(ranks[i] > currHighestStruct[1])
+            {
+                currHighestStruct[0] = i;
+                currHighestStruct[1] = ranks[i];
+                break; // we must break here to prevent writing the same solution twice
+            }
+    }
+
+    //lazy ordering check at the end to ensure first row contains the highest pair card
+    if(top2CardRanks[1][1] > top2CardRanks[0][1])
+    {
+        int[] placeholder = top2CardRanks[0];
+        top2CardRanks[0] = top2CardRanks[1];
+        top2CardRanks[1] = placeholder;
+    }
+    return top2CardRanks; //note the answer is ordered, so that the first row is the highest pair card and the 2nd is the 2nd highest pair card in the hand
 }
 
 //Code I made:///
@@ -67,10 +115,32 @@ public static boolean isAscending(int[] rankOccurences) //determines if hand is 
     int i = 0;
     while(rankOccurences[i] == 0) i++; //sets up to the first card we have from our hand 
     int endpoint = i + 5; // endpoint is 4 spaces from where the lowest rank card is
+    if(endpoint > rankOccurences.length) return false; //edge case where if the 1st card in ascending order is a 10, then it cannot be strictly ascending order
     for(; i < endpoint ; i++)
         if(rankOccurences[i] == 0) 
             return false;
   return true;
+}
+
+
+public static void extractHandAttributes(int[] hand, int[] rankOccurencesHolder) // I just wanted to use polymorphism (even though "attributes" doesn't make sense when theres only 1 attribute we extract)
+{
+        for(int cardID : hand)
+    {
+        int rank = cardID % 13; //int and rank are stored in their int form, so if you did ranks[rank] it would give the actual rank symbol, same with the suit.
+        rankOccurencesHolder[rank]++;
+    }
+}
+
+public static void extractHandAttributes(int[] hand, int[] suitOccurencesHolder, int[] rankOccurencesHolder) // solution is stored in the holder parameters
+{
+    for(int cardID : hand)
+    {
+        int rank = cardID % 13; //int and rank are stored in their int form, so if you did ranks[rank] it would give the actual rank symbol, same with the suit.
+        int suit = cardID / 13;
+        rankOccurencesHolder[rank]++;
+        suitOccurencesHolder[suit]++;
+    }
 }
 
 //things to check for ranking:
@@ -81,36 +151,49 @@ public static int determineRanking(int[] hand) // determines the ranking of a gi
 { // returns a score from low to high representing its ranking, with 0 being high card ranking and 9 being royal flush
     int[] suitOccurences = new int[suits.length]; // Keeps track of how many cards in each suit for the hand   // IS THIS ALLOWED IN JAVA?
     int[] rankOccurences = new int[ranks.length]; //keeps track of how many of each card rank
+    extractHandAttributes(hand, suitOccurences, rankOccurences); 
 
-    
-        
-    //maybe switch cases???? (return from highest -> lowest)
-    for(int cardID : hand)
-    {
-        int rank = cardID % 13; //int and rank are stored in their int form, so if you did ranks[rank] it would give the actual rank symbol, same with the suit.
-        int suit = cardID / 13;
-        rankOccurences[rank]++;
-        suitOccurences[suit]++;
-    }
+    //The 3 determiners of what type of ranking the hand has
+    boolean isSameSuit = isSameSuit(suitOccurences);
+    boolean isAscending = isAscending(rankOccurences);
+    int[][] top2CardCount = top2RankDuplicates(rankOccurences);
 
-    //isAscending(rankOccurences); // debug code!!!!!!
-    isSameSuit(suitOccurences);
-    //determine from high to low
-    //note only case of ace being high in ranking is a straight (5 consecutives)
-    // max pair counter
-    int consecutiveStreak = 0; //MAKE INTO A SEPARATE FUNCTION IREJGOIERJEGIEOIJGREOIRJGIJEROJGEIRGOIJEIIHGEIGH
-    int[] maxKind = new int[2]; // keeps track of the max amount of "kinds" of each card (ex: 4 of a kind)
-    for(int rankCount : rankOccurences)
-    {
-        if(rankCount == 0)
+
+    //Determining the hand type
+    //Must be done in order of highest to lowest ranking to make sure we don't give something like a royal flush something like a straight 
+
+    if(isAscending) // this block counts for straight flush and royal flush ()
+    { // TO DO: MAKE ACE BE CONSIDERED AS TOP FOR 10 J Q K A REIJGOIEJGJOREJOIDJIJOIJOIJSOIJOS
+        if(isSameSuit) 
         {
-            if(consecutiveStreak != 0)
-                consecutiveStreak = -10; // means streak was beaten, made negative just so we can check if -, then it means it is not consecutive 
+            if(rankOccurences[9] != 0) return Ranking.ROYAL_FLUSH.ordinal();
+            return Ranking.STRAIGHT_FLUSH.ordinal();
         }
-        else consecutiveStreak++;
     }
 
-  return -1;
+    if(top2CardCount[0][1] == 4) // 4 of a kind case
+        return Ranking.FOUR_OF_A_KIND.ordinal();
+    
+    if(top2CardCount[0][1] == 3 && top2CardCount[1][1] == 2)//Full house case
+        return Ranking.FULL_HOUSE.ordinal();
+
+    if(isSameSuit) //Flush case
+        return Ranking.FLUSH.ordinal(); 
+
+    if(isAscending) //Straight case
+        return Ranking.STRAIGHT.ordinal();
+
+    if(top2CardCount[0][1] >= 2) //for 3 of a kind, two pair, and one pair all together
+    {
+        if(top2CardCount[0][1] == 3) // case for three of a kind
+            return Ranking.THREE_OF_A_KIND.ordinal();
+        if(top2CardCount[1][1] == 2) //case for two pair
+            return Ranking.TWO_PAIR.ordinal();
+        return Ranking.ONE_PAIR.ordinal(); // implicit case for one pair (if there exists a >=2 grouping that <3 and does not have an additional 2 grouping, then its a one pair)
+    }
+
+    return Ranking.HIGH_CARD.ordinal();
+
 }
 
 public static void displayStringifiedHand(String[] hand, String title)
@@ -123,7 +206,7 @@ public static void displayStringifiedHand(String[] hand, String title)
 }
 public static String[] stringifyHand(int[] hand)
 {
-    String[] stringifiedHand = new String[hand.length];
+    String[] stringifiedHand = new String[hand.length]; //each card is held as 1 string in the string array
     for(int i = 0; i < hand.length; i++)
     {
         stringifiedHand[i] = ranks[hand[i] % 13];

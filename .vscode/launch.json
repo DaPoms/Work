@@ -6,7 +6,9 @@
             "request": "launch",
             "mainClass": "Assignment1",
             "projectName": "Work_e12e0c9c",
-            "args":["-p", "QD", "KD", "JD", "10D", "9D", "-d","AC","2S", "3C", "4C", "5C"] // this is for manual testing!
+            //"args":["-p", "QD", "QS", "QC", "10D", "10C", "-d","AC","2S", "3C", "3S", "5C"] // this is for manual testing!
+            "args":["-p", "JS", "JD", "JH", "4S", "4D", "-d","6C","7S", "8D", "9C", "10S"] // this is for manual testing!
+            //"args":["-p", "9D", "10S", "JC", "QD", "KC", "-d","5C","5S", "3D", "3C", "3S"] 
         },
         {
             "type": "java",
