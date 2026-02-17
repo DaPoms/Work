@@ -2,6 +2,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Assignment1",
+            "request": "launch",
+            "mainClass": "Assignment1",
+            "projectName": "Work_e12e0c9c",
+            "args":["-p", "QD", "KD", "JD", "10D", "9D", "-d","AC","2S", "3C", "4C", "5C"] // this is for manual testing!
+        },
+        {
+            "type": "java",
             "name": "Facts",
             "request": "launch",
             "mainClass": "Facts",
