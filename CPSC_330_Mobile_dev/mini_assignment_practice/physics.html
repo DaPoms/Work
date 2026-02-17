@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<head>
+  <title> Button + JS debug </title>
+  <style>
+    p::before, h1::after
+    {
+      content:"";
+      display:inline-block;
+      background-image:url("birb.jpg");
+      width:25px;
+      height:25px;
+      background-size: cover;
+      
+
+    }
+  </style>
+</head>
+
+<body>
+  
+
+  <h1> I've been infested with cute birb photos! </h1>
+  <div id = "test">
+    <img src = "#" id = "targetIMG" alt = "prob a cool image" width = "200">
+  <svg width = "200" height = "200">
+    <rect x = "50" y = "50" width = "50" height = "50" fill = "red" onclick = "document.getElementById('targetIMG').src = 'birb.jpg';"/>
+    <rect x = "100" y = "50" width = "50" height = "50" fill = "pink" onclick = "document.getElementById('targetIMG').src = 'kirb.jpg';"/>
+  </svg>
+    
+  </div>
+
+  <script defer>
+    const accelerationDueToGravity = 9.81;
+    let ballMass = 3, dropHeight, landElevation = 15, structureHeight = 20;
+    dropHeight = landElevation + structureHeight;
+    document.write("<p>A " + ballMass + " kg ball fell " + dropHeight + " m.</p>");
+    document.getElementById("test").insertAdjacentHTML("beforebegin", "<p>A " + ballMass + " kg ball fell " + dropHeight + " m.</p>"); //wow cool! you can reference innerHTML to retain the code we are adding onto
+  </script>
+   
+</body>
