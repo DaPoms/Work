@@ -51,17 +51,90 @@ public class Assignment1 {
 
         Arrays.sort(player); // is this allowed ? REIJOIRJJGEIJRJOGEGIJIGRGROIJGJREGIGRJEOJIJJJJIOJIJOJJOIOIJ
         Arrays.sort(dealer);    // I only do this as we were instructed to focus on one operation and a time, so dealHands() does not sort.
-        String[] stringPlayer = stringifyHand(player);
-        String[] stringDealer = stringifyHand(dealer);
 
+        int playerRanking = determineRanking(player);
+        int dealerRanking = determineRanking(dealer);
+         
+        boolean isPlayerWinner = isPlayerWinner(playerRanking, player, dealerRanking, dealer);
+       /*  System.out.println("player rank = " + determineRanking(player));
+        System.out.println("dealer rank = " + determineRanking(dealer)); */
+        printResult(player, playerRanking, dealer, dealerRanking, isPlayerWinner);
         
-        
-        System.out.println("player rank = " + determineRanking(player));
-        System.out.println("dealer rank = " + determineRanking(dealer));
-        
-        displayStringifiedHand(stringPlayer, "Your hand:");
-        displayStringifiedHand(stringDealer, "Dealer's hand:");
     }//end main
+
+
+public static String rankingScoreIntToString(int ranking)
+{
+    return switch(ranking)
+    {
+        case 0 -> "High Card"; 
+        case 1 -> "One Pair";
+        case 2 -> "Two Pair";
+        case 3 -> "Three of a Kind";
+        case 4 -> "Straight";
+        case 5 -> "Flush";
+        case 6 -> "Full House";
+        case 7 -> "Four of a Kind";
+        case 8 -> "Straight Flush";
+        case 9 -> "Royal Flush";
+        default -> "ERROR";
+    };
+}
+
+public static void printResult(int[] player, int playerRanking, int[] dealer, int dealerRanking, boolean isPlayerWinner)
+{
+    String[] stringPlayer = stringifyHand(player);
+    String[] stringDealer = stringifyHand(dealer);
+    String stringPlayerRank = rankingScoreIntToString(playerRanking);
+    String stringDealerRank = rankingScoreIntToString(dealerRanking);
+    displayStringifiedHand(stringPlayer, "Your hand:\nYou got a " + stringPlayerRank + ".");
+    System.out.println("\n-----------------------------\n");
+    displayStringifiedHand(stringDealer, "Dealer's hand:\nThe dealer got a " + stringDealerRank + ".");
+
+    if(isPlayerWinner) System.out.println("You win!");
+    else System.out.println("You lose! :C");
+}
+
+public static int determineHighestCard(int ranking, int[] hand) // TEST A LOTTTTTTTTTTTTTTT
+{ // do we need to account for kicker?????????>????? (what if its a two way tie, EX: P = 5 5 3 2 D = 5 5 3 2)
+    int[] rankOccurences = new int[ranks.length];
+    extractHandAttributes(hand, rankOccurences); // I know the name is plural but it only extracts a singular attribute, but I wanted to do polymorphism :C
+    if( (ranking > 0 && ranking < 4) || ranking == 7) // cases where the highest card needs to be considered only from the solution space. I call them the "pair" rankings (THIS IS CORRECT YES? the tie breaker is the card that contributed to rankingbodrfjierjbriotbjoerib jortiob jrtb jirtrtb jibjiortbjikort)
+    {
+        int arr[][] = top2RankDuplicates(rankOccurences); // we do all this work just to get the location of pairs
+        if(arr[0][0] == 0) return 13; // edge cases for aces (always treated as highest). arr[0][0] == 0 means if the 1st card of top 2 duplicates has the value 0 then it returns it (which is the value for ace)
+        if(arr[1][0] == 0) return 13; // Note that if a card is in the top2RankDuplicates, it means that the card is in our hand
+        return arr[0][0] > arr[1][0] ? arr[0][0] : arr[1][0]; // arr[#][0] the 0 references the card's value, # references my artificial card struct. Returns the higher card out of the top 2 duplicates
+    }
+    
+    // note that full house would also work if alloweed in the above statement too.
+    if(rankOccurences[0] != 0) //case of when to treat ace as higher value (straight flush, royal flush), but also the rankings that don't care about ascending order (high card, flush, full house)
+    {
+        // Note that everything in this section has to have an ascending order for the hand
+        if( (ranking == 0 || ranking == 6 || ranking == 5 ) || rankOccurences[12] != 0) //The straight treats ace as higher value if ace is placed at the top of an ascending order (King card must be present in hand in order for ace to be highest card)
+            return 13; // case of ace being considered the highest value (as it is at the end of the ascending order). We assign 13 as it is higher than the highest card value
+    }
+
+    //Only case that this is used is if a case does not appear in our hand or the ace is used as the lowest value in the ascending order
+    int i = rankOccurences.length - 1; // start at the end (the end is the highest card)
+    while(rankOccurences[i] == 0) //returns the first highest value card in the hand
+        --i; 
+
+    return i; // note that value is determined by it's index in the rankOccurence array due to the lowest value card being at the end (sometimes ace) and the highest at the top (K)
+}
+
+public static boolean isPlayerWinner(int playerRanking, int[] player, int dealerRanking, int[] dealer)
+{
+    if(playerRanking < dealerRanking)
+        return false;
+    else if (playerRanking == dealerRanking) // case of a 'tie', highest card wins
+    {
+        int playerHighest = determineHighestCard(playerRanking, player);
+        int dealerHighest = determineHighestCard(dealerRanking, dealer);
+        if(playerHighest < dealerHighest) return false;
+    }
+    return true;
+}
 
 public static int[][] top2RankDuplicates(int[] ranks) //returns the 2 cards in hand with the most occurences of their rank (EX: 3 Aces and 1 Jack)
 {
@@ -112,6 +185,15 @@ public static boolean isSameSuit(int[] suitOccurences)
 // is a sorted hand by rank order or by cardID REIJOJGEIROGJROGERJGIJREOIJREOIJGROIJGOIJGEGOIJREGJJOGEGOIJGOIJROIJGEJRGREOJGE
 public static boolean isAscending(int[] rankOccurences) //determines if hand is ascending based off of 
 {
+    
+    if(rankOccurences[0] != 0 && rankOccurences[1] == 0) //if an ace exists but it isnt ascending in terms of ace being the minimum, we treat ace as a maximum value instead
+    {
+        for(int i = rankOccurences.length - 4; i < rankOccurences.length; i++) // if ace is the max, then ascending is only considered when the cards are 10 J Q K A. This checks for 10 J Q K
+            if(rankOccurences[i] == 0) 
+                return false;
+    }
+    else
+    {
     int i = 0;
     while(rankOccurences[i] == 0) i++; //sets up to the first card we have from our hand 
     int endpoint = i + 5; // endpoint is 4 spaces from where the lowest rank card is
@@ -119,13 +201,14 @@ public static boolean isAscending(int[] rankOccurences) //determines if hand is 
     for(; i < endpoint ; i++)
         if(rankOccurences[i] == 0) 
             return false;
+    }
   return true;
 }
 
 
 public static void extractHandAttributes(int[] hand, int[] rankOccurencesHolder) // I just wanted to use polymorphism (even though "attributes" doesn't make sense when theres only 1 attribute we extract)
 {
-        for(int cardID : hand)
+    for(int cardID : hand)
     {
         int rank = cardID % 13; //int and rank are stored in their int form, so if you did ranks[rank] it would give the actual rank symbol, same with the suit.
         rankOccurencesHolder[rank]++;
@@ -247,7 +330,7 @@ public static String askUserName(Scanner cin)
 }
 public static void welcome(Scanner cin)
 {
-    System.out.println("Welcome to the game of Poker, " + askUserName(cin) + "!");
+    System.out.println("Welcome to the game of Poker, " + askUserName(cin) + "!\n");
 }
 
 public static void populateDeck(int[] deck) // I really only made this as I like the context the function name gives

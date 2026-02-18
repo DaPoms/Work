@@ -5,10 +5,42 @@
             "name": "Assignment1",
             "request": "launch",
             "mainClass": "Assignment1",
+            "projectName": "projects_995f6a6d",
+            "args": [
+                "-p",
+                "AC",
+                "10S",
+                "JD",
+                "QH",
+                "KS",
+                "-d",
+                "AS",
+                "2H",
+                "3H",
+                "4D",
+                "5S"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Assignment1",
+            "request": "launch",
+            "mainClass": "Assignment1",
             "projectName": "Work_e12e0c9c",
-            //"args":["-p", "QD", "QS", "QC", "10D", "10C", "-d","AC","2S", "3C", "3S", "5C"] // this is for manual testing!
-            "args":["-p", "JS", "JD", "JH", "4S", "4D", "-d","6C","7S", "8D", "9C", "10S"] // this is for manual testing!
-            //"args":["-p", "9D", "10S", "JC", "QD", "KC", "-d","5C","5S", "3D", "3C", "3S"] 
+            "args": [
+                "-p",
+                "10S",
+                "JD",
+                "QH",
+                "KS",
+                "AD",
+                "-d",
+                "6C",
+                "7S",
+                "8D",
+                "9C",
+                "10D"
+            ]
         },
         {
             "type": "java",
