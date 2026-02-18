@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h2>Use JavaScript to Change Text</h2>
+  <p>This example writes "A ball physics result!" into an HTML element with id="demo":</p>
+
+  <p id="demo"></p>
+
+  <script>
+    const accelerationDueToGravity = 9.81;
+    let ballMass = 3, dropHeight, landElevation = 10, structureHeight = 15;
+    dropHeight = landElevation + structureHeight;
+    let ans = "<p>A " + ballMass + " kg ball fell " + dropHeight + "m.</p>";
+    document.getElementById("demo").innerHTML = ans;
+    
+  </script> 
+
+</body>
+</html>
