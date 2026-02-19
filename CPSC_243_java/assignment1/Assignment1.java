@@ -248,7 +248,7 @@ public static int determineRanking(int[] hand) // determines the ranking of a gi
     if(isAscending) // this block counts for straight flush and royal flush ()
     { // TO DO: MAKE ACE BE CONSIDERED AS TOP FOR 10 J Q K A REIJGOIEJGJOREJOIDJIJOIJOIJSOIJOS
         if(isSameSuit) 
-        {
+         {
             if(rankOccurences[9] != 0) return Ranking.ROYAL_FLUSH.ordinal();
             return Ranking.STRAIGHT_FLUSH.ordinal();
         }
@@ -309,7 +309,7 @@ public static int dealHands(int[] deck, int[] player, int[] dealer) //returns cu
     int currDeckI = 0;
     currDeckI = fillHand(player, deck, currDeckI);
     currDeckI = fillHand(dealer, deck, currDeckI);
-    return currDeckI;
+    return currDeckI; //currDeckI would be used for the future drawing/discard mechanic, and also if multiple turns are implimented
 }
 public static int fillHand(int[] handReciever, int[] deck, int currDeckI)
 {
