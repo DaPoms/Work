@@ -13,10 +13,10 @@
 /************************************************************/
 import java.util.Scanner;
 import java.util.HashSet;
-import java.util.Arrays; // Is this allowed ?!?!?!?!?!??!?!?!?!?
+import java.util.Arrays; 
 
 public class Assignment1 {
-    // ranked from lowest to highest value (royal flush is better than high card)
+    // ranked from lowest to highest value (EX: royal flush is better than high card)
     private enum Ranking 
     {
         HIGH_CARD, //0 (this is the assigned .ordinal() value of the enum)
@@ -49,20 +49,25 @@ public class Assignment1 {
             int deckI = dealHands(deck, player, dealer); // The current position in the deck is saved for usage in what I assume we'll have to do for future assignments
         }//end if
 
-        Arrays.sort(player); // is this allowed ? REIJOIRJJGEIJRJOGEGIJIGRGROIJGJREGIGRJEOJIJJJJIOJIJOJJOIOIJ
+        Arrays.sort(player);
         Arrays.sort(dealer);    // I only do this as we were instructed to focus on one operation and a time, so dealHands() does not sort.
 
         int playerRanking = determineRanking(player);
         int dealerRanking = determineRanking(dealer);
          
         boolean isPlayerWinner = isPlayerWinner(playerRanking, player, dealerRanking, dealer);
-       /*  System.out.println("player rank = " + determineRanking(player));
-        System.out.println("dealer rank = " + determineRanking(dealer)); */
         printResult(player, playerRanking, dealer, dealerRanking, isPlayerWinner);
         
     }//end main
 
-
+/*************************************************************************/
+/*                                                                        
+/* Function name:   rankingScoreIntToString 
+/* Description:     Converts the int value/score of a ranking to its String representation
+/* Parameters:      int ranking - The int representation of a hand's ranking (can only be 0-9) 
+/* Return Value:    String - The String representation of the passed ranking score
+/*
+/*************************************************************************/
 public static String rankingScoreIntToString(int ranking)
 {
     return switch(ranking)
@@ -81,6 +86,19 @@ public static String rankingScoreIntToString(int ranking)
     };
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   printResult 
+/* Description:     Displays to the terminal a visual representation of the poker game's result, 
+                    printing the dealer and player hands, what ranking each hand achieved, and who won.
+/* Parameters:      int[] player - An array representing the player's poker hand, with each card represented through its unique ID (0-51)
+                    int playerRanking - The value the player's hand contains, represented as an int (0 = lowest/worst ranking, 9 = highest/best)
+                    int[] dealer - An array representing the dealer's poker hand, with each card represented through its unique ID (0-51)
+                    int dealerRanking - The value the dealer's hand contains, represented as an int (0 = lowest/worst ranking, 9 = highest/best)
+                    boolean isPlayerWinner - True when the player's hand is the winner (beats the dealer), false otherwise.
+/* Return Value:    void 
+/*
+/*************************************************************************/
 public static void printResult(int[] player, int playerRanking, int[] dealer, int dealerRanking, boolean isPlayerWinner)
 {
     String[] stringPlayer = stringifyHand(player);
@@ -95,24 +113,33 @@ public static void printResult(int[] player, int playerRanking, int[] dealer, in
     else System.out.println("You lose! :C");
 }
 
+
+/*************************************************************************/
+/*                                                                        
+/* Function name:   determineHighestCard 
+/* Description:     Determines and returns the highest card that played a role in the hand's ranking.
+/* Parameters:      int ranking - The int representation of a hand's ranking (can only be 0-9) 
+                    int[] hand - An array representing the passed poker hand (of size 5), with each card represented through its unique ID (0-51)
+/* Return Value:    int - The value of the the highest card in the hand for the passed ranking
+/*
+/*************************************************************************/
 public static int determineHighestCard(int ranking, int[] hand) // TEST A LOTTTTTTTTTTTTTTT
-{ // do we need to account for kicker?????????>????? (what if its a two way tie, EX: P = 5 5 3 2 D = 5 5 3 2)
+{ // For future (not current assignment): (what if its a two way tie? EX: P = 5 5 3 2 A  = 5 5 3 2 J) Also royal flush tie's are so rare theres no reason to program for it
     int[] rankOccurences = new int[ranks.length];
     extractHandAttributes(hand, rankOccurences); // I know the name is plural but it only extracts a singular attribute, but I wanted to do polymorphism :C
-    if( (ranking > 0 && ranking < 4) || ranking == 7) // cases where the highest card needs to be considered only from the solution space. I call them the "pair" rankings (THIS IS CORRECT YES? the tie breaker is the card that contributed to rankingbodrfjierjbriotbjoerib jortiob jrtb jirtrtb jibjiortbjikort)
+    if( (ranking > Ranking.HIGH_CARD.ordinal() && ranking < Ranking.STRAIGHT.ordinal()) || ranking == Ranking.FOUR_OF_A_KIND.ordinal()) // cases where the highest card needs to be considered only from the solution space. I call them the "pair" rankings (THIS IS CORRECT YES? the tie breaker is the card that contributed to rankingbodrfjierjbriotbjoerib jortiob jrtb jirtrtb jibjiortbjikort)
     {
-        int arr[][] = top2RankDuplicates(rankOccurences); // we do all this work just to get the location of pairs
+        int arr[][] = top2RankDuplicates(rankOccurences); // we do all this work just to get the identity  of the pairs/cards used for the "kind" based rankings
         if(arr[0][0] == 0) return 13; // edge cases for aces (always treated as highest). arr[0][0] == 0 means if the 1st card of top 2 duplicates has the value 0 then it returns it (which is the value for ace)
-        if(arr[1][0] == 0) return 13; // Note that if a card is in the top2RankDuplicates, it means that the card is in our hand
-        return arr[0][0] > arr[1][0] ? arr[0][0] : arr[1][0]; // arr[#][0] the 0 references the card's value, # references my artificial card struct. Returns the higher card out of the top 2 duplicates
-    }
+        if(arr[1][0] == 0 && arr[1][1] > 1) return 13; //we need to account for one pair with the arr[1][1] > 1 as we must only consider the 1 pair for 1 pair (DUH!)
+        return (arr[1][1] <= 1 || arr[0][0] > arr[1][0]) ? arr[0][0] : arr[1][0]; // arr[#][0] the 0 references the card's value, # references my artificial card struct. Returns the higher card out of the top 2 duplicates
+    }   // in the above, arr[1][1] <= 1 states that if there is no additional pair (only 2 pair will have an additional pair case), then we automatically return the 1st pair instead
     
-    // note that full house would also work if alloweed in the above statement too.
-    if(rankOccurences[0] != 0) //case of when to treat ace as higher value (straight flush, royal flush), but also the rankings that don't care about ascending order (high card, flush, full house)
+    // note that full house would also work if allowed in the above statement too. Its just less demanding over here
+    if(rankOccurences[0] != 0) //if hand contains ace... note at this point we have high card, straight, flush, full house, straigth flush, and royal flush
     {
-        // Note that everything in this section has to have an ascending order for the hand
-        if( (ranking == 0 || ranking == 6 || ranking == 5 ) || rankOccurences[12] != 0) //The straight treats ace as higher value if ace is placed at the top of an ascending order (King card must be present in hand in order for ace to be highest card)
-            return 13; // case of ace being considered the highest value (as it is at the end of the ascending order). We assign 13 as it is higher than the highest card value
+        if (( ranking != Ranking.STRAIGHT.ordinal() && ranking != Ranking.STRAIGHT_FLUSH.ordinal() ) || rankOccurences[12] != 0)//The straight treats ace as higher value if ace is placed at the top of an ascending order (cards from 10 - king must be present in hand in order for ace to be highest card)
+            return 13; // I separated these two cases just to make my code more vertical
     }
 
     //Only case that this is used is if a case does not appear in our hand or the ace is used as the lowest value in the ascending order
@@ -123,6 +150,17 @@ public static int determineHighestCard(int ranking, int[] hand) // TEST A LOTTTT
     return i; // note that value is determined by it's index in the rankOccurence array due to the lowest value card being at the end (sometimes ace) and the highest at the top (K)
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   isPlayerWinner
+/* Description:     Given the ranking between hands, returns if the player beat the dealer or not. Also deals with the case of a tie (having the same ranking)
+/* Parameters:      int[] player - An array representing the player's poker hand, with each card represented through its unique ID (0-51)
+                    int playerRanking - The value the player's hand contains, represented as an int (0 = lowest/worst ranking, 9 = highest/best)
+                    int[] dealer - An array representing the dealer's poker hand, with each card represented through its unique ID (0-51)
+                    int dealerRanking - The value the dealer's hand contains, represented as an int (0 = lowest/worst ranking, 9 = highest/best)
+/* Return Value:    boolean - Returns true if the player beat the dealer in the game of poker, false other wise.
+/*
+/*************************************************************************/
 public static boolean isPlayerWinner(int playerRanking, int[] player, int dealerRanking, int[] dealer)
 {
     if(playerRanking < dealerRanking)
@@ -136,6 +174,17 @@ public static boolean isPlayerWinner(int playerRanking, int[] player, int dealer
     return true;
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   top2RankDuplicates
+/* Description:     Finds the top 2 cards in terms of their quantity in a hand and returns them in a 2d array.
+/* Parameters:      int[] ranks - An array containing all the ranks a poker hand contains and their respective quantities (includes all ranks, but one's not included in the hand are set to 0). 
+                    ranks is addressed from 0-12, with index 0 being ace and 12 being king.
+/* Return Value:    int[][] - The representation of the top 2 cards in terms of quantity. the first [] is for the card, 
+                    with [0] being the highest quantity and [1] being the second highest quantity. the second [] is for the actual quantity of that card, 
+                    so [0][1] would return the quantity of the first card
+/*
+/*************************************************************************/
 public static int[][] top2RankDuplicates(int[] ranks) //returns the 2 cards in hand with the most occurences of their rank (EX: 3 Aces and 1 Jack)
 {
     int top2CardRanks[][] = new int[2][2]; // by "rank" I mean the value of the card. We are tracking the amount of pairs in this
@@ -173,7 +222,15 @@ public static int[][] top2RankDuplicates(int[] ranks) //returns the 2 cards in h
     return top2CardRanks; //note the answer is ordered, so that the first row is the highest pair card and the 2nd is the 2nd highest pair card in the hand
 }
 
-//Code I made:///
+/*************************************************************************/
+/*                                                                        
+/* Function name:   isSameSuit
+/* Description:     Returns whether or not all the cards in a given poker hand are from the same suit
+/* Parameters:      int[] suitOccurences - The array holding the suits and the occurences of each suit for a given hand. 
+                    The array's index range is 0-3, with 0 being clubs, 1 being diamonds, 2 hearts, and 3 being spades
+/* Return Value:    boolean - True if hand has cards of all the same suit, false otherwise
+/*
+/*************************************************************************/
 public static boolean isSameSuit(int[] suitOccurences)
 {
     for(int i : suitOccurences)
@@ -182,7 +239,15 @@ public static boolean isSameSuit(int[] suitOccurences)
     return true;
 }
 
-// is a sorted hand by rank order or by cardID REIJOJGEIROGJROGERJGIJREOIJREOIJGROIJGOIJGEGOIJREGJJOGEGOIJGOIJROIJGEJRGREOJGE
+/*************************************************************************/
+/*                                                                        
+/* Function name:   isAscending
+/* Description:     Returns if a given hand is in ascending order
+/* Parameters:      int[] rankOccurences-  An array containing all the ranks a poker hand contains and their respective quantities (includes all ranks, but one's not included in the hand are set to 0). 
+                    ranks is addressed from 0-12, with index 0 being ace and 12 being king.
+/* Return Value:    boolean - True if the passed rank representation of the poker hand is in ascending order
+/*
+/*************************************************************************/
 public static boolean isAscending(int[] rankOccurences) //determines if hand is ascending based off of 
 {
     
@@ -205,7 +270,15 @@ public static boolean isAscending(int[] rankOccurences) //determines if hand is 
   return true;
 }
 
-
+/*************************************************************************/
+/*                                                                        
+/* Function name:   extractHandAttributes
+/* Description:     Aquires the quantity of each card type from a given poker hand and stores it in the passed rankOccurencesHolder array
+/* Parameters:      int[] hand - An array representing the passed poker hand (of size 5), with each card represented through its unique ID (0-51)
+                    int[] rankOccurencesHolder - The array that holds the quantity of each rank from the hand
+/* Return Value:    void
+/*
+/*************************************************************************/
 public static void extractHandAttributes(int[] hand, int[] rankOccurencesHolder) // I just wanted to use polymorphism (even though "attributes" doesn't make sense when theres only 1 attribute we extract)
 {
     for(int cardID : hand)
@@ -215,6 +288,17 @@ public static void extractHandAttributes(int[] hand, int[] rankOccurencesHolder)
     }
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   extractHandAttributes
+/* Description:     Aquires the quantity of each card type from a given poker hand and stores it in the passed
+                    rankOccurencesHolder array and also gets the occurences of each suit from the hand to store in suitOccurencesHolder
+/* Parameters:      int[] hand - An array representing the passed poker hand (of size 5), with each card represented through its unique ID (0-51)
+                    int[] rankOccurencesHolder - The array that holds the quantity of each rank from the hand (answer is stored via parameters due to there being two arrays)
+                    nt[] suitOccurencesHolder - The array that holds the suit count of each suit from the card in a poker hand
+/* Return Value:    void (answer storage done via int[] parameters)
+/*
+/*************************************************************************/
 public static void extractHandAttributes(int[] hand, int[] suitOccurencesHolder, int[] rankOccurencesHolder) // solution is stored in the holder parameters
 {
     for(int cardID : hand)
@@ -226,6 +310,16 @@ public static void extractHandAttributes(int[] hand, int[] suitOccurencesHolder,
     }
 }
 
+
+
+/*************************************************************************/
+/*                                                                        
+/* Function name:   determineRanking
+/* Description:     determines what ranking a given hand has (High card, two pair, etc...)
+/* Parameters:      int[] hand - An array representing the passed poker hand (of size 5), with each card represented through its unique ID (0-51)
+/* Return Value:    int - the score/value attributed to that ranking (I used enum's and converted them to ints to make the value comparing much more readable)
+/*
+/*************************************************************************/
 //things to check for ranking:
 // 1. Suit amounts
 // 2. Rank types (check for pairs)
@@ -249,7 +343,7 @@ public static int determineRanking(int[] hand) // determines the ranking of a gi
     { // TO DO: MAKE ACE BE CONSIDERED AS TOP FOR 10 J Q K A REIJGOIEJGJOREJOIDJIJOIJOIJSOIJOS
         if(isSameSuit) 
          {
-            if(rankOccurences[9] != 0) return Ranking.ROYAL_FLUSH.ordinal();
+            if(rankOccurences[9] != 0 && rankOccurences[0] != 0) return Ranking.ROYAL_FLUSH.ordinal();
             return Ranking.STRAIGHT_FLUSH.ordinal();
         }
     }
@@ -279,6 +373,16 @@ public static int determineRanking(int[] hand) // determines the ranking of a gi
 
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   displayStringifiedHand
+/* Description:     prints a hand that has already been converted into a string, introducing it with whatever title is passed
+/* Parameters:      String[] hand - An array representing the poker hand (of size 5), with each card represented through 2-3 chars.
+                    the first 1-2 chars are for the name (A,2,3,4,5,6,7,8,9,10,J,Q,K) and the last char is for the suit (C,D,H,S == club, diamond, heart, spade)
+                    String title - the additional message we want to introduce printing the hand with (will be printed above the hand display)
+/* Return Value:    void
+/*
+/*************************************************************************/
 public static void displayStringifiedHand(String[] hand, String title)
 {
   System.out.println(title);
@@ -287,6 +391,15 @@ public static void displayStringifiedHand(String[] hand, String title)
   // insert rank here (flush, high card, etc...)
   System.out.println();
 }
+
+/*************************************************************************/
+/*                                                                        
+/* Function name:   stringifyHand
+/* Description:     Turns the integer representation of a poker hand's cards into a string form
+/* Parameters:      int[] hand - An array representing the passed poker hand (of size 5), with each card represented through its unique ID (0-51)
+/* Return Value:    String[] - the string representation of the passed poker hand (each index leads to another card in the hand, 5 total)
+/*
+/*************************************************************************/
 public static String[] stringifyHand(int[] hand)
 {
     String[] stringifiedHand = new String[hand.length]; //each card is held as 1 string in the string array
@@ -298,19 +411,49 @@ public static String[] stringifyHand(int[] hand)
     return stringifiedHand;
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   SortHands
+/* Description:     Very basic function that just sorts the player and dealer's hand by each card's id value
+/* Parameters:      int[] player - the int representation of the player's poker hand
+                    int[] delaer - the int representatio nof the dealer's poker hand
+/* Return Value:    void
+/*
+/*************************************************************************/
 public static void sortHands(int[] player, int[] dealer)
 {
     Arrays.sort(player);
     Arrays.sort(dealer);
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   dealHands
+/* Description:     Provides both the player and dealer in a game of poker with their poker hands, stored in int[] form
+/* Parameters:      int[] deck - The deck of cards used in the poker game, with there being 52 cards total numbered from 0-51.
+                    Cards should be shuffled prior to using dealHands() for the first time through
+                    int[] player - The player's empty hand where their dealt hand will be stored
+                    int[] dealer - The dealer's empty hand where their dealt hand will be stored
+/* Return Value:    int - the index to the face of the draw pile after doing these draws
+/*
+/*************************************************************************/
 public static int dealHands(int[] deck, int[] player, int[] dealer) //returns current deck position
 {
-    int currDeckI = 0;
+    int currDeckI = 0; // the current deck position (the face of the draw pile)
     currDeckI = fillHand(player, deck, currDeckI);
     currDeckI = fillHand(dealer, deck, currDeckI);
     return currDeckI; //currDeckI would be used for the future drawing/discard mechanic, and also if multiple turns are implimented
 }
+
+/*************************************************************************/
+/*                                                                        
+/* Function name:   fillHand
+/* Description:     Fills the passed hand with 5 cards from the draw pile
+/* Parameters:      int[] handReciever - What recieves the poker hand that we are filling.
+                    int[] deck - Where we draw from. This should be a shuffled deck of cards numbered from 0-51
+/* Return Value:    int - the index to the face of the draw pile after doing this draw
+/*
+/*************************************************************************/
 public static int fillHand(int[] handReciever, int[] deck, int currDeckI)
 {
     int handI = 0;
@@ -323,17 +466,42 @@ public static int fillHand(int[] handReciever, int[] deck, int currDeckI)
     return currDeckI;
 }
 
+/*************************************************************************/
+/*                                                                        
+/* Function name:   askUserName
+/* Description:     Asks the user for a name and then returns what they entered
+/* Parameters:      Scanner cin - The scanner object we use to read user input
+/* Return Value:    String - The username that the user enters
+/*
+/*************************************************************************/
 public static String askUserName(Scanner cin)
 {
     System.out.print("Enter your username: ");
     return cin.nextLine();
 }
+
+/*************************************************************************/
+/*                                                                        
+/* Function name:   welcome
+/* Description:     Asks the user for their name and then greets them to Poker, referencing their name
+/* Parameters:      Scanner cin - The Scanner object we use to read user input
+/* Return Value:    void
+/*
+/*************************************************************************/
 public static void welcome(Scanner cin)
 {
     System.out.println("Welcome to the game of Poker, " + askUserName(cin) + "!\n");
 }
 
-public static void populateDeck(int[] deck) // I really only made this as I like the context the function name gives
+/*************************************************************************/
+/*                                                                        
+/* Function name:   populateDeck
+/* Description:     Fills the passed deck with cards represented as ints, from 0 to whatever size the deck is. For poker, it is 52
+/* Parameters:      int[] deck - The empty (or will overwrite) deck that we add ascendingly numbered cards via int representation.
+/* Return Value:    void
+/*
+/*************************************************************************/
+public static void populateDeck(int[] deck) // I really only made this as I like the context the function name gives (maybe useful in the future????)
 {
     for(int i = 0; i < deck.length; i++)
         deck[i] = i;
@@ -342,7 +510,7 @@ public static void populateDeck(int[] deck) // I really only made this as I like
 ////////////////
 
 
-private static void shuffle(int[] d) //premade code from professor
+private static void shuffle(int[] d) //premade code from professor ( I assume we do not need to document this because you provided it, and it's kind of common sense what this does)
 {
     for(int i = d.length - 1; i > 0; i--) {
         int rnd = (int) (Math.random() * (i + 1));

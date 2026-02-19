@@ -8,11 +8,11 @@
             "projectName": "projects_995f6a6d",
             "args": [
                 "-p",
-                "AC",
-                "10S",
+                "AD",
+                "10D",
                 "JD",
-                "QH",
-                "KS",
+                "QD",
+                "KD",
                 "-d",
                 "AS",
                 "2H",
@@ -21,27 +21,27 @@
                 "5S"
             ]
         },
+
+
+
+
+
+
+
+
         {
             "type": "java",
             "name": "Assignment1",
             "request": "launch",
             "mainClass": "Assignment1",
             "projectName": "Work_e12e0c9c",
-            "args": [
-                "-p",
-                "10S",
-                "JD",
-                "QH",
-                "KS",
-                "AD",
-                "-d",
-                "6C",
-                "7S",
-                "8D",
-                "9C",
-                "10D"
-            ]
+            "args": ["-p", "AH", "JH", "QH", "KH", "10H", "-d", "AS", "AD", "AC", "5S", "2D"]
         },
+
+
+
+
+
         {
             "type": "java",
             "name": "Facts",
