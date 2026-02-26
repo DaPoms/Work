@@ -4,13 +4,35 @@ import java.util.Random;
 import java.lang.StringBuilder;
 public class Account 
 {
-    static int numAccs;
-    final double ANNUALIR = 0.03; //in percent
-    long id;
-    String name;
-    LocalDate dateCreated;
-    double balance;
+    private static int numAccs = 0;
+    private static final double ANNUALIR = 0.03; //in percent, static under the asumption that everyone gets the same value
+    private long id;
+    private String name;
+    private LocalDate dateCreated;
+    private double balance;
 
+
+
+    public long getID(){return id;}
+    public String getName(){return name;}
+    public LocalDate getDateCreated(){return dateCreated;}
+    public double getBalance(){return balance;}
+    public static double getAnnualIR(){return ANNUALIR;}
+    public static int getNumAccs(){return numAccs;}
+
+    public void setName(String name){this.name = name;}
+    
+    public void withdraw(double amount)
+    {
+        if(amount < balance && amount > 0)
+            balance -= amount;
+    }
+    public void deposit(double amount)
+    {
+        if(amount > 0)
+            balance += amount;
+    }
+    
     Account()
     {
         name = "Anonymous";
@@ -30,7 +52,7 @@ public class Account
         numAccs++;
     }
 
-    public double getMonthlyIR()
+    public static double getMonthlyIR()
     {
         return ANNUALIR / 12;
     }
@@ -63,7 +85,7 @@ public class Account
         System.out.println("My account name: " + myAcc.name);
         System.out.println("My account ID: " + myAcc.id);
         System.out.println("My account creation date: " + myAcc.dateCreated);
-        System.out.println("My account balance: " + myAcc.balance);
+        System.out.println("My account balance: " + myAcc.balance); // we can still do this as main is placed inside of Account class
         System.out.println(myAcc); // APPLIES toString() automatically as long as case sensitive name of "toString"
         System.out.println("Monthly interest: " + myAcc.getMonthlyInterest());
         System.out.println("Am I broke?: " + myAcc.isBroke());

@@ -1,14 +1,15 @@
 /************************************************************/
-/* Author: Daniel Tripoli                                   */
-/* Major: Computer Science                                  */
-/* Creation Date: February 13, 2026                         */
-/* Due Date: February 20, 2026                              */
-/* Course: CPSC 243 010                                     */
+/* Author:         Daniel Tripoli                           */
+/* Major:          Computer Science                         */
+/* Creation Date:  February 13, 2026                        */
+/* Due Date:       February 20, 2026                        */
+/* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Assignment: #1                                           */
-/* Filename: assignment1.txt                                */
-/* Purpose: Impliment hand system + win/lose hand mechanic  */
-/*                    of poker                              */
+/* Assignment:     #1                                       */
+/* Filename:       assignment1.txt                          */
+/* Purpose:        Impliment hand system + win/lose hand    */
+/*                 mechanic of poker                        */
+/*                                                          */
 /*                                                          */
 /************************************************************/
 import java.util.Scanner;
@@ -38,7 +39,10 @@ public class Assignment1 {
         int[] deck = new int[52];
         int[] player = new int[5];
         int[] dealer = new int[5];
-        welcome(cin);
+
+        System.out.print("Enter your username: "); // I did this and the below name code because instructionsstate that I/O should be separate, so a welcome() function that asks a user name and prints it out would be breaking the rule
+        String name = cin.nextLine();
+        welcome(name);
         populateDeck(deck);
         shuffle(deck);
         
@@ -56,7 +60,13 @@ public class Assignment1 {
         int dealerRanking = determineRanking(dealer);
          
         boolean isPlayerWinner = isPlayerWinner(playerRanking, player, dealerRanking, dealer);
-        printResult(player, playerRanking, dealer, dealerRanking, isPlayerWinner);
+
+        //Once again, the below code is made to separate operations from output (printResult())
+        String[] stringPlayer = stringifyHand(player);
+        String[] stringDealer = stringifyHand(dealer);
+        String stringPlayerRank = rankingScoreIntToString(playerRanking);
+        String stringDealerRank = rankingScoreIntToString(dealerRanking);
+        printResult(stringPlayer, stringPlayerRank, stringDealer, stringDealerRank, isPlayerWinner);
         
     }//end main
 
@@ -99,16 +109,13 @@ public static String rankingScoreIntToString(int ranking)
 /* Return Value:    void 
 /*
 /*************************************************************************/
-public static void printResult(int[] player, int playerRanking, int[] dealer, int dealerRanking, boolean isPlayerWinner)
+public static void printResult(String[] stringPlayer, String stringPlayerRank, String[] stringDealer, String stringDealerRank, boolean isPlayerWinner)
 {
-    String[] stringPlayer = stringifyHand(player);
-    String[] stringDealer = stringifyHand(dealer);
-    String stringPlayerRank = rankingScoreIntToString(playerRanking);
-    String stringDealerRank = rankingScoreIntToString(dealerRanking);
     displayStringifiedHand(stringPlayer, "Your hand:\nYou got a " + stringPlayerRank + ".");
     System.out.println("\n-----------------------------\n");
     displayStringifiedHand(stringDealer, "Dealer's hand:\nThe dealer got a " + stringDealerRank + ".");
 
+    System.out.print("\nRound result: ");
     if(isPlayerWinner) System.out.println("You win!");
     else System.out.println("You lose! :C");
 }
@@ -123,11 +130,11 @@ public static void printResult(int[] player, int playerRanking, int[] dealer, in
 /* Return Value:    int - The value of the the highest card in the hand for the passed ranking
 /*
 /*************************************************************************/
-public static int determineHighestCard(int ranking, int[] hand) // TEST A LOTTTTTTTTTTTTTTT
+public static int determineHighestCard(int ranking, int[] hand) 
 { // For future (not current assignment): (what if its a two way tie? EX: P = 5 5 3 2 A  = 5 5 3 2 J) Also royal flush tie's are so rare theres no reason to program for it
     int[] rankOccurences = new int[ranks.length];
     extractHandAttributes(hand, rankOccurences); // I know the name is plural but it only extracts a singular attribute, but I wanted to do polymorphism :C
-    if( (ranking > Ranking.HIGH_CARD.ordinal() && ranking < Ranking.STRAIGHT.ordinal()) || ranking == Ranking.FOUR_OF_A_KIND.ordinal()) // cases where the highest card needs to be considered only from the solution space. I call them the "pair" rankings (THIS IS CORRECT YES? the tie breaker is the card that contributed to rankingbodrfjierjbriotbjoerib jortiob jrtb jirtrtb jibjiortbjikort)
+    if( (ranking > Ranking.HIGH_CARD.ordinal() && ranking < Ranking.STRAIGHT.ordinal()) || ranking == Ranking.FOUR_OF_A_KIND.ordinal()) // cases where the highest card needs to be considered only from the solution space. I call them the "pair" rankings 
     {
         int arr[][] = top2RankDuplicates(rankOccurences); // we do all this work just to get the identity  of the pairs/cards used for the "kind" based rankings
         if(arr[0][0] == 0) return 13; // edge cases for aces (always treated as highest). arr[0][0] == 0 means if the 1st card of top 2 duplicates has the value 0 then it returns it (which is the value for ace)
@@ -136,7 +143,7 @@ public static int determineHighestCard(int ranking, int[] hand) // TEST A LOTTTT
     }   // in the above, arr[1][1] <= 1 states that if there is no additional pair (only 2 pair will have an additional pair case), then we automatically return the 1st pair instead
     
     // note that full house would also work if allowed in the above statement too. Its just less demanding over here
-    if(rankOccurences[0] != 0) //if hand contains ace... note at this point we have high card, straight, flush, full house, straigth flush, and royal flush
+    if(rankOccurences[0] != 0) //if hand contains ace... note at this point we have high card, straight, flush, full house, straight flush, and royal flush
     {
         if (( ranking != Ranking.STRAIGHT.ordinal() && ranking != Ranking.STRAIGHT_FLUSH.ordinal() ) || rankOccurences[12] != 0)//The straight treats ace as higher value if ace is placed at the top of an ascending order (cards from 10 - king must be present in hand in order for ace to be highest card)
             return 13; // I separated these two cases just to make my code more vertical
@@ -340,7 +347,7 @@ public static int determineRanking(int[] hand) // determines the ranking of a gi
     //Must be done in order of highest to lowest ranking to make sure we don't give something like a royal flush something like a straight 
 
     if(isAscending) // this block counts for straight flush and royal flush ()
-    { // TO DO: MAKE ACE BE CONSIDERED AS TOP FOR 10 J Q K A REIJGOIEJGJOREJOIDJIJOIJOIJSOIJOS
+    { 
         if(isSameSuit) 
          {
             if(rankOccurences[9] != 0 && rankOccurences[0] != 0) return Ranking.ROYAL_FLUSH.ordinal();
@@ -466,31 +473,18 @@ public static int fillHand(int[] handReciever, int[] deck, int currDeckI)
     return currDeckI;
 }
 
-/*************************************************************************/
-/*                                                                        
-/* Function name:   askUserName
-/* Description:     Asks the user for a name and then returns what they entered
-/* Parameters:      Scanner cin - The scanner object we use to read user input
-/* Return Value:    String - The username that the user enters
-/*
-/*************************************************************************/
-public static String askUserName(Scanner cin)
-{
-    System.out.print("Enter your username: ");
-    return cin.nextLine();
-}
 
 /*************************************************************************/
 /*                                                                        
 /* Function name:   welcome
 /* Description:     Asks the user for their name and then greets them to Poker, referencing their name
-/* Parameters:      Scanner cin - The Scanner object we use to read user input
+/* Parameters:      String name - The name of the user (likely aquired through input)
 /* Return Value:    void
 /*
 /*************************************************************************/
-public static void welcome(Scanner cin)
+public static void welcome(String name)
 {
-    System.out.println("Welcome to the game of Poker, " + askUserName(cin) + "!\n");
+    System.out.println("Welcome to the game of Poker, " + name + "!\n");
 }
 
 /*************************************************************************/
@@ -503,7 +497,7 @@ public static void welcome(Scanner cin)
 /*************************************************************************/
 public static void populateDeck(int[] deck) // I really only made this as I like the context the function name gives (maybe useful in the future????)
 {
-    for(int i = 0; i < deck.length; i++)
+    for(int i = 0; i < deck.length; i++) // fills deck with 0 - decklength of cards. The stored number matches their index (so the deck is effectively unshuffled)
         deck[i] = i;
 } 
 

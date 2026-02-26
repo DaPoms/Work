@@ -35,7 +35,7 @@
             "request": "launch",
             "mainClass": "Assignment1",
             "projectName": "Work_e12e0c9c",
-            "args": ["-p", "AH", "JH", "QH", "KH", "10H", "-d", "AS", "AD", "AC", "5S", "2D"]
+            "args": ["-p", "AH", "2H", "3H", "4H", "5H", "-d", "AS", "AD", "AC", "5S", "2D"]
         },
 
 
