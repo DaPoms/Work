@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Game",
+            "request": "launch",
+            "mainClass": "fiveCard.Game",
+            "projectName": "Work_e12e0c9c"
+        },
+        {
+            "type": "java",
             "name": "Assignment1",
             "request": "launch",
             "mainClass": "Assignment1",
@@ -21,27 +28,27 @@
                 "5S"
             ]
         },
-
-
-
-
-
-
-
-
         {
             "type": "java",
             "name": "Assignment1",
             "request": "launch",
             "mainClass": "Assignment1",
             "projectName": "Work_e12e0c9c",
-            "args": ["-p", "AH", "2H", "3H", "4H", "5H", "-d", "AS", "AD", "AC", "5S", "2D"]
+            "args": [
+                "-p",
+                "AH",
+                "2H",
+                "3H",
+                "4H",
+                "5H",
+                "-d",
+                "AS",
+                "AD",
+                "AC",
+                "5S",
+                "2D"
+            ]
         },
-
-
-
-
-
         {
             "type": "java",
             "name": "Facts",
