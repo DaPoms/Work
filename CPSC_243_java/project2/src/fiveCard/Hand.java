@@ -9,10 +9,7 @@ package fiveCard;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-// IS THIS ILLEGAL EIWJGOIERIJOJJOIEGJEEJGEJOGIERJGOERJGEOIRJGOERIJGEORGJEORIGJEORIJEORJEROIREJGOERIJOERGJOIREJ I added an import
-import fiveCard.Card.Rank;
-import fiveCard.Card.Suit;
-////////////////////////////
+
 /// 
 /**
  * This class represents all data and related operations for a hand of playing cards
@@ -89,6 +86,7 @@ public class Hand {
                 return false;
         return true;
     }
+    
     
 /*     
     HandRank getHandRank()

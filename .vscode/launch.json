@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Card",
+            "request": "launch",
+            "mainClass": "fiveCard.Card",
+            "projectName": "projects_995f6a6d"
+        },
+        {
+            "type": "java",
+            "name": "Game",
+            "request": "launch",
+            "mainClass": "fiveCard.Game",
+            "projectName": "projects_995f6a6d"
+        },
+        {
+            "type": "java",
             "name": "Game",
             "request": "launch",
             "mainClass": "fiveCard.Game",
