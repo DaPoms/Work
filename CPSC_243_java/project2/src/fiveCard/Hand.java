@@ -9,10 +9,7 @@ package fiveCard;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-// IS THIS ILLEGAL EIWJGOIERIJOJJOIEGJEEJGEJOGIERJGOERJGEOIRJGOERIJGEORGJEORIGJEORIJEORJEROIREJGOERIJOERGJOIREJ I added an import
-import fiveCard.Card.Rank;
-import fiveCard.Card.Suit;
-////////////////////////////
+
 /// 
 /**
  * This class represents all data and related operations for a hand of playing cards
@@ -60,16 +57,9 @@ public class Hand {
     }
 
 
- /*    int containsCardRank(Rank targetRank)
-    {
-        for(Card cardInHand : hand)
-        {
-            if(cardInHand. == target)
-        }
-    }
- */
 
-/* 
+
+
     public boolean isHandAscending() //determines if hand is ascending based off of 
     {
         if(rankOccurences[0] != 0 && rankOccurences[1] == 0) //if an ace exists but it isnt ascending in terms of ace being the minimum, we treat ace as a maximum value instead
@@ -90,7 +80,7 @@ public class Hand {
         }
     return true;
     }
-     */
+    
 /*     
     HandRank getHandRank()
     {

@@ -10,9 +10,10 @@ package fiveCard;
  * This Card class represents all data and related operations for a single playing
  * card in a standard deck of playing cards.
  */
-public class Card {
 
-  enum Rank 
+
+public class Card {
+    enum Rank  
     { 
         TWO("2"), 
         THREE("3"), 

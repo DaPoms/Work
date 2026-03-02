@@ -5,6 +5,7 @@
  */
 
 // cd "/c/Users/Daniel Worktop/VsProjects/Work/CPSC_243_java/project2/"
+// cd /c/Users/Pomer/projects/CPSC_243_java/project2
 
 
 package fiveCard;
