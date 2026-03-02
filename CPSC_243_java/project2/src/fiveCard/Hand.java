@@ -54,43 +54,42 @@ public class Hand {
         return hand.size();
     }
 
-    void sortHand()
+    private void sortHand()
     {
         hand.sort(Comparator.comparing(Card::getValue));
     }
 
 
- /*    int containsCardRank(Rank targetRank)
+    private int containsCardRank(Rank targetRank)
     {
-        for(Card cardInHand : hand)
-        {
-            if(cardInHand. == target)
-        }
-    }
- */
+        //if(hand.get(hand.size() - 1).getValue() == Rank.ACE.ordinal())
 
-/* 
+        for(int i = 0; i < hand.size(); i++)
+        {
+            if(hand.get(i).getValue() == targetRank.ordinal())
+                return i;
+        }
+        return -1;
+    }
+
+    
+// DOES HAND CLASS NEED TO BE DYNAMIC OR BUILT FOR 5 CARD HANDS?
+// "BASED ON 5 CARD RULES"
     public boolean isHandAscending() //determines if hand is ascending based off of 
     {
-        if(rankOccurences[0] != 0 && rankOccurences[1] == 0) //if an ace exists but it isnt ascending in terms of ace being the minimum, we treat ace as a maximum value instead
-        {
-            for(int i = rankOccurences.length - 4; i < rankOccurences.length; i++) // if ace is the max, then ascending is only considered when the cards are 10 J Q K A. This checks for 10 J Q K
-                if(rankOccurences[i] == 0) 
-                    return false;
-        }
-        else
-        {
-        int i = 0;
-        while(rankOccurences[i] == 0) i++; //sets up to the first card we have from our hand 
-        int endpoint = i + 5; // endpoint is 4 spaces from where the lowest rank card is
-        if(endpoint > rankOccurences.length) return false; //edge case where if the 1st card in ascending order is a 10, then it cannot be strictly ascending order
-        for(; i < endpoint ; i++)
-            if(rankOccurences[i] == 0) 
+        int hasAce = containsCardRank(Rank.ACE); // -1 = no ace, otherwise, gives index of location
+        int endI = hand.size();
+        sortHand();
+
+        if(hasAce != -1 && containsCardRank(Rank.TWO) != -1) // I use containsCardRank() intead of hand.get(0).getValue() == Rank.Two.ordinal() for the sole reason of better error handling and modularity (WE can't assume that the hand has any cards in it)
+            --endI; // endI effectively states that when we have A 2 3 4 5, we only need to check for 2 3 4 5 to be ascending (as ACE in this version is treated as highest value, so we need to explicitly support lowest value)
+
+        for(int i = 0; i < endI - 1; i++) // we have to do - 1 as we are doing forward comparisons (always checking one forward)
+            if(hand.get(i).getValue() + 1 != hand.get(i+1).getValue()) 
                 return false;
-        }
-    return true;
+        return true;
     }
-     */
+    
 /*     
     HandRank getHandRank()
     {
@@ -106,7 +105,7 @@ public class Hand {
     {
         hand.clear();
     }
-    
+
     public String toString()
     {
         String ans = "";

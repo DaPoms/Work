@@ -5,7 +5,21 @@
             "name": "Game",
             "request": "launch",
             "mainClass": "fiveCard.Game",
-            "projectName": "Work_e12e0c9c"
+            "projectName": "Work_e12e0c9c",
+            "args": [
+                "-p",
+                "AD",
+                "2D",
+                "JD",
+                "QD",
+                "KD",
+                "-d",
+                "AS",
+                "2H",
+                "3H",
+                "4D",
+                "5S"
+            ]
         },
         {
             "type": "java",

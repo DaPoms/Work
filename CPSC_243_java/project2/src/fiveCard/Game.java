@@ -21,24 +21,22 @@ import fiveCard.Card.Suit;
 class Game {
 
   public static void main(String[] args) {
-    System.out.println("test");
+    Hand playerHand = new Hand();
+    Hand dealerHand = new Hand();
 		if( args.length > 0 ) {
-      //CmdLineInput.parseArguments(args, /*PLAYER HAND*/, /*DEALER HAND*/);//STUDENT: Enter Hands here
+      CmdLineInput.parseArguments(args, playerHand, dealerHand);//STUDENT: Enter Hands here
     } else {
       //STUDENT: Deal cards normally
     }//end if
     Card test = new Card(Rank.ACE,Suit.HEARTS);
 
-    Hand myHand = new Hand();
-    myHand.addCard(new Card(Rank.ACE,Suit.HEARTS));
-    myHand.addCard(new Card(Rank.TWO,Suit.HEARTS));
-    myHand.addCard(new Card(Rank.TEN,Suit.HEARTS));
-    myHand.addCard(new Card(Rank.FOUR,Suit.HEARTS));
-    myHand.sortHand();
-    System.out.println("Card representation: " + test + "\nCard score: " + test.getValue());
-    System.out.println("Hand size of: " + myHand.getCardCount() + "\n" + myHand);
+ 
+    System.out.println("Player hand: " + playerHand + "\nIs ascending?: " + playerHand.isHandAscending()  + "\nDealer hand: " + dealerHand + "\nIs ascending?: " + dealerHand.isHandAscending());
+
+
+ /*    System.out.println("Hand size of: " + myHand.getCardCount() + "\n" + myHand);
     System.out.println("I'm out of bounds!: " + myHand.getCard(5000));
-    
+     */
   }//end main
 
 }//end Game

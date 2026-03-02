@@ -53,6 +53,7 @@ public class Card {
     cardSuit = passedSuit;
   }
 
+  Suit getSuit(){return cardSuit;}
   int getValue() // we do not need to specify scope due to package-private being the exact scope we need
   { // UHHHHHHHHHHHHHHHHHHHH IS THIS THE NORMAL INT VALUE OR JUST THE SCORE IT WOULD GIVE IN A HAND (THE CARD RANK)EGREGREGRGGGGGGGGGGGGGGGGGGGGGRGRGRGRGRGRGRGRRGRGRGRGRG
     return cardRank.ordinal();
