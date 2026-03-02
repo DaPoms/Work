@@ -13,8 +13,7 @@ package fiveCard;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import fiveCard.Card.Rank;
-import fiveCard.Card.Suit;
+
 
 /**
  * Generate and play a hand of Poker
@@ -29,12 +28,12 @@ class Game {
     } else {
       //STUDENT: Deal cards normally
     }//end if
-    Card test = new Card(Rank.ACE,Suit.HEARTS);
 
  
-    System.out.println("Player hand: " + playerHand + "\nIs ascending?: " + playerHand.isHandAscending()  + "\nDealer hand: " + dealerHand + "\nIs ascending?: " + dealerHand.isHandAscending());
-
-
+    //System.out.println("Player hand: " + playerHand + "\nIs ascending?: " + playerHand.isHandAscending()  + "\nDealer hand: " + dealerHand + "\nIs ascending?: " + dealerHand.isHandAscending());
+    //System.out.println("Player hand: " + playerHand + "\nIs same suit?: " + playerHand.isSameSuit()  + "\nDealer hand: " + dealerHand + "\nIs same suit?: " + dealerHand.isSameSuit());
+    //System.out.println("Player hand: " + playerHand + "\nPair count: " + Arrays.toString(playerHand.top2PairCount())  + "\nDealer hand: " + dealerHand + "\nPair count: " + Arrays.toString(dealerHand.top2PairCount()));
+     System.out.println("Player hand: " + playerHand + "\nPlayer hand rank: " + (playerHand.getHandRank())  + "\nDealer hand rank: " + dealerHand + "\nPair count: " + (dealerHand.getHandRank()));
  /*    System.out.println("Hand size of: " + myHand.getCardCount() + "\n" + myHand);
     System.out.println("I'm out of bounds!: " + myHand.getCard(5000));
      */

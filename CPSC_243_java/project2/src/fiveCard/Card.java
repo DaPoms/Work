@@ -34,39 +34,38 @@ public class Card {
             stringifiedRank = passedRankString;
         }
     }
-  enum Suit 
-  { 
-    CLUBS("C"), 
-    DIAMONDS("D"), 
-    HEARTS("H"), 
-    SPADES("S");
-    public final String stringifiedSuit;
-    Suit(String passedSuitString)
-    {
-        stringifiedSuit = passedSuitString;
+    enum Suit 
+    { 
+        CLUBS("C"), 
+        DIAMONDS("D"), 
+        HEARTS("H"), 
+        SPADES("S");
+        public final String stringifiedSuit;
+        Suit(String passedSuitString)
+        {
+            stringifiedSuit = passedSuitString;
+        }
     }
-}
-  private Rank cardRank;
-  private Suit cardSuit;
+    private Rank rank;
+    private Suit suit;
   Card(Rank passedRank, Suit passedSuit) 
   {
-    cardRank = passedRank;
-    cardSuit = passedSuit;
+    rank = passedRank;
+    suit = passedSuit;
   }
 
-  Suit getSuit(){return cardSuit;}
+  Suit getSuit(){return suit;}
   int getValue() // we do not need to specify scope due to package-private being the exact scope we need
   { // UHHHHHHHHHHHHHHHHHHHH IS THIS THE NORMAL INT VALUE OR JUST THE SCORE IT WOULD GIVE IN A HAND (THE CARD RANK)EGREGREGRGGGGGGGGGGGGGGGGGGGGGRGRGRGRGRGRGRGRRGRGRGRGRG
-    return cardRank.ordinal();
+    return rank.ordinal();
   }
 
   public String toString()
   {
-    return cardRank.stringifiedRank + cardSuit.stringifiedSuit;
+    return rank.stringifiedRank + suit.stringifiedSuit;
   }
   
-  Rank rank;
-  Suit suit;
+  
 
   public static void main(String[] args) {
     Card myCard = new Card(Rank.TEN, Suit.CLUBS);
