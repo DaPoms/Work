@@ -46,6 +46,7 @@ public class Card {
             stringifiedSuit = passedSuitString;
         }
     }
+    
     private Rank rank;
     private Suit suit;
   Card(Rank passedRank, Suit passedSuit) 
@@ -57,7 +58,7 @@ public class Card {
   Suit getSuit(){return suit;}
   int getValue() // we do not need to specify scope due to package-private being the exact scope we need
   { 
-    return cardRank.ordinal();
+    return rank.ordinal();
   }
 
   public String toString()

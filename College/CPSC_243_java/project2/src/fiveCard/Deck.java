@@ -27,26 +27,37 @@ public class Deck
     public Deck() 
     {
         top = 0;
-
+        // I liked the idea of an adaptive deck size (as in it changes size based on the user's card combos) for more code reusability (like to use for other card games)
         Suit[] suits = Card.Suit.values();
         Rank[] ranks = Card.Rank.values();
         int size = suits.length * ranks.length;
-        Card[] deck = new Card[size]; //for poker, this is 52
-        
-    for(Card.Rank rank : Card.Rank.values())
-    {   //it would be more efficient to create card here and then use a setter for the suit, but that would make us have to create a setter for suit, and I don't want that to be possible (no reason to change a card, should be immutable)
-        
-        // I liked the idea of a dynamic deck size for more code reusable (like to use for other card games)
+        deck = new Card[size]; //for poker, this is 52
         int i = 0;
-        for(Card.Suit suit : suits)
-        {
-            Card cardToBeAdded = new Card(rank, suit); 
-          
+        for(Card.Rank rank : Card.Rank.values())
+        {   //it would be more efficient to create card here and then use a setter for the suit, but that would make us have to create a setter for suit, and I don't want that to be possible (no reason to change a card, should be immutable)
+            for(Card.Suit suit : suits)
+            {
+                Card cardToBeAdded = new Card(rank, suit); 
+                deck[i] = cardToBeAdded;
+                ++i;
+            }
         }
-    }
 		
     }//end constructor
   
+    int cardleft()
+    {
+        return deck.length - top; //note that if top = 52, it means deck is empty
+    }
+
+    Card deal() // what is to be returned or to actually return?
+    { // do we need error handling for when dealing a hand that is empty???
+        return deck[top++];
+    }
+
+
+
+
    /** 
    * Return all cards to the deck and shuffle
    * using the Fisher-Yates shuffling algorithm.
