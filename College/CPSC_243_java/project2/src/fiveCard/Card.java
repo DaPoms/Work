@@ -46,6 +46,7 @@ public class Card {
             stringifiedSuit = passedSuitString;
         }
     }
+    
     private Rank rank;
     private Suit suit;
   Card(Rank passedRank, Suit passedSuit) 

@@ -110,18 +110,6 @@ public class Hand {
     }
 
 
-/*     private static int addRank(ArrayList<Integer> arr, int rankTarget) //ensures adding is done in a sorted manner (with insertion sort)
-    {
-        int i = 0;
-        for(int rankVal : arr)
-        {
-            if(rankTarget > arr.get(i) )
-                i++;
-        }
-        arr.add(i, rankTarget);
-        return i;
-    } */
-
     private class cardByCountAndRank 
     {
         int cardRankVal;
@@ -174,7 +162,7 @@ public class Hand {
 
         //just a measure to ensure left most term is the higher count item
         cardByCountAndRank placeholder;
-        if(top2byCount[1].cardRankVal < top2byCount[0].cardRankVal )
+        if(top2byCount[1].cardCount > top2byCount[0].cardCount)
         {
            placeholder = top2byCount[1];
            top2byCount[1] = top2byCount[0];
@@ -183,8 +171,6 @@ public class Hand {
         
         return top2byCount;
     }
-    
-    
     
     HandRank getHandRank()
     {
