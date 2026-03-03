@@ -1,0 +1,6 @@
+(library
+  (name project2)
+  (modules hof tree))
+(env
+  (dev
+    (flags (:standard -w -27-39-33-32))))
