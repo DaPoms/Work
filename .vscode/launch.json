@@ -2,6 +2,12 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Game",
+            "request": "launch",
+            "mainClass": "fiveCard.Game"
+        },
+        {
+            "type": "java",
             "name": "Card",
             "request": "launch",
             "mainClass": "fiveCard.Card",
@@ -22,17 +28,17 @@
             "projectName": "Work_e12e0c9c",
             "args": [
                 "-p",
-                "AD",
-                "2D",
-                "JD",
-                "QD",
-                "KD",
+                "6D",
+                "6S",
+                "5D",
+                "5S",
+                "5C",
                 "-d",
                 "AS",
                 "2H",
-                "3H",
-                "4D",
-                "5S"
+                "2C",
+                "3D",
+                "3S"
             ]
         },
         {

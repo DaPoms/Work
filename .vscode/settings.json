@@ -54,6 +54,7 @@
         "map": "cpp"
     },
     "java.dependency.syncWithFolderExplorer": false,
+    "java.search.scope": "all",
 /*     "sshfs.configs": [
         {
             "name": "ACAD"
