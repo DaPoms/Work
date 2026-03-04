@@ -6,9 +6,8 @@
 
     package fiveCard;
 
-import fiveCard.Card.Rank;
-import fiveCard.Card.Suit;
-import fiveCard.Card.Suit;
+
+
 
 /**
      * This class represents all data and operations for a deck 
@@ -28,8 +27,8 @@ public class Deck
     {
         top = 0;
         // I liked the idea of an adaptive deck size (as in it changes size based on the user's card combos) for more code reusability (like to use for other card games)
-        Suit[] suits = Card.Suit.values();
-        Rank[] ranks = Card.Rank.values();
+        Card.Suit[] suits = Card.Suit.values();
+        Card.Rank[] ranks = Card.Rank.values();
         int size = suits.length * ranks.length;
         deck = new Card[size]; //for poker, this is 52
         int i = 0;

@@ -9,7 +9,7 @@ package fiveCard;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import fiveCard.Card.Rank;
+
 
 
 /// 
@@ -44,16 +44,21 @@ public class Hand {
         hand.add(i, c);
     }
 
-    private enum HandRank 
+    enum HandRank 
     {
         HIGH_CARD, //0 (this is the assigned .ordinal() value of the enum)
+
         ONE_PAIR, //1
+
         TWO_PAIR, //2
         THREE_OF_A_KIND, //3
+
         STRAIGHT, //4
         FLUSH, //5
+
         FULL_HOUSE, //6
         FOUR_OF_A_KIND, //7
+
         STRAIGHT_FLUSH, //8
         ROYAL_FLUSH //9
     }
@@ -82,7 +87,7 @@ public class Hand {
             if(hand.get(i).getSuit() != currSuit) return false;
         return true;       
     }
-    private int containsCardRank(Rank targetRank)
+    private int containsCardRank(Card.Rank targetRank)
     {
         //if(hand.get(hand.size() - 1).getValue() == Rank.ACE.ordinal())
 
@@ -96,11 +101,11 @@ public class Hand {
 
     private boolean isHandAscending() //determines if hand is ascending based off of 
     {
-        int hasAce = containsCardRank(Rank.ACE); // -1 = no ace, otherwise, gives index of location
+        int hasAce = containsCardRank(Card.Rank.ACE); // -1 = no ace, otherwise, gives index of location
         int endI = hand.size();
         //sortHand();
 
-        if(hasAce != -1 && containsCardRank(Rank.TWO) != -1) // I use containsCardRank() intead of hand.get(0).getValue() == Rank.Two.ordinal() for the sole reason of better error handling and modularity (WE can't assume that the hand has any cards in it)
+        if(hasAce != -1 && containsCardRank(Card.Rank.TWO) != -1) // I use containsCardRank() intead of hand.get(0).getValue() == Rank.Two.ordinal() for the sole reason of better error handling and modularity (WE can't assume that the hand has any cards in it)
             --endI; // endI effectively states that when we have A 2 3 4 5, we only need to check for 2 3 4 5 to be ascending (as ACE in this version is treated as highest value, so we need to explicitly support lowest value)
 
         for(int i = 0; i < endI - 1; i++) // we have to do - 1 as we are doing forward comparisons (always checking one forward)
@@ -110,19 +115,23 @@ public class Hand {
     }
 
 
-    private class cardByCountAndRank 
+    class cardByCountAndRank 
     {
-        int cardRankVal;
-        int cardCount;
+        private int cardRankVal;
+        private int cardCount;
         cardByCountAndRank()
         {
             cardRankVal = 0;
             cardCount = 0;
         }
+
+        public int getCardRankVal(){return cardRankVal;}
+        public int getCardCount(){return cardCount;}
         public String toString()
         {
             return "{" + cardRankVal + ", " + cardCount + "}";
         }
+        
     }
 
     cardByCountAndRank[] top2PairCount() //assumes that hand is of size 5 
@@ -183,7 +192,7 @@ public class Hand {
         { 
             if(isSameSuit) 
             {
-                if(containsCardRank(Rank.TEN) != -1 && containsCardRank(Rank.ACE) != -1) 
+                if(containsCardRank(Card.Rank.TEN) != -1 && containsCardRank(Card.Rank.ACE) != -1) 
                     return HandRank.ROYAL_FLUSH;
                 return HandRank.STRAIGHT_FLUSH;
             }
