@@ -18,10 +18,9 @@ import fiveCard.Hand.cardByCountAndRank;
 
 
 
-// error case one :  3C 7D 7S 10C QH
 
 
-// ROIJREOREGJIEEOIJRGOIJA  ARE YOU OK WITH DOING Hand.HandRank or should we import import fiveCard.Hand.HandRank;
+
 /**
  * Generate and play a hand of Poker
  */
@@ -43,6 +42,69 @@ class Game {
 
     } */
 
+    static GameResult breakTie(cardByCountAndRank[] playerTop2Cards, cardByCountAndRank[] dealerTop2Cards, int handRankVal)
+    {
+        if(handRankVal == Hand.HandRank.TWO_PAIR.ordinal())
+        {
+            sortTop2CardArrayByRank(playerTop2Cards); // we do this to re-sort the hand by rank, as top2PairCount originally sorts by COUNT. This is really ony luseful for two pair
+            sortTop2CardArrayByRank(dealerTop2Cards);
+        }
+
+        for(int i = 0; i < playerTop2Cards.length; i++) // Actually checking the kickers to break up the tie
+        {
+            int playerVSDealerScoreDiff = playerTop2Cards[i].getCardRankVal() - dealerTop2Cards[i].getCardRankVal();
+            if(playerVSDealerScoreDiff < 0) //If player score was smaller than dealer, than this val is negative
+                return GameResult.LOSE;
+            else if (playerVSDealerScoreDiff > 0)
+                return GameResult.WIN;
+        }
+        return GameResult.PUSH; // if after all of these checks, all cards are seen as identical in rank, then a push has resulted
+    }
+
+    
+    static GameResult breakTie(int[] intPlayerHand, int[] intDealerHand) 
+    {
+        
+        for(int i = intPlayerHand.length - 1; i >= 0; i--) // Actually checking the kickers to break up the tie
+        {
+            int playerVSDealerScoreDiff = intPlayerHand[i] - intDealerHand[i];
+            if(playerVSDealerScoreDiff < 0) //If player score was smaller than dealer, than this val is negative
+                return GameResult.LOSE;
+            else if (playerVSDealerScoreDiff > 0)
+                return GameResult.WIN; 
+        }
+        return GameResult.PUSH; // if after all of these checks, all cards are seen as identical in rank, then a push has resulted
+    }
+
+
+    static int[] getKickerArr(Hand hand, cardByCountAndRank[] top2Cards, int nonKickerCardCount)
+    {
+        int[] kickerArr = new int[hand.getCardCount() - nonKickerCardCount];
+        int addI = 0;
+        for(int i = 0; i < hand.getCardCount(); i++) // this initializes the kicker array, it effectively just removed cards that contributed to the hand ranking from the 
+        {
+            int cardVal = hand.getCard(i).getValue();
+             if(cardVal != top2Cards[0].getCardRankVal() && (top2Cards[1].getCardCount() == 1 || cardVal != top2Cards[1].getCardRankVal() ) )
+                kickerArr[addI++] = cardVal;
+        }
+        return kickerArr;
+    }
+
+    
+    static GameResult kickerBreakTie(Hand player, Hand dealer, cardByCountAndRank[] playerTop2Cards, cardByCountAndRank[] dealerTop2Cards)
+    {
+        int mainHandCardCount = 0;
+        for(cardByCountAndRank card : playerTop2Cards)
+            if(card.getCardCount() > 1)
+                mainHandCardCount += card.getCardCount();
+
+        int[] playerKickers = getKickerArr(player, playerTop2Cards, mainHandCardCount); // I could've done a plethora of things for this, but found this to be the simplest way to exclude the cards already compared that contributed to the hand rank 
+        int[] dealerKickers =  getKickerArr(dealer, dealerTop2Cards, mainHandCardCount); // we need to subtract by the count of each main card Count
+    
+       return breakTie(playerKickers, dealerKickers);
+    }    
+
+
     static void sortTop2CardArrayByRank(cardByCountAndRank[] arr)
     {
         cardByCountAndRank placeholder;
@@ -54,40 +116,46 @@ class Game {
         }
 
     }
-    //Functions in here are Poker game specific functions
-    static GameResult isPlayerWinnerForTie(Hand.HandRank rankType, Hand player, Hand dealer) //has to account properly for ties. rankType is passed just to take advantage of isPlayerWinner already using getHandRank()
+
+     static GameResult isPlayerWinnerForTie(Hand.HandRank rankType, Hand player, Hand dealer) //has to account properly for ties. rankType is passed just to take advantage of isPlayerWinner already using getHandRank()
     { //check for tie in hand ranking portion, we NEED TO IMPLIMENT RETURNING WHAT KICKERS ARE (CARDS THAT ARE NOT PART OF THE HAND RANK (TWO_PAIR ETC...))
         int handRankVal = rankType.ordinal();
 
-        // rank tyoe where we need to consider the top2Pair/the amount of each card rank in our hand 
-        if((handRankVal >= Hand.HandRank.ONE_PAIR.ordinal() && handRankVal <= Hand.HandRank.THREE_OF_A_KIND.ordinal()) || rankType == Hand.HandRank.FULL_HOUSE || rankType == Hand.HandRank.FOUR_OF_A_KIND )
-        {
+        // rank types where the full hand is not included in the hand ranking
+        if(hasKickers(rankType) && rankType != HandRank.HIGH_CARD)
+        { // we are guaranteed to do one pair check for anything that enters here
             cardByCountAndRank[] playerTop2Cards = player.top2PairCount();
             cardByCountAndRank[] dealerTop2Cards = player.top2PairCount();
-            sortTop2CardArrayByRank(playerTop2Cards);
-            sortTop2CardArrayByRank(dealerTop2Cards);
 
-            int playerVSDealerScoreDiff = playerTop2Cards[0].getCardRankVal() - dealerTop2Cards[0].getCardRankVal(); //DO NOTE THAT FOR WHEN WE DO THE OTHER CASES, ACE WILL BE TREATED AS LOWER 4jgoigjreoigjeieoigjaigj'soirj;oijisjijjeaiaoiregjoiare
-            if(playerVSDealerScoreDiff < 0) //If player score was smaller than dealer, than this val is negative
-                return GameResult.LOSE;
-            else if (playerVSDealerScoreDiff > 0)
-                return GameResult.WIN;
-            else if(rankType == Hand.HandRank.TWO_PAIR || rankType == Hand.HandRank.FULL_HOUSE) // case where we consider the 2nd value in the case of a tie
-            {
-
-            }
-            else // THis is that case for one pair, three of a kind, or four of a kind where a tie occurs, as there is only 1 candidate for ties in these
-                return GameResult.PUSH; 
-            
+            GameResult nonKickerResult = breakTie(playerTop2Cards, dealerTop2Cards, handRankVal); 
+            if (nonKickerResult != GameResult.PUSH)
+                return nonKickerResult; //if we break the tie without using kickers, then we've determined the game result
+            else //if a push occurs for the non kicker cards, then we must explore the kicker cards to break the tie (or determine if it's truly a push)
+                return kickerBreakTie(player, dealer, playerTop2Cards, dealerTop2Cards);            
         }
+        //case of every other poker hand (you just search from highest to lowest ranking)
 
+        int[] intPlayerHand = player.getRankArray();
+        int[] intDealerHand = dealer.getRankArray();
+        return breakTie(intPlayerHand, intDealerHand);
 
-        return null; //error case
     }
+
+
+    static boolean hasKickers(Hand.HandRank handRank) 
+    {
+        switch(handRank)
+        {
+            case HIGH_CARD, ONE_PAIR, TWO_PAIR, THREE_OF_A_KIND, FOUR_OF_A_KIND -> {return true;}
+            default -> {return false;}
+        }
+    }
+
 
 
     static GameResult isPlayerWinner(Hand player, Hand dealer)
     {
+        
         Hand.HandRank playerRanking = player.getHandRank();
         Hand.HandRank dealerRanking = dealer.getHandRank();
         if( playerRanking.ordinal() > dealerRanking.ordinal() )
@@ -96,7 +164,9 @@ class Game {
             return GameResult.LOSE;
         else // case of tie (hand types are equal)
             return isPlayerWinnerForTie(playerRanking, player, dealer); //doesnt matter if first param is player or dealer ranking since they are the same by this else statement
+            // anything with a GameResult of push here will need to have the non kicker's REMOVED
     }
+
     //Decided to impliment draw 5 in here rather than deck as it is exclusive to the game of POKER
     static void draw5(Hand hand, Deck deck)
     {
@@ -124,6 +194,8 @@ class Game {
         System.out.println("Pair count: " + Arrays.toString(playerHand.top2PairCount())  + "\nPair count: " + Arrays.toString(dealerHand.top2PairCount()));
         System.out.println("Player hand rank: " + (playerHand.getHandRank())  + "\nDealer hand rank: " + (dealerHand.getHandRank()) + "\nPlayer hand: " + playerHand  + "\nDealer hand: " + dealerHand);
 
+        System.out.println("\n\n\n\n");
+        System.out.println("Did the player win?: " + isPlayerWinner(playerHand, dealerHand));
   }//end main
 
 }//end Game
