@@ -1,3 +1,18 @@
+/************************************************************/
+/* Author:         Daniel Tripoli                           */
+/* Major:          Computer Science                         */
+/* Creation Date:  February 26, 2026                        */
+/* Due Date:       Match 13, 2026                           */
+/* Course: CPSC    243 010                                  */
+/* Professor Name: Griffin Nye                              */
+/* Project:        #2                                       */
+/* Filename:       Deck.java                                */
+/* Purpose:        Impliments the deck functionality used in */
+/*                 poker                                    */
+/*                                                          */
+/*                                                          */
+/************************************************************/
+
 /**
  * fiveCard.Deck.java
  * CPSC243 Spring 2026

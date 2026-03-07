@@ -1,3 +1,18 @@
+/************************************************************/
+/* Author:         Daniel Tripoli                           */
+/* Major:          Computer Science                         */
+/* Creation Date:  February 26, 2026                        */
+/* Due Date:       Match 13, 2026                           */
+/* Course: CPSC    243 010                                  */
+/* Professor Name: Griffin Nye                              */
+/* Project:        #2                                       */
+/* Filename:       Hand.java                                */
+/* Purpose:        Impliment the hand functionality used in */
+/*                 poker                                    */
+/*                                                          */
+/*                                                          */
+/************************************************************/
+
 /**
  * fiveCard.Hand.java
  * CPSC243 Spring 2026
@@ -24,15 +39,42 @@ public class Hand {
    */
     private ArrayList<Card> hand;
 
+
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   Hand 
+    /* Description:     Default constructor for hand object
+    /* Parameters:      none
+    /* Return Value:    N/A
+    /*
+    /*************************************************************************/
     public Hand() {
         hand = new ArrayList<>();
     }//end constructor
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getCard 
+    /* Description:     Returns the card object at the ith index of the hand array
+    /* Parameters:      int pos - the index that we want to retrieve a card at
+    /* Return Value:    Card - the card we retrieved at the index pos, or null if the user enters an index that is outside of the hand array
+    /*
+    /*************************************************************************/
     Card getCard(int pos)
     {
         if(pos > hand.size() - 1) return null;
         return hand.get(pos);
     }
+
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   addCard 
+    /* Description:     adds a card to the hand, inserting it with an insertion sort by card value to ensure 
+    /*                  hands are sorted
+    /* Parameters:      Card c - the card that is added to the hand
+    /* Return Value:    void
+    /*
+    /*************************************************************************/
     void addCard(Card c) //ensures adding is done in a sorted manner (with insertion sort)
     {
         int i = 0;
@@ -44,6 +86,7 @@ public class Hand {
         hand.add(i, c);
     }
 
+    //enum for the rank of the hand
     enum HandRank 
     {
         HIGH_CARD, //0 (this is the assigned .ordinal() value of the enum)
@@ -57,7 +100,14 @@ public class Hand {
         STRAIGHT_FLUSH, //8
         ROYAL_FLUSH //9
     }
-
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getRankArray 
+    /* Description:     Returns an int representation of the hand object, done by each card's value (rank value in particular)
+    /* Parameters:      none
+    /* Return Value:    int[] - the int representation of the hand object, following the same order as the original hand array
+    /*
+    /*************************************************************************/
     int[] getRankArray()
     {
         int[] arr = new int[hand.size()];
@@ -65,6 +115,15 @@ public class Hand {
             arr[i] = hand.get(i).getValue();
         return arr;
     }
+
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getCardCount
+    /* Description:     Returns how many cards there is in the hand object
+    /* Parameters:      none
+    /* Return Value:    int - the number of cards the hand object's hand array contains
+    /*
+    /*************************************************************************/
     int getCardCount()
     {
         return hand.size();
@@ -78,7 +137,14 @@ public class Hand {
 
 
 
-
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   isSameSuit 
+    /* Description:     Returns true if the hand object's hand array has all of its cards in the same suit, false otherwise
+    /* Parameters:      none
+    /* Return Value:    boolean - true if all cards in hand array are of the same suit, false otherwise
+    /*
+    /*************************************************************************/
     public boolean isSameSuit() // I'm trying to build my functions as modular so that they could technically be used in other Poker-like games (so not assuming 5 card hands)
     {
         Card.Suit currSuit = null;
@@ -89,18 +155,33 @@ public class Hand {
             if(hand.get(i).getSuit() != currSuit) return false;
         return true;       
     }
+
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   containsCardRank 
+    /* Description:     Returns true if the hand array of the hand object contains the card rank, and returns the index of it's location in the hand.
+    /* Parameters:      Card.Rank - the rank of the card that is searched for
+    /* Return Value:    int - The index of the first card that is of the target rank
+    /*
+    /*************************************************************************/
     private int containsCardRank(Card.Rank targetRank)
     {
-        //if(hand.get(hand.size() - 1).getValue() == Rank.ACE.ordinal())
-
         for(int i = 0; i < hand.size(); i++)
         {
             if(hand.get(i).getValue() == targetRank.ordinal())
-                return i;
+                return i; // I decided to return the index for sole future use, my current use for this function does not really use the index
         }
         return -1;
     }
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   isHandAscending 
+    /* Description:     Returns whether or not the hand array of the hand object is ascending in terms of card rank
+    /* Parameters:      none
+    /* Return Value:    boolean - True if the hand is ascending, false otherwise
+    /*
+    /*************************************************************************/
     private boolean isHandAscending() //determines if hand is ascending based off of 
     {
         int hasAce = containsCardRank(Card.Rank.ACE); // -1 = no ace, otherwise, gives index of location
@@ -117,7 +198,7 @@ public class Hand {
     }
 
 
-    class cardByCountAndRank 
+    class cardByCountAndRank  // class for destructuring a card by its count and rank. Card itself doesn't use this class so I decided not to impliment it there
     {
         private int cardRankVal;
         private int cardCount;
@@ -136,6 +217,15 @@ public class Hand {
         
     }
 
+    
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   top2PairCount 
+    /* Description:     Returns an array of the 2 cards in the hand array that in terms of rank have the highest frequency. Sorted with the 1st term being the one of highest frequency
+    /* Parameters:      none
+    /* Return Value:    cardByCountAndRank[] - An array of the top 2 cards in terms of frequency, sorted from highest to lowest card count
+    /*                  (but theres only 2 cards in this array, so essentially left item is highest count, right item is 2nd highest count)
+    /*************************************************************************/
     cardByCountAndRank[] top2PairCount() //assumes that hand is of size 5 
     {
         ArrayList<Integer> handRanks = new ArrayList<>();
@@ -183,6 +273,15 @@ public class Hand {
         return top2byCount;
     }
     
+    
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getHandRank
+    /* Description:     Determines and returns the rank of the hand based on 5 card poker rankings
+    /* Parameters:      none
+    /* Return Value:    HandRank - An enum that represents the determined hand rank
+    /*
+    /*************************************************************************/
     HandRank getHandRank()
     {
         //Aquires all the elements required to determine ranking
@@ -226,12 +325,27 @@ public class Hand {
     }
 
 
-
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   clear
+    /* Description:     removes all cards from the hand array, leaving the hand empty
+    /* Parameters:      none
+    /* Return Value:    void
+    /*
+    /*************************************************************************/
     void clear()
     {
         hand.clear();
     }
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   toString
+    /* Description:     Represents the hand array of the hand object in a string representation and returns it
+    /* Parameters:      none
+    /* Return Value:    String - The string representation of the hand array
+    /*
+    /*************************************************************************/
     public String toString()
     {
         String ans = "";
