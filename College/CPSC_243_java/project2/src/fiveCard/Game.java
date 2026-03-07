@@ -362,20 +362,10 @@ class Game {
         draw5(dealerHand, gameDeck);
         }//end if
 
-
         System.out.println("-----------------------------\nYour results:\nHand: " + playerHand + "\nHand Rank: " + playerHand.getHandRank() + "\n-----------------------------\n");
         System.out.println("Dealer's results:\nHand: " + dealerHand + "\nHand Rank: " + dealerHand.getHandRank() + "\n-----------------------------");
-        System.out.print("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
+        System.out.println("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
 
-
-/*         // debug code (remove when done)
-        //System.out.println("Player hand: " + playerHand + "\nIs ascending?: " + playerHand.isHandAscending()  + "\nDealer hand: " + dealerHand + "\nIs ascending?: " + dealerHand.isHandAscending());
-        System.out.println("\nPlayer is same suit?: " + playerHand.isSameSuit()  + "\nDealer is same suit?: " + dealerHand.isSameSuit());
-        System.out.println("Pair count: " + Arrays.toString(playerHand.top2PairCount())  + "\nPair count: " + Arrays.toString(dealerHand.top2PairCount()));
-        System.out.println("Player hand rank: " + (playerHand.getHandRank())  + "\nDealer hand rank: " + (dealerHand.getHandRank()) + "\nPlayer hand: " + playerHand  + "\nDealer hand: " + dealerHand);
-
-        System.out.println("\n\n\n\n");
-        System.out.println("Did the player win?: " + isPlayerWinner(playerHand, dealerHand).resultName); */
   }//end main
 
 }//end Game

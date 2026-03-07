@@ -32,12 +32,21 @@
 public class Deck 
 {
 
-    private Card[] deck; //Cards in the Deck
-    private int top;     //Pointer/Index of top card in Shoe (next card to deal)
+    private Card[] deck; // Cards in the Deck
+    private int top;     // Pointer/Index of top card in Shoe (next card to deal)
 
     /** 
      * Constructor
      */
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   Deck
+    /* Description:     Constructor for a deck, Fills deck with 1 of each card type, based on the suit and rank enums.
+    /*                  For poker, this will be 52 cards. Do note the hand is constructed in an ordered pattern, unshuffled
+    /* Parameters:      none
+    /* Return Value:    N/A (constructor)
+    /*
+    /*************************************************************************/
     public Deck() 
     {
         top = 0;
@@ -59,20 +68,33 @@ public class Deck
 		
     }//end constructor
   
-    int cardleft()
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   cardsLeft
+    /* Description:     Returns the amount of cards left in the deck that haven't been drawn already
+    /* Parameters:      none
+    /* Return Value:    int - The amount of cards left
+    /*
+    /*************************************************************************/
+    int cardsLeft()
     {
         return deck.length - top; //note that if top = 52, it means deck is empty
     }
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   deal
+    /* Description:     Retrieves that card at the top of the draw pile
+    /* Parameters:      none
+    /* Return Value:    Card - The card that is retrieved from the top of the deck pile
+    /*
+    /*************************************************************************/
     Card deal() // what is to be returned or to actually return?
     { // do we need error handling for when dealing a hand that is empty???
         return deck[top++];
     }
 
-
-
-
-   /** 
+   /** (not adding my own comment block as this was made by professor)
    * Return all cards to the deck and shuffle
    * using the Fisher-Yates shuffling algorithm.
    */
