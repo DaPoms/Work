@@ -38,6 +38,14 @@ public class Deck
     /** 
      * Constructor
      */
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   Deck
+    /* Description:     Creates a card deck, containing 1 of each combination of the rank and suit enums. Note that the deck is created in an ordered format
+    /* Parameters:      none
+    /* Return Value:    N/A
+    /*
+    /*************************************************************************/
     public Deck() 
     {
         top = 0;
@@ -58,19 +66,31 @@ public class Deck
         }
 		
     }//end constructor
-  
-    int cardleft()
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   cardsLeft
+    /* Description:     Returns the amount of cards that have not been drawn yet from the deck
+    /* Parameters:      none
+    /* Return Value:    int - The amount of cards that have not been drawn yet from the deck
+    /*
+    /*************************************************************************/
+    int cardsleft()
     {
         return deck.length - top; //note that if top = 52, it means deck is empty
     }
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   deal
+    /* Description:     Returns the card at the top of the deck, and sets the new top of the deck accordingly
+    /* Parameters:      none
+    /* Return Value:    Card - The card that was at the top of the deck
+    /*
+    /*************************************************************************/
     Card deal() // what is to be returned or to actually return?
     { // do we need error handling for when dealing a hand that is empty???
         return deck[top++];
     }
-
-
-
 
    /** 
    * Return all cards to the deck and shuffle

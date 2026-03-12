@@ -27,7 +27,8 @@ package fiveCard;
  */
 
 
-public class Card {
+public class Card 
+{
     enum Rank  
     { 
         TWO("2"), //0
@@ -64,30 +65,57 @@ public class Card {
     
     private Rank rank;
     private Suit suit;
-  Card(Rank passedRank, Suit passedSuit) 
-  {
-    rank = passedRank;
-    suit = passedSuit;
-  }
 
-  Suit getSuit(){return suit;}
-  int getValue() // we do not need to specify scope due to package-private being the exact scope we need
-  { 
-    return rank.ordinal();
-  }
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   Card
+    /* Description:     Constructs a card object. Each card has a rank and a suit.
+    /* Parameters:      Rank passedRank - The rank of the card
+    /*                  Suit passedSuit - The suit of the card
+    /* Return Value:    N/A
+    /*
+    /*************************************************************************/
+    public Card(Rank passedRank, Suit passedSuit) 
+    {
+        rank = passedRank;
+        suit = passedSuit;
+    }
 
-  public String toString()
-  {
-    return rank.stringifiedRank + suit.stringifiedSuit;
-  }
-  
-  
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getSuit
+    /* Description:     Returns the suit of the card
+    /* Parameters:      none
+    /* Return Value:    Suit passedSuit - The suit of the card
+    /*
+    /*************************************************************************/
+    Suit getSuit(){return suit;}
 
-  public static void main(String[] args) {
-    Card myCard = new Card(Rank.TEN, Suit.CLUBS);
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getvalue
+    /* Description:     Returns the value of the card based on the card's rank
+    /* Parameters:      none
+    /* Return Value:    int - score of the card
+    /*
+    /*************************************************************************/
+    int getValue() // we do not need to specify scope due to package-private being the exact scope we need
+    { 
+        return rank.ordinal();
+    }
 
-    System.out.println("Visual representation: " + myCard + "\nCard value: " + myCard.getValue());
-  }
-
+    
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   toString
+    /* Description:     Represents the card object in a string representation and returns it. Includes the suit and rank of the card
+    /* Parameters:      none
+    /* Return Value:    String - The string representation of the card
+    /*
+    /*************************************************************************/
+    public String toString()
+    {
+        return rank.stringifiedRank + suit.stringifiedSuit;
+    }
   
 }//end Card
