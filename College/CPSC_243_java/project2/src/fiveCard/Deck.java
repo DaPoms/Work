@@ -32,8 +32,8 @@
 public class Deck 
 {
 
-    private Card[] deck; //Cards in the Deck
-    private int top;     //Pointer/Index of top card in Shoe (next card to deal)
+    private Card[] deck; // Cards in the Deck
+    private int top;     // Pointer/Index of top card in Shoe (next card to deal)
 
     /** 
      * Constructor
@@ -41,9 +41,10 @@ public class Deck
     /*************************************************************************/
     /*                                                                        
     /* Function name:   Deck
-    /* Description:     Creates a card deck, containing 1 of each combination of the rank and suit enums. Note that the deck is created in an ordered format
+    /* Description:     Constructor for a deck, Fills deck with 1 of each card type, based on the suit and rank enums.
+    /*                  For poker, this will be 52 cards. Do note the hand is constructed in an ordered pattern, unshuffled
     /* Parameters:      none
-    /* Return Value:    N/A
+    /* Return Value:    N/A (constructor)
     /*
     /*************************************************************************/
     public Deck() 
@@ -66,15 +67,16 @@ public class Deck
         }
 		
     }//end constructor
+  
     /*************************************************************************/
     /*                                                                        
     /* Function name:   cardsLeft
-    /* Description:     Returns the amount of cards that have not been drawn yet from the deck
+    /* Description:     Returns the amount of cards left in the deck that haven't been drawn already
     /* Parameters:      none
-    /* Return Value:    int - The amount of cards that have not been drawn yet from the deck
+    /* Return Value:    int - The amount of cards left
     /*
     /*************************************************************************/
-    int cardsleft()
+    int cardsLeft()
     {
         return deck.length - top; //note that if top = 52, it means deck is empty
     }
@@ -82,9 +84,9 @@ public class Deck
     /*************************************************************************/
     /*                                                                        
     /* Function name:   deal
-    /* Description:     Returns the card at the top of the deck, and sets the new top of the deck accordingly
+    /* Description:     Retrieves that card at the top of the draw pile
     /* Parameters:      none
-    /* Return Value:    Card - The card that was at the top of the deck
+    /* Return Value:    Card - The card that is retrieved from the top of the deck pile
     /*
     /*************************************************************************/
     Card deal() // what is to be returned or to actually return?
@@ -92,7 +94,7 @@ public class Deck
         return deck[top++];
     }
 
-   /** 
+   /** (not adding my own comment block as this was made by professor)
    * Return all cards to the deck and shuffle
    * using the Fisher-Yates shuffling algorithm.
    */

@@ -363,7 +363,7 @@ class Game {
         
         System.out.println("-----------------------------\nYour results:\nHand: " + playerHand + "\nHand Rank: " + playerHand.getHandRank() + "\n-----------------------------\n");
         System.out.println("Dealer's results:\nHand: " + dealerHand + "\nHand Rank: " + dealerHand.getHandRank() + "\n-----------------------------");
-        System.out.print("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
+        System.out.println("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
 
   }//end main
 
