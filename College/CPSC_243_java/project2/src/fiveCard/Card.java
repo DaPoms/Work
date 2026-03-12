@@ -133,18 +133,5 @@ public class Card {
   {
     return rank.stringifiedRank + suit.stringifiedSuit;
   }
-    
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   toString
-    /* Description:     Represents the card object in a string representation and returns it. Includes the suit and rank of the card
-    /* Parameters:      none
-    /* Return Value:    String - The string representation of the card
-    /*
-    /*************************************************************************/
-    public String toString()
-    {
-        return rank.stringifiedRank + suit.stringifiedSuit;
-    }
   
 }//end Card
