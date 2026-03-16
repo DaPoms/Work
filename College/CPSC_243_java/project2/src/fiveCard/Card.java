@@ -81,14 +81,6 @@ public class Card {
     suit = passedSuit;
   }
 
-   /*************************************************************************/
-    /*                                                                        
-    /* Function name:   getSuit
-    /* Description:     Returns the suit of the card (allows us to make card's data fields private)
-    /* Parameters:      none
-    /* Return Value:    Suit - The suit of the card 
-    /*
-    /*************************************************************************/
     /*************************************************************************/
     /*                                                                        
     /* Function name:   getSuit
@@ -99,14 +91,6 @@ public class Card {
     /*************************************************************************/
     Suit getSuit(){return suit;}
 
-   /*************************************************************************/
-    /*                                                                        
-    /* Function name:   getValue
-    /* Description:     Returns the integer value of the card, using it's rank
-    /* Parameters:      none
-    /* Return Value:    int - The int value of the card
-    /*
-    /*************************************************************************/
 
     /*************************************************************************/
     /*                                                                        

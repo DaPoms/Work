@@ -50,8 +50,6 @@ class Game {
         GameResult(String resultName){ this.resultName = resultName;}
     }
 
-
-
     /*************************************************************************/
     /*                                                                        
     /* Function name:   breakTie
@@ -236,7 +234,7 @@ class Game {
         if(hasKickers(rankType) && rankType != HandRank.HIGH_CARD)
         { // we are guaranteed to do one pair check for anything that enters here
             cardByCountAndRank[] playerTop2Cards = player.top2PairCount();
-            cardByCountAndRank[] dealerTop2Cards = player.top2PairCount();
+            cardByCountAndRank[] dealerTop2Cards = dealer.top2PairCount();
 
             GameResult nonKickerResult = breakTie(playerTop2Cards, dealerTop2Cards, handRankVal); 
             if (nonKickerResult != GameResult.PUSH)
@@ -270,7 +268,6 @@ class Game {
             default -> {return false;}
         }
     }
-
 
     /*************************************************************************/
     /*                                                                        
