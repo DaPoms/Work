@@ -25,9 +25,8 @@
 
 package fiveCard;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Scanner;
-
 import fiveCard.Card.Rank;
 import fiveCard.Hand.HandRank;
 import fiveCard.Hand.cardByCountAndRank;
@@ -50,8 +49,6 @@ class Game {
         final String resultName;
         GameResult(String resultName){ this.resultName = resultName;}
     }
-
-
 
     /*************************************************************************/
     /*                                                                        
@@ -237,7 +234,7 @@ class Game {
         if(hasKickers(rankType) && rankType != HandRank.HIGH_CARD)
         { // we are guaranteed to do one pair check for anything that enters here
             cardByCountAndRank[] playerTop2Cards = player.top2PairCount();
-            cardByCountAndRank[] dealerTop2Cards = player.top2PairCount();
+            cardByCountAndRank[] dealerTop2Cards = dealer.top2PairCount();
 
             GameResult nonKickerResult = breakTie(playerTop2Cards, dealerTop2Cards, handRankVal); 
             if (nonKickerResult != GameResult.PUSH)
@@ -271,7 +268,6 @@ class Game {
             default -> {return false;}
         }
     }
-
 
     /*************************************************************************/
     /*                                                                        
@@ -361,7 +357,7 @@ class Game {
         draw5(playerHand, gameDeck);
         draw5(dealerHand, gameDeck);
         }//end if
-
+        
         System.out.println("-----------------------------\nYour results:\nHand: " + playerHand + "\nHand Rank: " + playerHand.getHandRank() + "\n-----------------------------\n");
         System.out.println("Dealer's results:\nHand: " + dealerHand + "\nHand Rank: " + dealerHand.getHandRank() + "\n-----------------------------");
         System.out.println("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));

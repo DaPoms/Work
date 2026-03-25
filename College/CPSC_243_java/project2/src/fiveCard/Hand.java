@@ -34,9 +34,9 @@ import java.util.Comparator;
 */
 public class Hand {
 
-  /**
-   * Dynamic Array structure for storing Cards in the hand
-   */
+    /**
+    * Dynamic Array structure for storing Cards in the hand
+    */
     private ArrayList<Card> hand;
 
 
@@ -145,7 +145,8 @@ public class Hand {
     /* Return Value:    boolean - true if all cards in hand array are of the same suit, false otherwise
     /*
     /*************************************************************************/
-    public boolean isSameSuit() // I'm trying to build my functions as modular so that they could technically be used in other Poker-like games (so not assuming 5 card hands)
+    //made private but I'll make this (and the 2 below functions) package-private if needed for future projects
+    private boolean isSameSuit() // I'm trying to build my functions as modular so that they could technically be used in other Poker-like games (so not assuming 5 card hands)
     {
         Card.Suit currSuit = null;
         if(hand.size() != 0) // just for error handling (of empty hand)
@@ -208,16 +209,14 @@ public class Hand {
             cardCount = 0;
         }
 
-        public int getCardRankVal(){return cardRankVal;}
-        public int getCardCount(){return cardCount;}
+        int getCardRankVal(){return cardRankVal;}
+        int getCardCount(){return cardCount;}
         public String toString()
         {
             return "{" + cardRankVal + ", " + cardCount + "}";
         }
-        
     }
 
-    
     /*************************************************************************/
     /*                                                                        
     /* Function name:   top2PairCount 
@@ -243,7 +242,6 @@ public class Hand {
                 rankCount.set(i, rankCount.get(i) + 1);
         }
 
-        
         cardByCountAndRank[] top2byCount = {new cardByCountAndRank(), new cardByCountAndRank()};
         
         for(int i = 0; i < rankCount.size(); i++)
@@ -269,7 +267,6 @@ public class Hand {
            top2byCount[1] = top2byCount[0];
            top2byCount[0] = placeholder;
         }
-        
         return top2byCount;
     }
     
@@ -320,8 +317,7 @@ public class Hand {
             return HandRank.ONE_PAIR; // implicit case for one pair (if there exists a >=2 grouping that <3 and does not have an additional 2 grouping, then its a one pair)
         }
 
-    return HandRank.HIGH_CARD;
-    
+        return HandRank.HIGH_CARD;
     }
 
 
@@ -333,7 +329,7 @@ public class Hand {
     /* Return Value:    void
     /*
     /*************************************************************************/
-    void clear()
+    void clear() // not really used yet...
     {
         hand.clear();
     }

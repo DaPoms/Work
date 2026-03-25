@@ -81,28 +81,29 @@ public class Card {
     suit = passedSuit;
   }
 
-   /*************************************************************************/
+    /*************************************************************************/
     /*                                                                        
     /* Function name:   getSuit
-    /* Description:     Returns the suit of the card (allows us to make card's data fields private)
+    /* Description:     Returns the suit of the card
     /* Parameters:      none
-    /* Return Value:    Suit - The suit of the card 
+    /* Return Value:    Suit passedSuit - The suit of the card
     /*
     /*************************************************************************/
-  Suit getSuit(){return suit;}
+    Suit getSuit(){return suit;}
 
-   /*************************************************************************/
+
+    /*************************************************************************/
     /*                                                                        
-    /* Function name:   getValue
-    /* Description:     Returns the integer value of the card, using it's rank
+    /* Function name:   getvalue
+    /* Description:     Returns the value of the card based on the card's rank
     /* Parameters:      none
-    /* Return Value:    int - The int value of the card
+    /* Return Value:    int - score of the card
     /*
     /*************************************************************************/
-  int getValue() // we do not need to specify scope due to package-private being the exact scope we need
-  { 
-    return rank.ordinal();
-  }
+    int getValue() // we do not need to specify scope due to package-private being the exact scope we need
+    { 
+        return rank.ordinal();
+    }
 
    /*************************************************************************/
     /*                                                                        

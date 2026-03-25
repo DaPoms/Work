@@ -74,6 +74,7 @@ public class Arrayops
       arr2[0] = -1;
       System.out.println("Oh no this is a shallow copy!");
       printArray(arr);
+      System.out.println("You see that! Its identical the the above array, when we only used 1 of the identifiers for changing the array.");
       printArray(arr2);
 
       int[] arr3 = deepCopyArr(arr2);
