@@ -1,0 +1,164 @@
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Runner: processes
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Chooser: simple
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration suite_name = "public"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration cache_filename = "/home/students.kutztown.edu/dtrip782/CPSC310/project1-handout/_build/default/test/oUnit-$(suite_name).cache"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration run_gc_full_major = "true"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration display = "true"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration results_style_1_X = "false"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration testdata_dir = "none"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration health_check_interval = "1."
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration verbose = "false"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration chooser = "simple"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration output_html_dir = "none"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration processes_kill_period = "5."
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration runner = "processes"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration shards = "2"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration processes_grace_period = "5."
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration log_encoding = "utf-8"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration output_junit_file = "none"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration ci = "false"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Configuration output_file = "/home/students.kutztown.edu/dtrip782/CPSC310/project1-handout/_build/default/test/oUnit-$(suite_name)-$(shard_id).log"
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Using 2 workers maximum.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Starting worker number K120024CHIP#01.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Worker K120024CHIP#01 started.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Starting worker number K120024CHIP#02.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Worker K120024CHIP#02 started.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:1:is_odd, public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:1:is_odd, public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Start test public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:1:is_odd, public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:0:abs is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:1:is_odd, public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:1:is_odd, public:0:abs.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:2:divides, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:2:divides.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:2:divides, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:2:divides is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:2:divides, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:2:divides.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:2:divides, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:3:area, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:3:area.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:3:area, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:3:area is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:3:area, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:3:area.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:3:area, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:4:equiv_frac, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:4:equiv_frac.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:4:equiv_frac, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Test public:1:is_odd is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:4:equiv_frac, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: End test public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:4:equiv_frac, public:1:is_odd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:5:gcd, public:4:equiv_frac.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Start test public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:5:gcd, public:4:equiv_frac.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:4:equiv_frac is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:5:gcd, public:4:equiv_frac.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:4:equiv_frac.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:5:gcd, public:4:equiv_frac.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:6:ack, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:6:ack.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:6:ack, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:6:ack is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:6:ack, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:6:ack.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:6:ack, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:7:pow, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:7:pow.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:7:pow, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:7:pow is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:7:pow, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:7:pow.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:7:pow, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:8:log, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Test public:5:gcd is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:8:log.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:8:log, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: End test public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:8:log is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:8:log, public:5:gcd.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:8:log.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:9:len, public:8:log.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Start test public:9:len.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:10:get, public:9:len.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Test public:9:len is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:10:get.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:10:get, public:9:len.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: End test public:9:len.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:10:get, public:9:len.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:11:partial_sum, public:10:get.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Start test public:11:partial_sum.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:11:partial_sum, public:10:get.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:10:get is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:11:partial_sum, public:10:get.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:10:get.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:11:partial_sum, public:10:get.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:12:partial_sums, public:11:partial_sum.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Test public:11:partial_sum is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:12:partial_sums.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:12:partial_sums, public:11:partial_sum.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: End test public:11:partial_sum.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:12:partial_sums, public:11:partial_sum.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:13:zip, public:12:partial_sums.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Start test public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:13:zip, public:12:partial_sums.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:12:partial_sums is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:13:zip, public:12:partial_sums.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:12:partial_sums.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:13:zip, public:12:partial_sums.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 2 tests running : public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Start test public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 2 tests running : public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: Test public:13:zip is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 2 tests running : public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#02 I: End test public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 2 tests running : public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 2 tests running: public:14:merge, public:13:zip.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 1 tests running : public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 1 tests running: public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: Test public:14:merge is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 1 tests running : public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 1 tests running: public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#01 I: End test public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Still 1 tests running : public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 1 tests running: public:14:merge.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: 0 tests running: .
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Worker K120024CHIP#02 has ended.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Worker K120024CHIP#01 has ended.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Used 2 worker during test execution.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Run 10 tests with shard K120024CHIP#01.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Run 5 tests with shard K120024CHIP#02.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Check health of shard K120024CHIP#01, 1 times.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Check health of shard K120024CHIP#02, 4 times.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: ==============
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Summary:
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:14:merge is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:13:zip is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:12:partial_sums is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:11:partial_sum is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:10:get is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:9:len is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:8:log is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:5:gcd is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:7:pow is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:6:ack is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:4:equiv_frac is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:1:is_odd is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:3:area is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:2:divides is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Test public:0:abs is successful.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Ran: 15 tests in: 0.12 seconds.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Cases: 15.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Tried: 15.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Errors: 0.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Failures: 0.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Skip: 0.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Todo: 0.
+2026-02-21T01:14:22+00:00 K120024CHIP#00 I: Timeout: 0.

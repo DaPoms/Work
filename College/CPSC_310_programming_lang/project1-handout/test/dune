@@ -1,0 +1,6 @@
+(tests
+  (names public student)
+  (libraries warmup oUnit))
+(env
+  (dev
+    (flags (:standard -w -33))))

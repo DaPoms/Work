@@ -1,0 +1,9 @@
+(library
+ (name project3)
+ (modules lexer token)
+ (libraries str))
+
+(env
+ (dev
+  (flags
+   (:standard -w -26-27-32-33-34-39))))

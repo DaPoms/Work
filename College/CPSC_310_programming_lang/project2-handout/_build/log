@@ -1,0 +1,30 @@
+# dune runtest
+# OCAMLPARAM: unset
+# Shared cache: enabled-except-user-rules
+# Shared cache location: /home/students.kutztown.edu/dtrip782/.cache/dune/db
+# Workspace root: /home/students.kutztown.edu/dtrip782/CPSC310/project2-handout
+# Auto-detected concurrency: 8
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /home/kutztown.edu/schwesin/.opam/default/bin/ocamlc.opt -config > /tmp/dune_65b389_output
+$ (cd _build/default && /home/kutztown.edu/schwesin/.opam/default/bin/ocamldep.opt -modules -impl src/hof.ml) > _build/default/src/.project2.objs/project2__Hof.impl.d
+$ (cd _build/default && /home/kutztown.edu/schwesin/.opam/default/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -27-39-33-32 -g -bin-annot -bin-annot-occurrences -I src/.project2.objs/byte -no-alias-deps -opaque -open Project2 -o src/.project2.objs/byte/project2__Hof.cmo -c -impl src/hof.ml)
+$ (cd _build/default && /home/kutztown.edu/schwesin/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -27-39-33-32 -g -I src/.project2.objs/byte -I src/.project2.objs/native -cmi-file src/.project2.objs/byte/project2__Hof.cmi -no-alias-deps -opaque -open Project2 -o src/.project2.objs/native/project2__Hof.cmx -c -impl src/hof.ml)
+$ (cd _build/default && /home/kutztown.edu/schwesin/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -27-39-33-32 -g -a -o src/project2.cmxa src/.project2.objs/native/project2.cmx src/.project2.objs/native/project2__Tree.cmx src/.project2.objs/native/project2__Hof.cmx)
+$ (cd _build/default && /home/kutztown.edu/schwesin/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -33 -g -o test/student.exe src/project2.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/ocaml/unix/unix.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/stdlib-shims/stdlib_shims.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/ounit2/oUnit.cmxa test/.public.eobjs/native/dune__exe.cmx test/.public.eobjs/native/dune__exe__Student.cmx)
+$ (cd _build/default && /home/kutztown.edu/schwesin/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -33 -g -o test/public.exe src/project2.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/ocaml/unix/unix.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/stdlib-shims/stdlib_shims.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/ounit2/advanced/oUnitAdvanced.cmxa /home/kutztown.edu/schwesin/.opam/default/lib/ounit2/oUnit.cmxa test/.public.eobjs/native/dune__exe.cmx test/.public.eobjs/native/dune__exe__Public.cmx)
+$ (cd _build/default/test && ./student.exe)
+> .............
+> Ran: 13 tests in: 0.12 seconds.
+> OK
+$ (cd _build/default/test && ./public.exe)
+> .............
+> Ran: 13 tests in: 0.13 seconds.
+> OK

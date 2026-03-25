@@ -1,0 +1,16 @@
+# dune exec bin/main.ml
+# OCAMLPARAM: unset
+# Shared cache: enabled-except-user-rules
+# Shared cache location: /home/students.kutztown.edu/dtrip782/.cache/dune/db
+# Workspace root: /home/students.kutztown.edu/dtrip782/CPSC310/project3-handout
+# Auto-detected concurrency: 8
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ /home/kutztown.edu/schwesin/.opam/default/bin/ocamlc.opt -config > /tmp/dune_30e80e_output

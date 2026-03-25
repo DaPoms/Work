@@ -1,0 +1,148 @@
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Runner: processes
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Chooser: simple
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration suite_name = "student"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration cache_filename = "/home/students.kutztown.edu/dtrip782/CPSC310/project2-handout/_build/default/test/oUnit-$(suite_name).cache"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration run_gc_full_major = "true"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration display = "true"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration results_style_1_X = "false"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration testdata_dir = "none"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration health_check_interval = "1."
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration verbose = "false"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration chooser = "simple"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration output_html_dir = "none"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration processes_kill_period = "5."
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration runner = "processes"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration shards = "2"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration processes_grace_period = "5."
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration log_encoding = "utf-8"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration output_junit_file = "none"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration ci = "false"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Configuration output_file = "/home/students.kutztown.edu/dtrip782/CPSC310/project2-handout/_build/default/test/oUnit-$(suite_name)-$(shard_id).log"
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Using 2 workers maximum.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Starting worker number K120024CHIP#01.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Worker K120024CHIP#01 started.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Starting worker number K120024CHIP#02.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Worker K120024CHIP#02 started.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:1:student_elem_count, student:0:student_len.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:0:student_len.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:1:student_elem_count, student:0:student_len.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:0:student_len is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:1:student_elem_count, student:0:student_len.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:0:student_len.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:1:student_elem_count, student:0:student_len.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:2:student_uniq, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Start test student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:2:student_uniq, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:2:student_uniq.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:2:student_uniq, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:2:student_uniq is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:2:student_uniq, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:2:student_uniq.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:2:student_uniq, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:3:student_occurrence_list, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:3:student_occurrence_list.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:3:student_occurrence_list, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:3:student_occurrence_list is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:3:student_occurrence_list, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:3:student_occurrence_list.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:3:student_occurrence_list, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:4:student_bind, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:4:student_bind.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:4:student_bind, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:4:student_bind is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:4:student_bind, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:4:student_bind.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:4:student_bind, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:5:student_ap, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:5:student_ap.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:5:student_ap, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:5:student_ap is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:5:student_ap, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:5:student_ap.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:5:student_ap, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:6:student_tree_mem, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:6:student_tree_mem.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:6:student_tree_mem, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Test student:1:student_elem_count is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:6:student_tree_mem, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: End test student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:6:student_tree_mem, student:1:student_elem_count.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:7:student_tree_insert_all, student:6:student_tree_mem.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Start test student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:7:student_tree_insert_all, student:6:student_tree_mem.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:6:student_tree_mem is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:7:student_tree_insert_all, student:6:student_tree_mem.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:6:student_tree_mem.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:7:student_tree_insert_all, student:6:student_tree_mem.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:8:student_tree_fold, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:8:student_tree_fold.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:8:student_tree_fold, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:8:student_tree_fold is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:8:student_tree_fold, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:8:student_tree_fold.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:8:student_tree_fold, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:9:student_tree_size, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:9:student_tree_size.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:9:student_tree_size, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Test student:7:student_tree_insert_all is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:9:student_tree_size, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: End test student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:9:student_tree_size, student:7:student_tree_insert_all.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:10:student_tree_height, student:9:student_tree_size.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Start test student:10:student_tree_height.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:10:student_tree_height, student:9:student_tree_size.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:9:student_tree_size is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:10:student_tree_height, student:9:student_tree_size.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:9:student_tree_size.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:10:student_tree_height, student:9:student_tree_size.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:11:student_tree_as_list, student:10:student_tree_height.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Start test student:11:student_tree_as_list.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:11:student_tree_as_list, student:10:student_tree_height.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Test student:10:student_tree_height is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:11:student_tree_as_list, student:10:student_tree_height.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: End test student:10:student_tree_height.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: Test student:11:student_tree_as_list is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:11:student_tree_as_list, student:10:student_tree_height.
+2026-03-10T02:42:53+00:00 K120024CHIP#01 I: End test student:11:student_tree_as_list.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Still 2 tests running : student:12:student_tree_map, student:11:student_tree_as_list.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 2 tests running: student:12:student_tree_map, student:11:student_tree_as_list.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Start test student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Still 1 tests running : student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 1 tests running: student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: Test student:12:student_tree_map is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Still 1 tests running : student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 1 tests running: student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#02 I: End test student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Still 1 tests running : student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 1 tests running: student:12:student_tree_map.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: 0 tests running: .
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Worker K120024CHIP#01 has ended.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Worker K120024CHIP#02 has ended.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Used 2 worker during test execution.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Run 9 tests with shard K120024CHIP#01.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Run 4 tests with shard K120024CHIP#02.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Check health of shard K120024CHIP#01, 4 times.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Check health of shard K120024CHIP#02, 1 times.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: ==============
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Summary:
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:12:student_tree_map is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:11:student_tree_as_list is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:10:student_tree_height is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:9:student_tree_size is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:7:student_tree_insert_all is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:8:student_tree_fold is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:6:student_tree_mem is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:1:student_elem_count is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:5:student_ap is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:4:student_bind is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:3:student_occurrence_list is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:2:student_uniq is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Test student:0:student_len is successful.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Ran: 13 tests in: 0.12 seconds.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Cases: 13.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Tried: 13.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Errors: 0.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Failures: 0.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Skip: 0.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Todo: 0.
+2026-03-10T02:42:53+00:00 K120024CHIP#00 I: Timeout: 0.
