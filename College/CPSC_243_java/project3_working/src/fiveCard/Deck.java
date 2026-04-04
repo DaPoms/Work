@@ -31,6 +31,7 @@ public class Deck
 
     private Card[] deck; // Cards in the Deck
     private int top;     // Pointer/Index of top card in Shoe (next card to deal)
+    private int reshuffleCount; // Reshufflecount specifies the ith card to stop at. so 43 means the card at i = 43
 
     /** 
      * Constructor
@@ -44,7 +45,7 @@ public class Deck
     /* Return Value:    N/A (constructor)
     /*
     /*************************************************************************/
-    public Deck() 
+    public Deck(int reshuffleCount) throws PokerException
     {
         top = 0;
         // I liked the idea of an adaptive deck size (as in it changes size based on the user's card combos) for more code reusability (like to use for other card games)
@@ -62,6 +63,11 @@ public class Deck
                 ++i;
             }
         }
+ // My reroll is 11-44 inclusive as the top references the top card that hasnt been dealt yet, and therefore there are only 8 numbers between 44-51 *inclusive* (44 45 46 47 48 49 50 51), 
+ // which means you can't do all the discards if i >= 44
+        this.reshuffleCount = reshuffleCount;
+        if(this.reshuffleCount > 44)
+            throw new PokerException("Deck has a reshuffle count that is higher than the allowed reshuffle count. Deck has a max shuffle count index of 44 when the passed reshuffle count was " + this.reshuffleCount);
 		
     }//end constructor
   
@@ -86,24 +92,23 @@ public class Deck
     /* Return Value:    Card - The card that is retrieved from the top of the deck pile
     /*
     /*************************************************************************/
-    Card deal() // what is to be returned or to actually return?
+    Card deal() throws PokerException// what is to be returned or to actually return?
     { // do we need error handling for when dealing a hand that is empty???
+        if(top >= reshuffleCount) // This is why I made reshuffleCount's max val 44, as INDEX 44 would only allow 8 discards: 44 45 46 47 48 49 50 51
+            throw new PokerException("Tried to withdraw card past the allowed reshuffle count, at index " + top + ". Index must be less than " + reshuffleCount);
         return deck[top++];
     }
 
 
-    int reshuffleCount(int min, int max) // 11, 53 for 11-52
-    {
-        return (int) Math.random() * (max - min) + min; //code aquired from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-    }
+    // 1, 3  max - min = 2
+
 
    /** (not adding my own comment block as this was made by professor)
    * Return all cards to the deck and shuffle
    * using the Fisher-Yates shuffling algorithm.
    */
-    public void shuffle() {
+    public void shuffle(int reshuffleCount) {
         top = 0;
-
         for(int i = deck.length - 1; i > top; i--) 
         {
             int rnd = (int) (Math.random() * (i + 1) );
@@ -111,7 +116,7 @@ public class Deck
             deck[rnd] = deck[i];
             deck[i] = temp;
         }//end for
-    
+    this.reshuffleCount = reshuffleCount;
     }//end shuffle
   
 }//end Shoe

@@ -23,26 +23,8 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
         ROYAL_FLUSH //9
     }
 
-    @Override
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   addCard 
-    /* Description:     adds a card to the hand, inserting it with an insertion sort by card value to ensure 
-    /*                  hands are sorted
-    /* Parameters:      Card c - the card that is added to the hand
-    /* Return Value:    void
-    /*
-    /*************************************************************************/
-    void addCard(Card c) throws PokerException//ensures adding is done in a sorted manner (with insertion sort)
-    {
-        int i = 0;
-        for(Card cardInHand : hand)
-        {
-            if(c.getValue() > cardInHand.getValue())
-                i++;
-        }
-        hand.add(i, c);
-    }
+  
+
     /*************************************************************************/
     /*                                                                        
     /* Function name:   getRankArray 

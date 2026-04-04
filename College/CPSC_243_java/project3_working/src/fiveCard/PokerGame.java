@@ -36,6 +36,8 @@ import java.util.Scanner;
 import fiveCard.Card.Rank;
 import fiveCard.PokerHand.HandRank;
 import fiveCard.PokerHand.cardByCountAndRank;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Generate and play a hand of Poker
@@ -341,55 +343,218 @@ public class PokerGame {
             default -> {return result.resultName;} //case of push
         }
     }
+
+
+
+    ////////////////////// Project 3 code //////////////////////
+    static boolean isValidDiscardRequest(ArrayList<Integer> toBeDiscarded)
+    {
+        if(toBeDiscarded.size() > 5) 
+        {
+            System.err.println("Invalid input. The max amount of discards is 5, you entered " + toBeDiscarded.size()); // Am I FORCED to make these catch statements?
+            return false; // If user deletes more cards that possible or duplicates, it is invalid
+        }
+        for (int i = 0; i < toBeDiscarded.size() - 1; i++)
+        {
+            int elem = toBeDiscarded.get(i);
+            if(elem == toBeDiscarded.get(i+1))
+            {
+                System.err.println("Invalid input, referenced card " + elem + " more than once, only 1 allowed (for each card).");
+                return false;  
+            }
+            if (elem < 1 || elem > 5) 
+            {
+                System.err.println("Invalid input, make sure the numbers entered are between 1-5 inclusive, \nor -1 on its own to skip discard. (" + elem + " was not accepted)");
+                return false;
+            }
+        }
+        // Below is very ugly syntax, but it prevents us from having to do an additional for i-n loop
+        if (toBeDiscarded.get(toBeDiscarded.size() - 1) < 1 || toBeDiscarded.get(toBeDiscarded.size() - 1) > 5) 
+            {
+                System.err.println("Invalid input, make sure the numbers entered are between 1-5 inclusive,  \nor -1 on its own to skip discard. (" + toBeDiscarded.get(toBeDiscarded.size() - 1) + " was not accepted)");
+                return false;
+            }
+        return true;
+    }
+    
+    static ArrayList<Integer> askUserForDiscard(PokerHand playerHand, Scanner scan)
+    {
+        boolean isNotDoneInput = true;
+        ArrayList<Integer> toBeDiscarded = new ArrayList<>();
+        Scanner stringScanner;
+        do
+        {
+            System.out.println("-----------------------------\nHand: " + playerHand + "\nWhich cards you want to remove?: \n(Use 1-5, 1 for the first and 5 for the last card in hand. enter -1 ON ITS OWN to SKIP discard)"); // TODO: Check that this is allowed via definition of separation of I/O
+            toBeDiscarded.clear(); // WE use array list to allow us to remove backwards, which makes card removal MUCH simpler   
+            stringScanner = new Scanner(scan.nextLine());
+            while(stringScanner.hasNextInt())
+                toBeDiscarded.add(stringScanner.nextInt());
+            toBeDiscarded.sort(Comparator.naturalOrder()); // This is required for my isValidDiscardRequest, which checks for valid user input
+            boolean hasOnlyInts = !stringScanner.hasNext();
+            // Left of || accounts for skipping discard, right case counts for properely formatting a discard request for when to stop asking for input
+            if( (toBeDiscarded.size() == 1 && toBeDiscarded.get(0) == -1) || (hasOnlyInts && isValidDiscardRequest(toBeDiscarded)) ) // if we have more leftover, it means that something stopped the scanner prematurely (a non int/whitespace).
+                isNotDoneInput = false;
+            else if(!hasOnlyInts)
+                System.err.println("Invalid symbol of \"" + stringScanner.next() + "\" in input. Only numbers 1-5 and -1 on its own are accepted");
+        } while(isNotDoneInput);
+        stringScanner.close();
+        return toBeDiscarded;
+    }
+ 
+
+    static void discardPhase(PokerHand playerHand, PokerHand dealerHand, Deck deck, Scanner scan)
+    {
+        boolean hasToReShuffleAfterDeal = false;
+        int drawnCount = 0;
+        System.out.println("-----------------------------\nDiscard phase:"); // TODO : POSSIBLY JUST PUT THIS IN MAIN
+        ArrayList<Integer> playerCardsToBeDiscarded = askUserForDiscard(playerHand, scan);
+        if((playerCardsToBeDiscarded.size() != 1 || playerCardsToBeDiscarded.get(0) != -1)) // Ensures we do not discard when user enters -1
+        {
+            try{ // Case of removing nonexistent card (should've been prevented by askUserForDiscard function)
+            for(int i = playerCardsToBeDiscarded.size() - 1; i >= 0; i--) // Reverse order of removal ensures easy deletion (shifted elements have no impact on deletion)
+                playerHand.removeCard(playerCardsToBeDiscarded.get(i) - 1);
+            
+            } catch (PokerException e)
+            {
+                e.printStackTrace();
+                System.exit(1);
+            }
+
+            for(int i = 0; i < playerCardsToBeDiscarded.size(); i++) // Refills the hand with new cards
+                try{
+                    playerHand.addCard((deck.deal())); // TODO THIS IS WHERE WE WANT TO IGNORE IF WE HIT DISCARD COUNT MID DRAW, WE JUST IGNORE ERROR AND RUN ANYWAYS
+                    
+                } catch(PokerException e)
+                {
+                    hasToReShuffleAfterDeal = true; // TODO: ISSUE IS THAT WHEN WE DRAW AFTER HITTING SHUFFLECOUNT, HASTOSHUFFLEAFTERDEAL OCCURS, BUT THE CARDS WERE NOT ADDED PAST RESHUFFLECOUNT
+
+                }  // Catching case of drawing cards past reshufflecount, which should be allowed, but we have to reshuffle the deck afterwards
+                
+            if(hasToReShuffleAfterDeal) // Reshuffle case (happens AFTER the discard phase)
+            {
+                System.err.println("YOOOOOOOOOOOOOO I HAD TO RESHUFFLE AFTER DISCARD!!");
+                deck.shuffle(rollReshuffleCount(11, 44));
+            }
+        }
+        
+    }
+    
+
+    // Decided to implment reshuffleCount value here to make Deck.java more generalized (as this shufflecount aspect is unique to poker), even though theres still some poker specific aspects to Deck.java
+    static int rollReshuffleCount(int min, int max) // 11-44 as i = 43 is the 44th element in an array. 43 is the last amount to allow shuffling issues to not occur
+    {
+        return (int) (Math.random() * (max - min + 1) + min);  //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random (yes this is a JS source, not java)
+    }
+
+    static boolean askIfContinue(Scanner cin)
+    {
+        do
+        {
+            System.out.print("Do you want to play another game of Poker? (enter 'Y' for yes, or 'N' for no): ");
+            switch (cin.nextLine())
+            {
+            case "Y", "y" -> {return true;}
+            case "N", "n" -> {return false;}
+            };
+        }
+        while (true);
+    }
+
     public static void main(String[] args) 
     {
-        Scanner cin = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         
         System.out.print("What is your name?: ");
-        System.out.println("Welcome to poker " + getName(cin) + "!");
+        System.out.println("Welcome to poker " + getName(scan) + "!");
 
         PokerHand playerHand = new PokerHand();
         PokerHand dealerHand = new PokerHand();
         /* 
         PokerHand player = new PokerHand();  SUPPOSED TO BE THIS
         PokerHand dealer = new PokerHand(); */
-        Deck gameDeck = new Deck();
+        Deck gameDeck = null; // This is required as try catch's are inferred to not succeed by compiler
+        try{
+            gameDeck = new Deck(rollReshuffleCount(11,44));
+        } catch(PokerException e)
+        {
+            e.printStackTrace();
+            System.exit(1);
+        }
         if( args.length > 0 ) {
             try
             {
-                CmdLineInput.parseArguments(args, playerHand, dealerHand);//STUDENT: Enter Hands here
+                CmdLineInput.parseArguments(args, playerHand, dealerHand);// Note we need a try catch here because parseArgs uses addCard, which does have 'throws' functionality
             }
             catch(PokerException e)
             {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+                System.out.println(e.getStackTrace());
+                System.exit(1);
             }
-        } else {
-        //STUDENT: Deal cards normally
-        
-        gameDeck.shuffle(); // Should all decks be preshuffled when constructed or can I call like this?
-        try
-        {
-            draw5(playerHand, gameDeck);
-            draw5(dealerHand, gameDeck);
-        } catch(PokerException e)
-        {
-            e.printStackTrace();
-            System.out.println("\n" + e.getMessage());
-        }
-        }//end if
-        
-        System.out.println("-----------------------------\nYour results:\nHand: " + playerHand + "\nHand Rank: " + playerHand.getHandRank() + "\n-----------------------------\n");
-        System.out.println("Dealer's results:\nHand: " + dealerHand + "\nHand Rank: " + dealerHand.getHandRank() + "\n-----------------------------");
-        try{
-        System.out.println("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
-        } catch(PokerException e)
-        {
-            e.printStackTrace();
-            System.out.println("\n" + e.getMessage());
-        }
 
-  }//end main
+            // Currently, arg case will run exactly one poker round
+            System.out.println("-----------------------------\nYour results:\nHand: " + playerHand + "\nHand Rank: " + playerHand.getHandRank() + "\n-----------------------------");
+            System.out.println("Dealer's results:\nHand: " + dealerHand + "\nHand Rank: " + dealerHand.getHandRank() + "\n-----------------------------");
+            try{
+            System.out.println("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
+            } catch(PokerException e)
+            {
+                e.printStackTrace(); // printStackTrace also displays the message of exception
+                System.exit(1);
+            }
+
+
+        } else 
+        {
+            
+            gameDeck.shuffle(rollReshuffleCount(11,44));
+            do
+            {
+                // DRAW PHASE //
+                try
+                {
+                    draw5(playerHand, gameDeck);
+                    draw5(dealerHand, gameDeck);
+                } catch(PokerException e) // Deck.deal case, this allows us to draw 10 cards even if there is an out of bounds error, in which we know to reshuffle
+                { // If we hit the rehsufflecount of draw phase, we should undo the draw, reshuffle, and draw again!
+                    gameDeck.shuffle(rollReshuffleCount(11, 44)); // We reshuffle if we hit the reshufflecount after the draw phase
+                    playerHand.clear();
+                    dealerHand.clear();
+                    try 
+                    {
+                        draw5(playerHand, gameDeck);
+                        draw5(dealerHand, gameDeck);
+                    } catch(PokerException er) {
+                        System.err.println("Shuffling did not reshuffle the deck, leading to a failed card deal.");
+                        er.printStackTrace();
+                        System.exit(1);
+                    }
+                }
+
+                // DISCARD PHASE //
+                discardPhase(playerHand, dealerHand, gameDeck, scan); // TODO: ASK IF ITS OK THAT WE USED A TRY CATCH NOT IN MAIN?
+               
+
+
+                // RESULTS //
+
+                System.out.println("-----------------------------\nYour results:\nHand: " + playerHand + "\nHand Rank: " + playerHand.getHandRank() + "\n-----------------------------");
+                System.out.println("Dealer's results:\nHand: " + dealerHand + "\nHand Rank: " + dealerHand.getHandRank() + "\n-----------------------------");
+                try{
+                System.out.println("Result: " + getStringResults(isPlayerWinner(playerHand, dealerHand)));
+                } catch(PokerException e)
+                {
+                    e.printStackTrace(); // printStackTrace also displays the message of exception
+                    System.exit(1);
+                }
+
+                //resets hands for next round 
+                playerHand.clear();
+                dealerHand.clear();
+
+            } while (askIfContinue(scan));
+        } // end else
+    }//end main
 
 }//end Game
+
 

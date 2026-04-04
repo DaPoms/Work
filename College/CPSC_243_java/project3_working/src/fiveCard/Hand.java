@@ -34,8 +34,7 @@ public class Hand {
     /**
     * Dynamic Array structure for storing Cards in the hand
     */
-    protected ArrayList<Card> hand; // DOUBLE CHECK IF THIS SHOULD BE PROTECTED, AS WE HAVE A PACKAGE, BUT 
-
+    protected ArrayList<Card> hand; // With professor permission, we are allowed to make hand protected for use by pokerHand
 
     /*************************************************************************/
     /*                                                                        
@@ -58,11 +57,10 @@ public class Hand {
     Card getCard(int pos) throws PokerException
     {
         if(pos > hand.size() - 1 || pos < 0) 
-            throw new PokerException("Hand does not contain index " + pos + ". Hand is of size " + hand.size() ) ;
+            throw new PokerException("Tried to remove card at invalid index of " + pos + ". Hand is of size " + hand.size() ) ;
         return hand.get(pos);
     }
 
-     // TODO: Add exception handling
         /*************************************************************************/
     /*                                                                        
     /* Function name:   addCard 
@@ -72,12 +70,27 @@ public class Hand {
     /* Return Value:    void
     /*
     /*************************************************************************/
-    void addCard(Card c) throws PokerException //ensures adding is done in a sorted manner (with insertion sort)
+
+
+    void addCard(Card c) throws PokerException//ensures adding is done in a sorted manner (with insertion sort)
     {
         if (c == null)
-            throw new PokerException("Attempted to add a NULL card"); // No reason for try catch
-        hand.add(c);
+            throw new PokerException("Attempted to add a NULL card");
+        int i = 0;
+        for(Card cardInHand : hand)
+            if(c.getValue() > cardInHand.getValue())
+                i++;
+        hand.add(i, c);
     }
+
+
+    void removeCard(int i) throws PokerException
+    {
+        if(i > hand.size() - 1 || i < 0) 
+            throw new PokerException("Tried to remove card at invalid index of " + i + ". Hand is of size " + hand.size() ) ;
+        hand.remove(i); 
+    }// Deletes the i-th element from the hand
+    
 
     /*************************************************************************/
     /*                                                                        
