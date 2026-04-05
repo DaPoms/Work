@@ -1,3 +1,19 @@
+/************************************************************/
+/* Author:         Daniel Tripoli                           */
+/* Major:          Computer Science                         */
+/* Creation Date:  Match 30, 2026                           */
+/* Due Date:       April 6, 2026                            */
+/* Course: CPSC    243 010                                  */
+/* Professor Name: Griffin Nye                              */
+/* Project:        #3                                       */
+/* Filename:       PokerHand.java                           */
+/* Purpose:        Impliments the card functionality used in*/
+/*                 poker                                    */
+/*                                                          */
+/*                                                          */
+/************************************************************/
+
+
 package fiveCard;
 
 import java.util.ArrayList; // TEST IF WE REALLY NEED THIS OR NOT

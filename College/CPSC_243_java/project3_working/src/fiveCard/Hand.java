@@ -1,14 +1,14 @@
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
-/* Creation Date:  February 26, 2026                        */
-/* Due Date:       Match 13, 2026                           */
+/* Creation Date:  Match 30, 2026                           */
+/* Due Date:       April 6, 2026                            */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #2                                       */
+/* Project:        #3                                       */
 /* Filename:       Hand.java                                */
-/* Purpose:        Impliment the hand functionality used in */
-/*                 poker                                    */
+/* Purpose:        Impliment the general functionality of   */
+/*                 hands in card games                      */
 /*                                                          */
 /************************************************************/
 
@@ -61,7 +61,7 @@ public class Hand {
         return hand.get(pos);
     }
 
-        /*************************************************************************/
+    /*************************************************************************/
     /*                                                                        
     /* Function name:   addCard 
     /* Description:     adds a card to the hand, inserting it with an insertion sort by card value to ensure 
@@ -70,8 +70,7 @@ public class Hand {
     /* Return Value:    void
     /*
     /*************************************************************************/
-
-
+    // Is it normal to throw our custom poker exceptions with our generalized hand class?? Shouldn't this be a pokerHand exclusive (or just throw a general out of bounds exception? (But your instructions specify this as a requirement)
     void addCard(Card c) throws PokerException//ensures adding is done in a sorted manner (with insertion sort)
     {
         if (c == null)
@@ -84,6 +83,14 @@ public class Hand {
     }
 
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   removeCard
+    /* Description:     Removes a card from the hand, accounting that the requested index is within bounds
+    /* Parameters:      int i - Index in hand of the card that is removedd
+    /* Return Value:    void
+    /*
+    /*************************************************************************/
     void removeCard(int i) throws PokerException
     {
         if(i > hand.size() - 1 || i < 0) 

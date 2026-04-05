@@ -1,11 +1,11 @@
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
-/* Creation Date:  February 26, 2026                        */
-/* Due Date:       Match 13, 2026                           */
+/* Creation Date:  Match 30, 2026                           */
+/* Due Date:       April 6, 2026                            */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #2                                       */
+/* Project:        #3                                       */
 /* Filename:       Card.java                                */
 /* Purpose:        Impliments the card functionality used in*/
 /*                 poker                                    */

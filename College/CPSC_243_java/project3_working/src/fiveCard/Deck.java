@@ -1,13 +1,13 @@
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
-/* Creation Date:  February 26, 2026                        */
-/* Due Date:       Match 13, 2026                           */
+/* Creation Date:  Match 30, 2026                           */
+/* Due Date:       April 6, 2026                            */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #2                                       */
+/* Project:        #3                                       */
 /* Filename:       Deck.java                                */
-/* Purpose:        Impliments the deck functionality used in */
+/* Purpose:        Impliments the deck functionality used in*/
 /*                 poker                                    */
 /*                                                          */
 /*                                                          */
@@ -63,14 +63,38 @@ public class Deck
                 ++i;
             }
         }
+
+
  // My reroll is 11-44 inclusive as the top references the top card that hasnt been dealt yet, and therefore there are only 8 numbers between 44-51 *inclusive* (44 45 46 47 48 49 50 51), 
- // which means you can't do all the discards if i >= 44
+ // which means you can't do all the discards if i >= 44. 
+ // Instructions say to only account for > 52, not negative. I did 52 not 44 as this is a non-poker exclusive class, so out of bounds is a better error rather than a discard one, which would be exclusive to poker
         this.reshuffleCount = reshuffleCount;
-        if(this.reshuffleCount > 44)
-            throw new PokerException("Deck has a reshuffle count that is higher than the allowed reshuffle count. Deck has a max shuffle count index of 44 when the passed reshuffle count was " + this.reshuffleCount);
+        if(this.reshuffleCount >= 52) // I'm assuming this is supposed to be >= not > like the instructions state as deal() is set to >=
+            throw new PokerException("Deck's reshuffle count index is greater than that of the deck's size. Last card in the deck is at " + (deck.length - 1) + ". The reshuffle count value was referencing index " + this.reshuffleCount);
 		
     }//end constructor
   
+
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getTop
+    /* Description:     Getter for the top value, which references where  the top of the draw pile is
+    /* Parameters:      none
+    /* Return Value:    int - The value of top (location of the top of the deck, in index form)
+    /*
+    /*************************************************************************/
+    int getTop(){return top;} 
+
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   getReshuffleCount
+    /* Description:     Getter for the reshuffleCount, which denotes when the deck should be reshuffled
+    /* Parameters:      none
+    /* Return Value:    int - T reshuffleCount value
+    /*
+    /*************************************************************************/
+    int getReshuffleCount(){return reshuffleCount;}
+
     /*************************************************************************/
     /*                                                                        
     /* Function name:   cardsLeft
@@ -87,28 +111,45 @@ public class Deck
     /*************************************************************************/
     /*                                                                        
     /* Function name:   deal
-    /* Description:     Retrieves that card at the top of the draw pile
+    /* Description:     Retrieves the card at the top of the draw pile, only allows the deal if not drawing past the reshuffleCount value
     /* Parameters:      none
     /* Return Value:    Card - The card that is retrieved from the top of the deck pile
     /*
     /*************************************************************************/
-    Card deal() throws PokerException// what is to be returned or to actually return?
-    { // do we need error handling for when dealing a hand that is empty???
+    Card deal() throws PokerException
+    {
         if(top >= reshuffleCount) // This is why I made reshuffleCount's max val 44, as INDEX 44 would only allow 8 discards: 44 45 46 47 48 49 50 51
             throw new PokerException("Tried to withdraw card past the allowed reshuffle count, at index " + top + ". Index must be less than " + reshuffleCount);
         return deck[top++];
     }
 
 
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   dealIgnoringReshuffle
+    /* Description:     Retrieves the card at the top of the draw pile, ignoring if we pass reshuffleCount
+    /* Parameters:      none
+    /* Return Value:    Card - The card that is retrieved from the top of the deck pile
+    /*
+    /*************************************************************************/
+    Card dealIgnoringReshuffle()// what is to be returned or to actually return?
+    { // do we need error handling for when dealing a hand that is empty???
+        return deck[top++];
+    }
+
     // 1, 3  max - min = 2
 
 
-   /** (not adding my own comment block as this was made by professor)
-   * Return all cards to the deck and shuffle
-   * using the Fisher-Yates shuffling algorithm.
-   */
+    /*************************************************************************/
+    /*                                                                        
+    /* Function name:   shuffle
+    /* Description:     Shuffles the cards in a deck in a randomized fashion, and changes the reshuffleCount (which denotes when to reshuffle)
+    /* Parameters:      int reshuffleCount - The new reshuffleCount, enforced here as it should change between shuffles
+    /* Return Value:    void
+    /*
+    /*************************************************************************/
     public void shuffle(int reshuffleCount) {
-        top = 0;
+        top = 0; // I believe I added this part
         for(int i = deck.length - 1; i > top; i--) 
         {
             int rnd = (int) (Math.random() * (i + 1) );
