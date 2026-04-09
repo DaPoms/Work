@@ -31,7 +31,7 @@ public class Deck
 
     private Card[] deck; // Cards in the Deck
     private int top;     // Pointer/Index of top card in Shoe (next card to deal)
-    private int reshuffleCount; // Reshufflecount specifies the ith card to stop at. so 43 means the card at i = 43
+    private int reshuffleCount; // To me, Reshufflecount specifies the ith card to stop at. so 43 means the card at i = 43
 
     /** 
      * Constructor
@@ -41,11 +41,12 @@ public class Deck
     /* Function name:   Deck
     /* Description:     Constructor for a deck, Fills deck with 1 of each card type, based on the suit and rank enums.
     /*                  For poker, this will be 52 cards. Do note the hand is constructed in an ordered pattern, unshuffled
-    /* Parameters:      none
+    /* Parameters:      int reshuffleCount - The reshuffleCount value describing when to reshuffle the deck (not very useful as reshuffle() rerolls this value)
     /* Return Value:    N/A (constructor)
     /*
     /*************************************************************************/
-    public Deck(int reshuffleCount) throws PokerException
+    // The param is only here due to it being a required parameter in the instructions. I still have to reshuffle a deck after creating it, and reshuffling will reroll this value
+    public Deck(int reshuffleCount) throws PokerException 
     {
         top = 0;
         // I liked the idea of an adaptive deck size (as in it changes size based on the user's card combos) for more code reusability (like to use for other card games)
@@ -65,13 +66,11 @@ public class Deck
         }
 
 
- // My reroll is 11-44 inclusive as the top references the top card that hasnt been dealt yet, and therefore there are only 8 numbers between 44-51 *inclusive* (44 45 46 47 48 49 50 51), 
- // which means you can't do all the discards if i >= 44. 
  // Instructions say to only account for > 52, not negative. I did 52 not 44 as this is a non-poker exclusive class, so out of bounds is a better error rather than a discard one, which would be exclusive to poker
-        this.reshuffleCount = reshuffleCount;
-        if(this.reshuffleCount >= 52) // I'm assuming this is supposed to be >= not > like the instructions state as deal() is set to >=
-            throw new PokerException("Deck's reshuffle count index is greater than that of the deck's size. Last card in the deck is at " + (deck.length - 1) + ". The reshuffle count value was referencing index " + this.reshuffleCount);
-		
+        
+        if(reshuffleCount > 52) 
+            throw new PokerException("Deck's reshuffle count index is greater than that of the deck's size. Last card in the deck is at " + (deck.length - 1) + ". The reshuffle count value was referencing index " + reshuffleCount);
+		this.reshuffleCount = reshuffleCount;
     }//end constructor
   
 
@@ -122,7 +121,6 @@ public class Deck
             throw new PokerException("Tried to withdraw card past the allowed reshuffle count, at index " + top + ". Index must be less than " + reshuffleCount);
         return deck[top++];
     }
-
 
     /*************************************************************************/
     /*                                                                        

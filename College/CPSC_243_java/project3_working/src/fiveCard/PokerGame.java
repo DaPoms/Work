@@ -19,12 +19,6 @@
 /*                 file.                                    */
 /************************************************************/
 
-/**
- * fiveCard.Game.java
- * CPSC243 Spring 2026
- * @author Griffin Nye
- */
-
 package fiveCard;
 
 //import java.util.Arrays;
@@ -607,8 +601,8 @@ public class PokerGame {
             System.out.print("Do you want to play another game of Poker? (enter 'Y' for yes, or 'N' for no): ");
             switch (cin.nextLine())
             {
-            case "Y", "y" -> {return true;}
-            case "N", "n" -> {return false;}
+                case "Y", "y" -> {return true;}
+                case "N", "n" -> {return false;}
             };
         }
         while (true);
@@ -653,7 +647,6 @@ public class PokerGame {
     public static void main(String[] args) 
     {
         Scanner scan = new Scanner(System.in);
-        
         greetToPoker(scan);
         PokerHand playerHand = new PokerHand();
         PokerHand dealerHand = new PokerHand();
@@ -686,49 +679,50 @@ public class PokerGame {
                 System.exit(1);
             }
         }             
-            do
-            {   
-                // DRAW PHASE //
-                if(didFirstDrawOnCommandLine == true) //Very ugly system for allowing normal running after a command line turn (I did not want to just copy the entire code below into the command line case)
-                    didFirstDrawOnCommandLine = false; 
-                else
-                {
-                    try { // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
-                        drawPhase(playerHand, dealerHand, gameDeck);
-                    } catch(PokerException e) {
-                        System.err.println("Shuffling did not reshuffle the deck, leading to a failed card deal."); // Should be impossible to happen (you never know! :) )
-                        e.printStackTrace();
-                        System.exit(1);
-                    }
-                }
-
-                // DISCARD PHASE //
-                try {
-                discardPhase(playerHand, dealerHand, gameDeck, scan);
-                } catch(PokerException e)
-                {
-                    e.printStackTrace();
-                    System.exit(1); //Note that the deal() error is caught INSIDE discardPhase, so this accounts for any error other than deal()'s (like the addCard(null) case )
-                }
-
-                // RESULTS PHASE //
-                GameResult isPlayerWinner = null;
-                HandRank playerRank = playerHand.getHandRank();
-                HandRank dealerRank =  dealerHand.getHandRank();
-                try { // Did this to ensure separation of I/O from "backend"
-                    isPlayerWinner = isPlayerWinner(playerHand, dealerHand);                    
-                } catch(PokerException e) // This is needed for getKickerArr()'s usage of getCard()
-                {
-                    e.printStackTrace(); // printStackTrace also displays the message of exception
-                    System.exit(1);
-                }                
-                printResults(playerHand, dealerHand, playerRank, dealerRank, isPlayerWinner);
-
-                //resets hands for next round 
-                playerHand.clear();
-                dealerHand.clear();
-            } while (askIfContinue(scan));
         
+        do
+        {   
+            // DRAW PHASE //
+            if(didFirstDrawOnCommandLine == true) //Very ugly system for allowing normal running after a command line turn (I did not want to just copy the entire code below into the command line case)
+                didFirstDrawOnCommandLine = false; 
+            else
+            {
+                try { // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
+                    drawPhase(playerHand, dealerHand, gameDeck);
+                } catch(PokerException e) {
+                    System.err.println("Shuffling did not reshuffle the deck, leading to a failed card deal."); // Should be impossible to happen (you never know! :) )
+                    e.printStackTrace();
+                    System.exit(1);
+                }
+            }
+
+            // DISCARD PHASE //
+            try {
+            discardPhase(playerHand, dealerHand, gameDeck, scan);
+            } catch(PokerException e)
+            {
+                e.printStackTrace();
+                System.exit(1); //Note that the deal() error is caught INSIDE discardPhase, so this accounts for any error other than deal()'s (like the addCard(null) case )
+            }
+
+            // RESULTS PHASE //
+            GameResult isPlayerWinner = null;
+            HandRank playerRank = playerHand.getHandRank();
+            HandRank dealerRank =  dealerHand.getHandRank();
+            try { // Did this to ensure separation of I/O from "backend"
+                isPlayerWinner = isPlayerWinner(playerHand, dealerHand);                    
+            } catch(PokerException e) // This is needed for getKickerArr()'s usage of getCard()
+            {
+                e.printStackTrace(); // printStackTrace also displays the message of exception
+                System.exit(1);
+            }                
+            printResults(playerHand, dealerHand, playerRank, dealerRank, isPlayerWinner);
+
+            //resets hands for next round 
+            playerHand.clear();
+            dealerHand.clear();
+        } while (askIfContinue(scan));
+    
     }//end main
 
 }//end Game

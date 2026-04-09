@@ -39,8 +39,6 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
         ROYAL_FLUSH //9
     }
 
-  
-
     /*************************************************************************/
     /*                                                                        
     /* Function name:   getRankArray 
