@@ -19,12 +19,12 @@ function App()
 {
   const[items, setSelected] = React.useState({chicken:false, halibut:false, burger:false, salmon:false, salad:false});
 
-function handleClick(event)
-{
-  let item = event.target.id;
-  // I learned of the ... format to just say to retain all the values of the object's state that are not specified explicitly
-  setSelected({...items, [item]:!items[item]}); // Sets whether element is checked or not (I named the items the same as the button id's to allow easy access)
-} 
+  function handleClick(event)
+  {
+    let item = event.target.id;
+    // I learned of the ... format to just say to retain all the values of the object's state that are not specified explicitly
+    setSelected({...items, [item]:!items[item]}); // Sets whether element is checked or not (I named the items the same as the button id's to allow easy access)
+  } 
 
   let cost = (items.chicken * price.CHICKEN_PRICE) + (items.halibut * price.HALIBUT_PRICE) + 
   (items.burger * price.BURGER_PRICE) + (items.salmon * price.SALMON_PRICE) + (items.salad * price.SALAD_PRICE);
