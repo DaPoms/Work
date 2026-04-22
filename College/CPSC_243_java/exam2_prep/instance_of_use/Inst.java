@@ -14,7 +14,10 @@ class PInst
     }    
 
     
-
+/**
+ * @author Daniel Tripoli
+*   This is my beautiful test javadoc comments
+*/
     public static void ambigFunct(Object x)
     {
         if(x instanceof PInst)
@@ -44,6 +47,14 @@ public class Inst extends PInst{
         this.data = data;
     }    
 
+    /**
+     * This is my javaDocs test. Yes, it doesnt make sense for anything thats happening, I just wanted to play around with the format for the sake of memorizing 
+     * @see <a href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"> Definitely NOT anything suspicious (do not click) </a>
+     * @param myStr Type string. nothing is needed, I just said string for the sake of it. 
+     * @throws RunTimeException when runnin to long, right? Thats totally what it means
+     * @return The cool words that I really like
+     * {@inheritDoc} <--- This inherits PInst's describe length java doc info IF it had any 
+     */
     void describeLength()
     {
         System.out.print("Subclass states...");
