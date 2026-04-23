@@ -1,25 +1,22 @@
+/**
+ * Implements the behavior of card hands in a card Game
+ * fiveCard.Hand.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
+
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
-/* Creation Date:  Match 30, 2026                           */
-/* Due Date:       April 6, 2026                            */
+/* Creation Date:  April 21, 2026                           */
+/* Due Date:       April 24, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #3                                       */
+/* Project:        #4                                       */
 /* Filename:       Hand.java                                */
-/* Purpose:        Impliment the general functionality of   */
-/*                 hands in card games                      */
-/*                                                          */
+/* Purpose:        Implements the behavior of card hands in */
+/*                 a card Game                              */
 /************************************************************/
-
-// TODO: Exceptions for getCard + addCard
-
-
-/**
- * fiveCard.Hand.java
- * CPSC243 Spring 2026
- * @author Griffin Nye
- */
 
 package fiveCard;
 import java.util.ArrayList;
@@ -37,24 +34,18 @@ public class Hand implements Comparable<Hand>{
     */
     protected ArrayList<Card> hand; // With professor permission, we are allowed to make hand protected for use by pokerHand
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   Hand 
-    /* Description:     Default constructor for hand object
-    /* Parameters:      none
-    /* Return Value:    N/A
-    /*
-    /*************************************************************************/
+
+    /**                                                   
+    *      Default constructor for hand class
+    */
      public Hand() { hand = new ArrayList<>(); }//end constructor 
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   getCard 
-    /* Description:     Returns the card object at the ith index of the hand array
-    /* Parameters:      int pos - the index that we want to retrieve a card at
-    /* Return Value:    Card - the card we retrieved at the index pos, or null if the user enters an index that is outside of the hand array
-    /*
-    /*************************************************************************/
+    /**                                                   
+    *     Returns the card at a given position
+    *     @param pos The index of the card in hand that it returned
+    *     @return The card retrieved at the passed index
+    *     @throws PokerException If trying to retrieve a card out of bounds
+    */
     Card getCard(int pos) throws PokerException
     {
         if(pos > hand.size() - 1 || pos < 0) 
@@ -62,16 +53,11 @@ public class Hand implements Comparable<Hand>{
         return hand.get(pos);
     }
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   addCard 
-    /* Description:     adds a card to the hand, inserting it with an insertion sort by card value to ensure 
-    /*                  hands are sorted
-    /* Parameters:      Card c - the card that is added to the hand
-    /* Return Value:    void
-    /*
-    /*************************************************************************/
-    // Is it normal to throw our custom poker exceptions with our generalized hand class?? Shouldn't this be a pokerHand exclusive (or just throw a general out of bounds exception? (But your instructions specify this as a requirement)
+    /**                                                   
+    *      adds a card to the hand, inserting it with an insertion sort by card value to ensure hands are sorted
+    *      @param c The card that is added to the hand
+    *      @throws PokerException If adding a null card
+    */
     void addCard(Card c) throws PokerException//ensures adding is done in a sorted manner (with insertion sort)
     {
         if (c == null)
@@ -83,15 +69,11 @@ public class Hand implements Comparable<Hand>{
         hand.add(i, c);
     }
 
-
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   removeCard
-    /* Description:     Removes a card from the hand, accounting that the requested index is within bounds
-    /* Parameters:      int i - Index in hand of the card that is removedd
-    /* Return Value:    void
-    /*
-    /*************************************************************************/
+    /**                                                   
+    *      Removes a card from the hand, accounting that the requested index is within bounds
+    *      @param i Index in hand of the card that is removedd
+    *      @throws PokerException If removing out of bounds
+    */
     void removeCard(int i) throws PokerException
     {
         if(i > hand.size() - 1 || i < 0) 
@@ -100,40 +82,28 @@ public class Hand implements Comparable<Hand>{
     }// Deletes the i-th element from the hand
     
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   getCardCount
-    /* Description:     Returns how many cards there is in the hand object
-    /* Parameters:      none
-    /* Return Value:    int - the number of cards the hand object's hand array contains
-    /*
-    /*************************************************************************/
+    /**                                                   
+    *      Returns how many cards there is in the hand object
+    *      @return The amount of cards in the hand
+    */
     int getCardCount()
     {
         return hand.size();
     }
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   clear
-    /* Description:     removes all cards from the hand array, leaving the hand empty
-    /* Parameters:      none
-    /* Return Value:    void
-    /*
-    /*************************************************************************/
-    void clear() // not really used yet...
+    
+    /**                                                   
+    *      Removes all cards from the hand array, leaving the hand empty
+    */
+    void clear()
     {
         hand.clear();
     }
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   toString
-    /* Description:     Represents the hand array of the hand object in a string representation and returns it
-    /* Parameters:      none
-    /* Return Value:    String - The string representation of the hand array
-    /*
-    /*************************************************************************/
+    /**                                                   
+    *      Represents the hand array of the hand object in a string representation and returns it
+    *      @return String representation of hand
+    */
     public String toString()
     {
         String ans = "";
@@ -144,6 +114,11 @@ public class Hand implements Comparable<Hand>{
   
    
    
+    /**                                                   
+    *      A generalized comparison between hands based on the total value of the cards in a hand
+    *      @return The result of the comparison: -1 = Less than, 0 = equal to, 1 = greater than the otherHand
+    */
+   @Override
     public int compareTo(Hand otherHand) // I added this to allow .compareTo in bettor with better syntax 
     {
         if (otherHand.hand.size() != hand.size()) 
@@ -162,6 +137,7 @@ public class Hand implements Comparable<Hand>{
         if (handSum < otherSum)
             return -1;
         return 0;
+        
     }
 
 

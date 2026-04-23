@@ -1,23 +1,22 @@
+/**
+ * Implements the behavior of cards in a card Game
+ * fiveCard.Card.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
+
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
-/* Creation Date:  Match 30, 2026                           */
-/* Due Date:       April 6, 2026                            */
+/* Creation Date:  April 21, 2026                           */
+/* Due Date:       April 24, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #3                                       */
+/* Project:        #4                                       */
 /* Filename:       Card.java                                */
-/* Purpose:        Impliments the card functionality used in*/
-/*                 poker                                    */
-/*                                                          */
-/*                                                          */
+/* Purpose:        Implements the behavior of cards in a    */
+/*                 card Game                                */
 /************************************************************/
-
-/** 
- * fiveCard.Card.java
- * CPSC243 Spring 2026
- * @author Griffin Nye
- */
 
 package fiveCard; 
 
@@ -66,53 +65,42 @@ public class Card {
     
     private Rank rank;
     private Suit suit;
-   /*************************************************************************/
-    /*                                                                        
-    /* Function name:   Card
-    /* Description:     Constructor for the card class.
-    /* Parameters:      Rank passedRank - The rank that the card will be assigned to
-    /*                  Suit passedSuit - The suit that the card will be assigned to
-    /* Return Value:    N/A
-    /*
-    /*************************************************************************/
+
+
+       ///////////////////////////Project 4 code ///////////////////////////
+  /**                                                   
+  *     Constructor for the card class
+  *     @param passedRank The rank that the card will be assigned to
+  *     @param passedSuit The suit that the card will be assigned to
+  */
   Card(Rank passedRank, Suit passedSuit) 
   {
     rank = passedRank;
     suit = passedSuit;
   }
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   getSuit
-    /* Description:     Returns the suit of the card
-    /* Parameters:      none
-    /* Return Value:    Suit passedSuit - The suit of the card
-    /*
-    /*************************************************************************/
-    Suit getSuit(){return suit;}
+
+  /**                                                   
+  *     Returns the suit of the card
+  *     @return The suit of the card object
+  */
+  Suit getSuit(){return suit;}
 
 
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   getvalue
-    /* Description:     Returns the value of the card based on the card's rank
-    /* Parameters:      none
-    /* Return Value:    int - score of the card
-    /*
-    /*************************************************************************/
-    int getValue() // we do not need to specify scope due to package-private being the exact scope we need
-    { 
-        return rank.ordinal();
-    }
+  /**                                                   
+  *     Returns the value of the card based on the card's rank
+  *     @return The score of the card
+  */
+  int getValue() // we do not need to specify scope due to package-private being the exact scope we need
+  { 
+      return rank.ordinal();
+  }
 
-   /*************************************************************************/
-    /*                                                                        
-    /* Function name:   toString
-    /* Description:     Constructs a string representation of the card, with the first 1-2 chars of the string being the rank, and the last char being the rank
-    /* Parameters:      none
-    /* Return Value:    String - The string representation of the card
-    /*
-    /*************************************************************************/
+  /**                                                   
+  *     Constructs a string representation of the card, with the first 1-2 chars of the string being the rank, 
+  *     and the last char being the rank
+  *     @return The string representation of the card
+  */
   public String toString()
   {
     return rank.stringifiedRank + suit.stringifiedSuit;

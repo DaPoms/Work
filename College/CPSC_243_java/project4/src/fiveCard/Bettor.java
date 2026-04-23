@@ -1,21 +1,45 @@
+/**
+ * Implements betting functionality. Note that Bettor is mainly built for 1 player vs 1 dealer
+ * fiveCard.Bettor.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
+
+/************************************************************/
+/* Author:         Daniel Tripoli                           */
+/* Major:          Computer Science                         */
+/* Creation Date:  April 21, 2026                           */
+/* Due Date:       April 24, 2026                           */
+/* Course: CPSC    243 010                                  */
+/* Professor Name: Griffin Nye                              */
+/* Project:        #4                                       */
+/* Filename:       Bettor.java                              */
+/* Purpose:        Implements betting functionality         */
+/************************************************************/
+
 package fiveCard;
-import java.util.ArrayList;
 public class Bettor <E extends Hand> {
     private String name; // Username
     private double startBal; //init balacnce
     private double currBal; // curr balance
     private double currWager; // current user wagered value
     private double entryPay; // Used for poker as the blind
-    //ArrayList<Double> betHist;
-    //int checkCount; // Used to determine what dealer wagers (as its based off of user's wagers)
 
 
-
+    /**                                                   
+    *     Empty constructor for the Bettor object.
+    */
     public Bettor() // used only as a formality
     {
         this("John doe", 0,25);
     }
 
+    /**                                                   
+    *     Parameterized Constructor for the bettor object.
+    *     @param name The name of the bettor 
+    *     @param startBal The starting balance
+    *     @param entryPay The price that must be payed to start the bet
+    */
     public Bettor(String name, double startBal, double entryPay)
     {
         this.name = name;
@@ -26,15 +50,26 @@ public class Bettor <E extends Hand> {
         //betHist = new ArrayList<>(); // For betting history
     }
 
+    /**                                                   
+    *     Raises bet up to the given number
+    *     @param betVal The value the bet will be raised to
+    *     @throws PokerException If trying to wager more than the current balance or a negative number
+    */
     public void placeBet(double betVal) throws PokerException // Ask what anyArgs entails for function on handout
     {
-        if(betVal + currWager <= currBal) { currWager = betVal;}
-        else
-            throw new PokerException("Tried to wager more than the balance. total wager was " + (betVal + currWager) + " when total balance was " + currBal);
-    }
+        if(betVal > 0 && betVal <= currBal) { currWager = betVal;}
+        else if(betVal > currBal) // I limited the exception handling here as we don't know how betting behaviors might deviate from poker (like raise must be >= current bet), so my PokerCasinoGame implements it instead
+            throw new PokerException("Tried to wager more than the balance. Wager was " + (betVal) + " when total balance was " + currBal);
+        else 
+            throw new PokerException("Tried to wager a negative value. Wager was " + betVal);
+        }
 
-
-    //TODO: ASK, ARE WINNINGS THE NET EARNINGS (TOTAL - WAGER) OR THE TOTAL POT RETUEN
+     /**                                                   
+    *     Carries out a bet based on the result of if the player wins or loses
+    *     @param player The hand of the player that is compared to the dealer
+    *     @param dealer The hand of the dealer
+    *     @return String representation of how much the player won or lost
+    */
     public String collectWinnings(Hand player, Hand dealer) // ASK: Do we need to use instanceof? as we are asked to use type Hand? Maybe we need to make a compareTo for Hand class?
     {
         int result;
@@ -43,10 +78,9 @@ public class Bettor <E extends Hand> {
             {
                 case 1 ->  {
                     currBal += currWager; 
-                    return  name + " earned $" + currWager; // NOTE MIGHT HAVE TO EDIT !!!!!!!!!!!!!!!!!!!!!!!!!!
-                } // Because dealer wager matches player, reward is 2x the wager
+                    return  name + " earned $" + currWager;
+                } // Because dealer wager matches player, net reward is the wager
                 case 0 ->  {
-                    
                     return name + " refunded wager of $" + currWager;
                 }
                 case -1 -> {
@@ -54,13 +88,31 @@ public class Bettor <E extends Hand> {
                     return name + " lost $" + currWager;
                 }
             }
-        return "ERROR"; // MAKE SURE TO UPDATE THIS!!!!!!!!!!!!!!!!
+        return "ERROR: compareTo did not evaluate to any number from -1 to 1"; 
     }
 
+
+     /**                                                   
+    *     Resets wager value
+    */
     public void resetBet(){currWager = entryPay;}
+
+    /**                                                   
+    *     Returns the player's current balance
+    *     @return The current balance of the player
+    */
     public double getBalance(){return currBal;}
-    public double getWager(){return currWager;}
+
+    /**                                                   
+    *     Gets the player's required minimum bet (in poker, this is the small blind)
+    *     @return Price of entry for the betting game
+    */
     public double getEntryPay(){return entryPay;}
+
+    /**                                                   
+    *     Withdraws the wager from the current balance
+    *     @throws PokerException If wager is larger than the balance, thus withdrawing more than possible
+    */
     public void subtractByWager() throws PokerException //placebet sort of prevents this exception, but just in case
     {
         if(currWager > currBal) 
@@ -68,18 +120,25 @@ public class Bettor <E extends Hand> {
         currBal -= currWager;
         currWager = entryPay;
     }
+
+    /**                                                   
+    *     Returns the net winnings of the bettor, in terms of the money they started with and what they have now
+    *     @return The net winnings of the bettor
+    */
     public double getTotalWinnings(){return currBal - startBal;}
+
+    /**                                                   
+    *     Returns the winnings the bettor/player would have if they won their bet
+    *     @return The value of the current wager, which is what the round winnings are if the bettor (player) wins
+    */
     public double getRoundWinnings(){return currWager;}
+
+    /**                                                   
+    *     Returns the name of the bettor
+    *     @return The name of the bettor
+    */
+    public String getName(){return name;}
  
 
 
 }
-
-// Note that a raise MUST be more than the blind
-//Check = 0 dollars wager (FOR SECOND ROUND, NOT FIRST, requested as a CALL)
-// raise = betting higher than call val
-// Call = matching bet, user's call is = check (0 dollar wager) on round 2. on round 1, it will match the big blind ($50)
-
-// User can call, raise, fold (call does big blind, rasise allow anything past big blind, fold will end, you lose $25)
-
-//Round 1's and 2's goal is for user and dealer to have the SAME BET value

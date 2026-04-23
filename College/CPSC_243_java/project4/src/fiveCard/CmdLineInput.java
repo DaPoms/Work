@@ -1,7 +1,22 @@
+/************************************************************/
+/* Author:         Daniel Tripoli                           */
+/* Major:          Computer Science                         */
+/* Creation Date:  April 21, 2026                           */
+/* Due Date:       April 24, 2026                           */
+/* Course: CPSC    243 010                                  */
+/* Professor Name: Griffin Nye                              */
+/* Project:        #4                                       */
+/* Filename:       CmdLineInput.java                        */
+/* Purpose:        For me, mainly just to write JavaDoc		*/
+/*				   documentation. For poker, this implements*/
+/*                 the testing system via command line      */                            
+/************************************************************/
+
 /**
  * fiveCard.CmdLineInput.java
  * CPSC243 Spring 2026
  * @author Griffin Nye
+ * @author (documented by) Daniel Tripoli
  * @brief Enables command line input and validation for populating player and banker hands for smoother testing.
  */
 
@@ -27,11 +42,22 @@ public class CmdLineInput {
 														 Map.entry("A", 12) );
   }//end populateRankMap
 
+
+	/**                                                   
+    *      Populates map with all possible card suits
+    */
   public static void populateSuitMap() {
     suitMap = Map.of("C", 0, "D", 1, "H", 2, "S", 3);
   }//end populateSuitMap
 
-  public static void parseArguments(String[] args, Hand player, Hand dealer) {
+	/**                                                   
+	*      Parses command line argument and populates hands with the input
+  	*      @param args The command line argument that must follow a fixed format of -p followed by 5 card, then -d followed by 5 cards.
+	*      Cards are referenced via a one character representation for their value (except for 10, the symbols are 2,3,4,5,6,7,8,9,10,J,Q,K,A) followed by the first letter of the suit name (C,S,H,D)
+  	*      @param player The player hand which gets populated with the -p flag of the command line argument
+	*      @param dealer The dealer hand which gets populated with the -d flag of the command line argument
+	*/
+	public static void parseArguments(String[] args, Hand player, Hand dealer) {
 
     if( rankMap.isEmpty() ) populateRankMap();
     if( suitMap.isEmpty() ) populateSuitMap();
@@ -105,6 +131,13 @@ public class CmdLineInput {
 	
 	}//end parseArguments
 
+
+	
+	/**                                                   
+	*      Verifies if the passed card is in an acceptable format
+  	*      @param card The string representation of the card 
+	*      @return True if string represents a valid card, false otherwise
+	*/
 	public static boolean validateCard(String card) {
 
 		if (card.length() < 2 || card.length() > 3) {

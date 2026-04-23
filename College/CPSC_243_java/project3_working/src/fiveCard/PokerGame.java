@@ -722,6 +722,7 @@ public class PokerGame {
             playerHand.clear();
             dealerHand.clear();
         } while (askIfContinue(scan));
+        
     
     }//end main
 

@@ -70,6 +70,8 @@ class Game {
 
         for(int i = 0; i < playerTop2Cards.length; i++) // Actually checking the kickers to break up the tie
         {
+            if(playerTop2Cards[i].getCardCount() < 2 || dealerTop2Cards[i].getCardCount() < 2) 
+                return GameResult.PUSH; // absolute BANDAID solution to a small edge case I found with one pair kickers
             int playerVSDealerScoreDiff = playerTop2Cards[i].getCardRankVal() - dealerTop2Cards[i].getCardRankVal();
             if(playerVSDealerScoreDiff < 0) //If player score was smaller than dealer, than this val is negative
                 return GameResult.LOSE;
