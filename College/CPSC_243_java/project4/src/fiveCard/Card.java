@@ -1,10 +1,3 @@
-/**
- * Implements the behavior of cards in a card Game
- * fiveCard.Card.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -25,9 +18,16 @@ package fiveCard;
  * card in a standard deck of playing cards.
  */
 
-
+/**
+ * Implements the behavior of cards in a card Game
+ * fiveCard.Card.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 public class Card {
-    //enum that represent card rank
+    /**
+    * Enum that represents card rank
+    */
     enum Rank  
     { 
         TWO("2"), //0
@@ -44,12 +44,19 @@ public class Card {
         KING("K"), //11
         ACE("A"); //12
         public final String stringifiedRank;
+        /**
+         * Sets a rank to its string representation
+         * @param passedRankString The string representation of the rank enum
+         */
         Rank(String passedRankString)
         {
             stringifiedRank = passedRankString;
         }
     }
-    //enum that represents a card's suit
+
+    /**
+     * Enum that represents a card's suit
+     */
     enum Suit 
     { 
         CLUBS("C"), 
@@ -67,7 +74,7 @@ public class Card {
     private Suit suit;
 
 
-       ///////////////////////////Project 4 code ///////////////////////////
+///////////////////////////Project 4 code ///////////////////////////
   /**                                                   
   *     Constructor for the card class
   *     @param passedRank The rank that the card will be assigned to

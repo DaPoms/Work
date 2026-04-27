@@ -1,10 +1,3 @@
-/**
- * Implements the behavior of a card game deck
- * fiveCard.Deck.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -18,19 +11,18 @@
 /*                 deck                                     */
 /************************************************************/
 
-
-
-
     package fiveCard;
-
+    
 /**
-     * This class represents all data and operations for a deck 
-     * of standard playing cards used in various casino 
-     * games. Implemented in this package for the game fiveCardPoker.
-     */
+ * Represents all data and operations for a deck 
+ * of standard playing cards used in various casino 
+ * games.
+ * fiveCard.Deck.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 public class Deck 
 {
-
     private Card[] deck; // Cards in the Deck
     private int top;     // Pointer/Index of top card in Shoe (next card to deal)
     private int reshuffleCount; // To me, Reshufflecount specifies the ith card to stop at. so 43 means the card at i = 43
@@ -87,7 +79,7 @@ public class Deck
 
     /**                                                   
     *      Returns the amount of cards left in the deck that haven't been drawn already
-    *      @return The number of undrawn carfds left in the deck
+    *      @return The number of undrawn cards left in the deck
     */
     int cardsLeft()
     {

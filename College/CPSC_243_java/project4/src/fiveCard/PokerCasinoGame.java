@@ -1,12 +1,3 @@
-/**
- * implements the entirety of the game of poker through the fivecard package and   
- * game specific functions declared in this file. 
- * fiveCard.PokerCasinoGame.java
- * CPSC243 Spring 2026
- * @author Griffin Nye
- * @author (Modified By) Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -32,6 +23,14 @@ import fiveCard.PokerHand.cardByCountAndRank;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * implements the entirety of the game of poker through the fivecard package and   
+ * game specific functions declared in this file. 
+ * fiveCard.PokerCasinoGame.java
+ * CPSC243 Spring 2026
+ * @author (Provided starter code by) Griffin Nye
+ * @author (Implemented by) Daniel Tripoli
+ */
 public class PokerCasinoGame extends CasinoCardGame {
     double startBal; // I decided to do this as its simpler than having a whole bettor 
                     //object in CasinoCardGame, and it gives more freedom for how a dev wants to manage balances (by making the subclass implement it)

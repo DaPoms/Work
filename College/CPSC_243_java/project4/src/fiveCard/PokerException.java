@@ -1,10 +1,3 @@
-/**
- * Implements error handling for poker
- * fiveCard.PokerException.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -20,7 +13,12 @@
 
 package fiveCard;
 
-
+/**
+ * Implements error handling for poker
+ * fiveCard.PokerException.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 public class PokerException extends Exception {
     String msg;
     /**                                                   

@@ -12,6 +12,12 @@
 /*                 the testing system via command line      */                            
 /************************************************************/
 
+package fiveCard;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
 /**
  * fiveCard.CmdLineInput.java
  * CPSC243 Spring 2026
@@ -19,14 +25,6 @@
  * @author (documented by) Daniel Tripoli
  * @brief Enables command line input and validation for populating player and banker hands for smoother testing.
  */
-
-package fiveCard;
-
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 public class CmdLineInput {
 
   private static Map<String, Integer> rankMap = new HashMap<>();

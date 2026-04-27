@@ -1,10 +1,3 @@
-/**
- * Implements the behavior of hands in poker
- * fiveCard.PokerHand.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -25,13 +18,17 @@ import java.util.ArrayList; // TEST IF WE REALLY NEED THIS OR NOT
 
 import fiveCard.Card.Rank;
 
+/**
+ * Implements the behavior of hands in poker
+ * fiveCard.PokerHand.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 class PokerHand extends Hand // Can only be package private within the SAME FILE
-{
-
-   /*  private ArrayList<Card> hand; // UHHHH THIS OR CAN I USE PROTECTED? */
-    
-   /*  public PokerHand() {hand = new ArrayList<Card>();}//end constructor  */
-     //enum for the rank of the hand
+{    
+    /**                                                   
+    *   enum for the rank of a poker hand
+    */
     enum HandRank 
     {
         HIGH_CARD, //0 (this is the assigned .ordinal() value of the enum)
@@ -46,6 +43,9 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
         ROYAL_FLUSH //9
     }
 
+    /**                                                   
+    *   enum for the result of comparing two poker hands (who won)
+    */
     public enum HandResult 
      {
         WIN(1),
@@ -56,7 +56,7 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
 
 
     /**                                                   
-    *      Evaluates the result of a poker game in a string representation so that it can be printed
+    *      Evaluates the result of a poker game to a string representation so that it can be printed
     *      @return String representation of hand result, if hand won, lost, or pushed
     */
         String getStringResults()
@@ -163,14 +163,6 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
     *      Returns whether or not the hand array of the hand object is ascending in terms of card rank
     *      @return True if the hand is ascending, false otherwise
     */
-    /*************************************************************************/
-    /*                                                                        
-    /* Function name:   isHandAscending 
-    /* Description:     Returns whether or not the hand array of the hand object is ascending in terms of card rank
-    /* Parameters:      none
-    /* Return Value:    boolean - True if the hand is ascending, false otherwise
-    /*
-    /*************************************************************************/
     private boolean isHandAscending() //determines if hand is ascending based off of 
     {
         int hasAce = containsCardRank(Card.Rank.ACE); // -1 = no ace, otherwise, gives index of location
@@ -186,8 +178,10 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
         return true;
     }
 
-
-    class cardByCountAndRank  // class for destructuring a card by its count and rank. Card itself doesn't use this class so I decided not to impliment it there
+    /**                                                   
+    *     Class for destructuring a card by its count and rank. Card itself doesn't use this class so I decided not to impliment it there
+    */ 
+    class cardByCountAndRank 
     {
         private int cardRankVal;
         private int cardCount;
@@ -207,7 +201,7 @@ class PokerHand extends Hand // Can only be package private within the SAME FILE
         int getCardRankVal(){return cardRankVal;}
         /**                                                   
         *      Returns the amount of the card
-        *      @return The amount of the card
+        *      @return The count of the card (how many cards there are of the object's rank)
         */
         int getCardCount(){return cardCount;}
 

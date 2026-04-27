@@ -1,10 +1,3 @@
-/**
- * Implements the behavior of card hands in a card Game
- * fiveCard.Hand.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -22,11 +15,13 @@ package fiveCard;
 import java.util.ArrayList;
 
 
-/// 
 /**
  * This class represents all data and related operations for a hand of playing cards
  * for use in various card games. Implemented in this package for the game Poker.
-*/
+ * fiveCard.Hand.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 public class Hand implements Comparable<Hand>{
 
     /**
@@ -116,6 +111,7 @@ public class Hand implements Comparable<Hand>{
    
     /**                                                   
     *      A generalized comparison between hands based on the total value of the cards in a hand
+    *      @param otherHand The hand that the calling objecct is compared to
     *      @return The result of the comparison: -1 = Less than, 0 = equal to, 1 = greater than the otherHand
     */
    @Override

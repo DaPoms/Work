@@ -1,10 +1,3 @@
-/**
- * Implements betting functionality. Note that Bettor is mainly built for 1 player vs 1 dealer
- * fiveCard.Bettor.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -18,9 +11,16 @@
 /************************************************************/
 
 package fiveCard;
+
+/**
+ * Implements betting functionality. Note that Bettor is mainly built for 1 player vs 1 dealer
+ * fiveCard.Bettor.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 public class Bettor <E extends Hand> {
     private String name; // Username
-    private double startBal; //init balacnce
+    private double startBal; //init balance
     private double currBal; // curr balance
     private double currWager; // current user wagered value
     private double entryPay; // Used for poker as the blind

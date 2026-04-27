@@ -1,9 +1,3 @@
-/**
- * fiveCard.CasinoCardGame.java
- * CPSC243 Spring 2026
- * @author Daniel Tripoli
- */
-
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
@@ -19,6 +13,12 @@
 
 package fiveCard;
 
+/**
+ *  Abstract class that enforces the structure required for a casino card game
+ * fiveCard.CasinoCardGame.java
+ * CPSC243 Spring 2026
+ * @author Daniel Tripoli
+ */
 public abstract class CasinoCardGame  {
     protected Deck deck;
     protected Hand dealer;
@@ -40,7 +40,8 @@ public abstract class CasinoCardGame  {
 
     /**                                                   
     *     Abstract method for running the casino card game's logic
-    *     @param args Command line arguements for manual test cases
+    *     @param args Command line arguements for manual test cases. Must follow a fixed format of -p followed by 5 cards, then -d followed by 5 cards.
+	*      Cards are referenced via a one character representation for their value (except for 10, the symbols are 2,3,4,5,6,7,8,9,10,J,Q,K,A) followed by the first letter of the suit name (C,S,H,D)
     */
     public abstract void play(String...args); 
     

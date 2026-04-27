@@ -19,8 +19,8 @@ class Node
         /**
             Name:         Constructor
             Description:  Creates the node from the provided values
-            Parameters:   string blueprintString (input) -
-                            The string to set as the data, defaulting to an
+            Parameters:   string blueprintString (input)
+                           The string to set as the data, defaulting to an
                             empty string
                           Node* nextNode (input) -
                             The node to point to, defaulting to NULL
