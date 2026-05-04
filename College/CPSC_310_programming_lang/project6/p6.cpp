@@ -1,3 +1,15 @@
+/*
+* Author:         Daniel Tripoli                             
+* Major:          Computer Science                           
+* Creation Date:  May 2, 2026                             
+* Due Date:       May 8, 2026                             
+* Course: CPSC    310 010                                    
+* Professor Name: Dr. Dylan Schwesinger                      
+* Project:        #6                                         
+* Filename:       p6.cpp                                    
+* Purpose:        Implements the solution to a graph traversal problem in c++                        
+*/
+
 #include <iostream>
 #include <map>
 #include <vector>
@@ -6,29 +18,59 @@
 #include <algorithm>
 using namespace std;
 
+/*
+* Function name:  createGraphWithTaskList
+* Description:    Uses a given structure of dependents (node thats dependent)
+*                 to prequisites (the node it's dependent on) to make a 
+*                 map of each node's prequisite nodes before it can  
+*                 be 'popped'
+* Parameters:     vector<string>& taskList - The list of dependent -> prequisite 
+*                 relationships
+* Return Value:   map<string, vector<string>> The associations of nodes and
+*                 The nodes that must be traversed before the node can be 
+*                 accessed
+*/
 map<string, vector<string>> createGraphWithTaskList(vector<string>& taskList)
-{ //map shows association
-    map<string, vector<string>> ans; // value is the nodes the key is dependent on for popping
+{ 
+    map<string, vector<string>> ans; 
     
-    for(int i{0}; i < taskList.size(); i += 2) // initializes value
+    for(int i{0}; i < taskList.size(); i += 2) 
     {
         ans[taskList[i]].push_back(taskList[i + 1]);
         ans[taskList[i+1]]; 
     }
-        //ans[stringNodes[i]] = vector<string>();
     return ans;   
 }
 
-vector<string>  getTaskList()
+/*
+* Function name:  getInputTaskList
+* Description:    Collects user input (infering proper formatting) for the 
+*                 creation of a task list from the input
+* Parameters:     None
+* Return Value:   vector<string> - The task list. Every 2 are their own pair, with
+*                 The first being the dependent, and the 2nd being the 
+*                 prequisite node (must be evaluated first)
+*/
+vector<string>  getInputTaskList()
 {
     string input;
     vector<string> ans;
-    cout << "Enter your node relationship input (every 1st line of pair denotes depender, 2nd line denotes dependent):";
-    while ((getline(cin, input) && !input.empty() )) 
+    cout << "Enter your task list input (every 1st line of pair"
+            "denotes the dependent, 2nd line denotes the prequisite / what the " 
+            "dependent is prequest to):\n";
+    while ((getline(cin, input))) 
         ans.push_back(input);
     return ans;
 }
 
+/*
+* Function name:  removeAllReferencesToNode
+* Description:    Removes the target node and it's references from a graph
+* Parameters:     string node - The node that is removed
+*                 map<string, vector<string>>& nodes The graph that gets the  
+*                 target node removed
+* Return Value:   none
+*/
 void removeAllReferencesToNode(string node, map<string, vector<string>>& nodes)
 {
     map<string, vector<string>>::iterator it; 
@@ -41,14 +83,19 @@ void removeAllReferencesToNode(string node, map<string, vector<string>>& nodes)
     }
 }
 
+/*
+* Function name:  printGraphTraversal
+* Description:    Traverses a graph and prints out the name of the nodes it 
+*                 traverses
+* Parameters:     map<string, vector<string>>& nodes The graph that gets 
+*                 traversed
+* Return Value:   none
+*/
 void printGraphTraversal(map<string, vector<string>>& nodes)
 {
-    //Goal: Go up and down map, pop if empty array, then update all other map values that contained that popped key
     map<string, vector<string>>::iterator it; 
     for(int i{0}, startNodesCount = nodes.size(); i < startNodesCount; i++)
-    {
         for(it = nodes.begin(); it != nodes.end(); it++)
-        {
             if(it->second.size() == 0)
             {
                 cout << it -> first + '\n';
@@ -56,17 +103,14 @@ void printGraphTraversal(map<string, vector<string>>& nodes)
                 nodes.erase(it -> first);
                 break;
             }
-            // MAKE SURE TO BREAK AFTER REMOVING NODE
-        }
-    }
     if(nodes.size() > 0) 
-        cout << "cycle";
+        cout << "Cycle";
 
 }
 
 int main()
 {
-    vector<string> taskList = getTaskList();
+    vector<string> taskList = getInputTaskList();
     map<string, vector<string>> graph = createGraphWithTaskList(taskList);
     printGraphTraversal(graph);
 }

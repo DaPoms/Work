@@ -1,0 +1,16 @@
+(*
+* Author:         Daniel Tripoli                             
+* Major:          Computer Science                           
+* Creation Date:  May 2, 2026                             
+* Due Date:       May 8, 2026                             
+* Course: CPSC    310 010                                    
+* Professor Name: Dr. Dylan Schwesinger                      
+* Project:        #6                                         
+* Filename:       README                                     
+* Purpose:        Answers questions to project6                    
+*)
+
+I implemented the problem in C++ first and then went to OCaml. In this project, there are mainly 3 stages: Getting input for the task list, forming a representation of the node dependencies, and then traversing the graph. Thus, I made 3 main functions and 1 helper function to particularly assist in the graph traversal. The input is just done line by line, so I used this to separate these lines in a vector for c++ and a list for OCaml. These tasks were then converted into a graph representation as every 2 elements in the task list represents the 1st element as the dependent and the 2nd element as the node the the dependent depends on / must be visited before the dependent can be 'traversed' (in the sense of printing its contents = traversing). My graph representation for c++ was a map as the key values are sorted automatically by least to greatest, which simplified the logic for traversal. I used an association list for OCaml mainly because I'm most familiar with it, even though I am aware OCaml has their own maps too. The last part, the graph traversal, I represented as simply going down the list of nodes in alphabetical order and removing the first node that is not dependent on any other nodes. The helper function I made, removeAllReferencesToNode, mainly just simplifies the logic of removing all traces of a node after we consume them, with this being the core logic to progressing through the node consumption. 
+
+I'd say personally that the OCaml version was the hardest. I am more comfortable with C++ purely just due to time spent with it. I wouldn't say OCaml is harder than c++, just that as someone with more time in C++ than OCaml, of course I am not as well versed in OCaml. It took around 50% longer for me to finish the OCaml version compared to the C++ variant. Making the graph was much easier in c++ but that is also just because I used a map whereas I used an association list in OCaml. For C++, all I had to do was reference a new key for it to automatically be initialized in the map that represents the graph (which then gets it's value filled with node dependencies). Ocaml on the other hand required manual insertion into the list due to my association list approach. The node removal function was more compact in OCaml than that of C++ which I do like, and OCaml did make the graph traversal extremely simple due to the List module's find_opt method, which made the association list as simple as the map approach in C++ for traversal. A lot of OCaml's benefits shine in knowing which modules and tools should be utilized for a given task (folds, map, filter, find_opt, etc...), and that just requires putting hours in to get used to.
+
