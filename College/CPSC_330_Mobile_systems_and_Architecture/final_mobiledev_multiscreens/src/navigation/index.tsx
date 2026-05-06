@@ -1,3 +1,14 @@
+/* Author:         Daniel Tripoli                             */
+/* Major:          Computer Science                           */
+/* Creation Date:  May 6, 2026                                */
+/* Due Date:       May 8, 2026                                */
+/* Course: CPSC    310 010                                    */
+/* Professor Name: Prof. Wang                                 */
+/* Project:        #6                                         */
+/* Filename:       index.tsx                                  */
+/* Purpose:        Implements all the pages + navigation      */
+
+
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   NavigationContainer,

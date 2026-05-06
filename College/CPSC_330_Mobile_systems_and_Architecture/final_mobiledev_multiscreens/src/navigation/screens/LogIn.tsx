@@ -1,3 +1,13 @@
+/* Author:         Daniel Tripoli                             */
+/* Major:          Computer Science                           */
+/* Creation Date:  May 6, 2026                                */
+/* Due Date:       May 8, 2026                                */
+/* Course: CPSC    310 010                                    */
+/* Professor Name: Prof. Wang                                 */
+/* Project:        #6                                         */
+/* Filename:       LogIn.tsx                                  */
+/* Purpose:        Implements the login page UI               */
+
 import { Text } from '@react-navigation/elements';
 import { StyleSheet, View, TextInput, Button, TouchableOpacity } from 'react-native';
 import {useState} from 'react';
@@ -65,9 +75,9 @@ export function LogIn({}) {
       <Text> Login screen: </Text> 
       <Text>{loginOperation}</Text> 
       <Text> Username: </Text> 
-      <TextInput style = {{borderColor: 'black',borderWidth: 1}} value = {userName} onChangeText={setuserName}/> 
+      <TextInput style = {{width: 100, borderColor: 'black',borderWidth: 1}} value = {userName} onChangeText={setuserName}/> 
       <Text> Password: </Text> 
-      <TextInput style = {{borderColor: 'black',borderWidth: 1}} secureTextEntry = {true} value = {password} onChangeText={setPassword}/> 
+      <TextInput style = {{width: 100, borderColor: 'black',borderWidth: 1}} secureTextEntry = {true} value = {password} onChangeText={setPassword}/> 
       <Button title = "Submit" onPress={handleLogin}/>
       <TouchableOpacity onPress={() => setLoginOperation("Create a new account")}>
         <Text style = {{color:'blue'}}>Create account </Text> 

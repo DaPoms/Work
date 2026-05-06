@@ -1,3 +1,15 @@
+/* Author:         Daniel Tripoli                             */
+/* Major:          Computer Science                           */
+/* Creation Date:  May 6, 2026                                */
+/* Due Date:       May 8, 2026                                */
+/* Course: CPSC    310 010                                    */
+/* Professor Name: Prof. Wang                                 */
+/* Project:        #6                                         */
+/* Filename:       Home.tsx                                   */
+/* Purpose:        Implements the home screen UI, that shows  */
+/*                 after signing in.                          */
+
+
 import { Button, Text } from '@react-navigation/elements';
 import { StyleSheet, View } from 'react-native';
 

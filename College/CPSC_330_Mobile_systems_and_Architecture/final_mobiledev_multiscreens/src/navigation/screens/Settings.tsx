@@ -1,3 +1,13 @@
+/* Author:         Daniel Tripoli                             */
+/* Major:          Computer Science                           */
+/* Creation Date:  May 6, 2026                                */
+/* Due Date:       May 8, 2026                                */
+/* Course: CPSC    310 010                                    */
+/* Professor Name: Prof. Wang                                 */
+/* Project:        #6                                         */
+/* Filename:       LogInContext.tsx                           */
+/* Purpose:        Implements the settings UI                 */
+
 import { Text } from '@react-navigation/elements';
 import { StyleSheet, View } from 'react-native';
 

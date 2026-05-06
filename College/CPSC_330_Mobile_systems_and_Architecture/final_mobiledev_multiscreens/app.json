@@ -10,7 +10,10 @@
     "scheme": "multiscreens",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.multiscreens"
+      "bundleIdentifier": "com.multiscreens",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -31,6 +34,12 @@
           "image": "./assets/splash-icon.png"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "86e74fb0-1d2d-4752-a385-6691fadfdd20"
+      }
+    },
+    "owner": "pomsrcute"
   }
 }
