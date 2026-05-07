@@ -55,9 +55,6 @@ vector<string>  getInputTaskList()
 {
     string input;
     vector<string> ans;
-    cout << "Enter your task list input (every 1st line of pair"
-            "denotes the dependent, 2nd line denotes the prequisite / what the " 
-            "dependent is prequest to):\n";
     while ((getline(cin, input))) 
         ans.push_back(input);
     return ans;

@@ -55,9 +55,6 @@ let createGraphWithTaskList (taskList : string list) : (string * string list) li
 *                 prequisite node (must be evaluated first)
 *)
 let getInputTaskList _ : string list =  
-  print_endline ("Enter your task list input (every 1st line of pair " ^ 
-  "denotes the dependent, 2nd line denotes prequisite / what the dependent is" ^ 
-  " prequisite to):");
   let rec aux strList =
     try
       let str = read_line () in
