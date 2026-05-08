@@ -34,6 +34,7 @@ import fiveCard.PokerHand.HandRank;
 import fiveCard.Card.Rank;
 import fiveCard.Card.Suit;
 import fiveCard.PokerApp.BettingRequestUI;
+import java.util.List;
 
 public class PokerApp extends Application {
 
@@ -937,7 +938,7 @@ PokerStates pokerState;
   
   public void handleFold() throws PokerException
   {
-    pokerGame.fold(); // handles penalty for folding
+    pokerGame.foldWager(); // handles penalty for folding
     pokerState = PokerStates.BETTING1;
     cBoard.updateMsgBoardHeader("Betting Phase 1");
     handleNextRound();
@@ -996,6 +997,7 @@ PokerStates pokerState;
             } catch(NumberFormatException err) {isNumber = false;} // TODO INSERT ERROR MESSAGE ON BETTING SCREEN Case of non double value being entered
             if(handleRaiseValidation(pokerGame.getWagerObject(), bet, isNumber)) 
             {
+              bettingUI.setErrorMsg("");
              
               try{
                 pokerGame.raise(bet);
@@ -1045,6 +1047,7 @@ PokerStates pokerState;
           } catch (PokerException err) {cBoard.updateMsg(err.getMessage());}
 
           userSpace.updateHand(pokerGame.getPlayerHand());
+          dealerSpace.updateHand(pokerGame.getDealerHand()); // note that .discard() also does dealer's discard, so we must update it too!
           userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
           pokerState = PokerStates.BETTING2;
           cBoard.updateMsgBoardHeader("Betting Phase 2");
@@ -1069,10 +1072,17 @@ PokerStates pokerState;
   @Override 
   public void init() // runs before start (good for elements that require backend first on startup)
   {
+    List<String> listOfArg = getParameters().getUnnamed();
+    String[] arrOfArgs = new String[listOfArg.size()];
+    for (int i = 0; i < listOfArg.size(); i++)
+      arrOfArgs[i] = listOfArg.get(i);
+
+      
     try{
-      pokerGame = new PokerCasinoGame(1000.0);
+      pokerGame = new PokerCasinoGame(1000.0, arrOfArgs);
     } catch(PokerException e) {System.out.println("Reshufflecount was not within bounds."); System.exit(1);}
-    pokerGame.draw();
+    if(arrOfArgs.length == 0) //Non command line approach
+      pokerGame.draw();
   }
 
 

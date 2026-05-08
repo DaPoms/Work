@@ -58,7 +58,7 @@ public class PokerCasinoGame extends CasinoCardGame {
         public Double getWager() {return wager.getRoundWinnings();}
         public Bettor getWagerObject() {return wager;}
         public String getEntryPay() {return Double.toString(wager.getEntryPay());} // Just passes function up for easier access
-        public void setupGame(double startBal, String... args) // Only for initial setup
+        /* public void setupGame(double startBal, String... args) // Only for initial setup
         {
             int smallBlind = 25;
             playerHand = new PokerHand();
@@ -81,7 +81,7 @@ public class PokerCasinoGame extends CasinoCardGame {
                     CmdLineInput.parseArguments(args, playerHand, dealerHand);// Note we need a try catch here because parseArgs uses addCard, which does have 'throws' functionality
                     didFirstDrawOnCommandLine = true;
             }     
-        }
+        } */
 
 
 
@@ -106,7 +106,7 @@ public class PokerCasinoGame extends CasinoCardGame {
     *    carries out the discard, and draws cards for the cards removed.
     *    @param playerHand The hand that the discards are done on
     *    @param scan The input stream for user input
-    *   @param deck - The deck that cards are dealt from
+    *    @param deck - The deck that cards are dealt from
     *    @return Returns whether or not the deck needs to be shuffled after the discard
     *    @throws PokerException If removing an out of index card from hand
     *    
@@ -621,7 +621,7 @@ public void nextRound()
     draw();
 }
 
-public void fold() throws PokerException
+public void foldWager() throws PokerException
 {
     wager.subtractByWager();    
     wager.resetBet();
