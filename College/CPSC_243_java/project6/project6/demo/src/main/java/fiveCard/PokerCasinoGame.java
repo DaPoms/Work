@@ -53,8 +53,10 @@ public class PokerCasinoGame extends CasinoCardGame {
         public PokerHand getPlayerHand() {return playerHand;}
         public PokerHand getDealerHand() {return dealerHand;}
         public String getBalanceAsString() {return Double.toString(wager.getBalance());}
+        public Double getBalance() {return wager.getBalance();}
         public String getWagerAsString() {return Double.toString(wager.getRoundWinnings());} //Yes, round winnings returns the profit IF player wins, which is = the current wager
         public Double getWager() {return wager.getRoundWinnings();}
+        public Bettor getWagerObject() {return wager;}
         public String getEntryPay() {return Double.toString(wager.getEntryPay());} // Just passes function up for easier access
         public void setupGame(double startBal, String... args) // Only for initial setup
         {
@@ -80,6 +82,8 @@ public class PokerCasinoGame extends CasinoCardGame {
                     didFirstDrawOnCommandLine = true;
             }     
         }
+
+
 
         public void draw()
         {
@@ -114,7 +118,7 @@ public class PokerCasinoGame extends CasinoCardGame {
         {
             // Can throw case of removing nonexistent card (should've been prevented by askUserForDiscard function)
             for(int i = playerCardsToBeDiscarded.size() - 1; i >= 0; i--) // Reverse order of removal ensures easy deletion (shifted elements have no impact on deletion)
-                playerHand.removeCard(playerCardsToBeDiscarded.get(i) - 1); // We subtract 1 due to 0 indexed arrays (The user enters 1 for index 0)
+                playerHand.removeCard(playerCardsToBeDiscarded.get(i)); // We subtract 1 due to 0 indexed arrays (The user enters 1 for index 0)
             
             for(int i = 0; i < playerCardsToBeDiscarded.size(); i++) // Refills the hand with new cards
                 try{
@@ -511,14 +515,14 @@ public class PokerCasinoGame extends CasinoCardGame {
     *     @param s - The string being validated for being a command 
     *     @return True if string is an accepted poker command, false otherwise
     */
-    public static boolean isValidBetCommand(String s)
+/*     public static boolean isValidBetCommand(String s)
     {
         switch(s)
         {
             case "C","c","R","r","F","f" -> {return true;}
             default -> {return false;}
         }
-    }
+    } */
 
     /**                                                   
     *     Asks and collects input for making a betting decision
@@ -542,7 +546,7 @@ public class PokerCasinoGame extends CasinoCardGame {
     *     @param raiseVal The proposed new raise value
     *     @return True if raise is valid, false otherwise
     */
-/*     public static boolean isValidRaise(Bettor wager, double raiseVal) // Decided to implement this as it allows more custom "error" messages than if I did it in Bettor
+/*      public static boolean isValidRaise(Bettor wager, double raiseVal) // Decided to implement this as it allows more custom "error" messages than if I did it in Bettor
     { // All raises must be > current bet, ALSO, > big blind
         double currBal = wager.getBalance();
         if(raiseVal < 0)
@@ -566,7 +570,7 @@ public class PokerCasinoGame extends CasinoCardGame {
             return false;
         }
         return true;
-    }
+    } */
 
     /**                                                   
     *     Collects user/player's raise value with validation checking to ensure an acceptable value is given.
@@ -607,6 +611,20 @@ public void call(boolean isFirstBet) throws PokerException
 public void raise(double bet) throws PokerException
 {
     wager.placeBet(bet);
+}
+
+public void nextRound()
+{
+    playerHand.clear();
+    dealerHand.clear();
+    wager.resetBet();
+    draw();
+}
+
+public void fold() throws PokerException
+{
+    wager.subtractByWager();    
+    wager.resetBet();
 }
 
 //Fold is just to do nothing, will move on to next phase

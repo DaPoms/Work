@@ -33,13 +33,14 @@ import javafx.scene.control.CheckBox;
 import fiveCard.PokerHand.HandRank;
 import fiveCard.Card.Rank;
 import fiveCard.Card.Suit;
+import fiveCard.PokerApp.BettingRequestUI;
 
 public class PokerApp extends Application {
 
   private enum PokerStates
   {
     BETTING1,
-    DISCARD1,
+    DISCARD,
     BETTING2,
     REVEAL
   }
@@ -516,7 +517,7 @@ PokerStates pokerState;
       cards = new PlayerHandUI(handArr);
       cards.setPadding(new Insets(0,0,5,0));
       cards.setAlignment(Pos.CENTER);
-      playerHeader = new Label("Player Hand: PLACEHOLDER"); // rank will be placed in placeholder
+      playerHeader = new Label("Player Hand:"); // rank will be placed in placeholder
       playerHeader.setFont(Font.font(25));
       playerHeader.setStyle("-fx-font-weight: 700");
       playerHeader.setTextFill(Color.WHITE);
@@ -538,10 +539,11 @@ PokerStates pokerState;
     *      Replaces the player's current hand with a new one
     *      @param hand The hand the player's hand UI will be replaced with
     */
-    public void updateHand(ArrayList<Card> hand)
+    public void updateHand(PokerHand hand)
     {
+      ArrayList<Card> handArr = hand.getHand();
       cards.getChildren().clear(); //Empties cards in HBox
-      cards.getChildren().addAll(new PlayerHandUI(hand).getChildren()); // Populates hand with new cards
+      cards.getChildren().addAll(new PlayerHandUI(handArr).getChildren()); // Populates hand with new cards
     }
 
     /**                                                   
@@ -550,13 +552,10 @@ PokerStates pokerState;
     */
     public ArrayList<Boolean> determineChecked() // Ok... I worked ahead
     {
-      ArrayList<Boolean> ans = new ArrayList<>(cards.getChildren().size());
+      ArrayList<Boolean> ans = new ArrayList<>();
       ArrayList<CheckBox> checkBoxes = cards.retrieveCheckBoxes();
       for(int i = 0; i < checkBoxes.size(); i++)
-      {
-        if((checkBoxes.get(i)).isSelected())
-          ans.set(i, true);
-      }
+          ans.add(i, checkBoxes.get(i).isSelected() );
       return ans;
     }
   
@@ -603,7 +602,7 @@ PokerStates pokerState;
       ArrayList<Card> handArr = hand.getHand();
       cards = createHand(handArr);
       cards.setAlignment(Pos.CENTER);
-      dealerHeader = new Label("Dealer Hand: PLACEHOLDER"); // For dealer, hand wont be shown at the start, but this is just for demonstration purposes
+      dealerHeader = new Label("Dealer Hand:"); // For dealer, hand wont be shown at the start, but this is just for demonstration purposes
       dealerHeader.setFont(Font.font(25));
       dealerHeader.setStyle("-fx-font-weight: 700");
       dealerHeader.setTextFill(Color.WHITE);
@@ -617,9 +616,18 @@ PokerStates pokerState;
     *      Updates the text above the dealer space which contains that current rank of the hand (should start empty at the start of poker to hide the result from the player)
     *      @param r The hand rank that the header will display
     */
-     public void setDisplayedRank(HandRank r)
+    public void setDisplayedRank(HandRank r)
     {
       dealerHeader.setText("Dealer Hand: " + HandRank.toString(r));
+    }
+
+    /**                                                   
+    *      Updates the text above the dealer space with the given string
+    *      @param s The string displayed for the dealer's header
+    */
+    public void setDisplayedRank(String s)
+    {
+      dealerHeader.setText("Dealer Hand: " + s);
     }
 
 
@@ -627,10 +635,11 @@ PokerStates pokerState;
     *      Replaces the current cards displayed with a new set of cards
     *      @param hand The array of cards, which is the structure to represent a card hand
     */
-    public void updateHand(ArrayList<Card> hand)
+    public void updateHand(PokerHand hand)
     {
-       cards.getChildren().clear(); //Empties cards in HBox
-      cards.getChildren().addAll(createHand(hand).getChildren()); // Populates hand with new cards
+      ArrayList<Card> handArr = hand.getHand();
+      cards.getChildren().clear(); //Empties cards in HBox
+      cards.getChildren().addAll(createHand(handArr).getChildren()); // Populates hand with new cards
     }
 
     /**                                                   
@@ -819,6 +828,11 @@ PokerStates pokerState;
     {
       pot.updateVal(d);
     }
+
+    public void updateMsgBoardHeader(String s)
+    {
+      msgBoard.setHeader(s);
+    }
   }
 
   /**
@@ -829,6 +843,7 @@ PokerStates pokerState;
    */
   class BettingRequestUI extends VBox // This will normally show if user raises in the betting phase
   {
+    private Text errorMsg;
     private TextField userInputBox;
     private Button submitButton;
     BettingRequestUI() // will likely have better messages in the next project (like amount that must be betted)
@@ -837,6 +852,12 @@ PokerStates pokerState;
       header.setFont(Font.font(25));
       header.setStyle("-fx-font-weight: 700;");
       header.setFill(Color.WHITE);
+
+      errorMsg = new Text("");
+      errorMsg.setFont(Font.font(15));
+      errorMsg.setStyle("-fx-font-weight: 700;");
+      errorMsg.setFill(Color.RED);
+
       userInputBox = new TextField();
       userInputBox.setBackground(new Background(new BackgroundFill(Color.web("#186336"),new CornerRadii(15),Insets.EMPTY)));
       userInputBox.setFont(Font.font(25));
@@ -852,46 +873,196 @@ PokerStates pokerState;
       setAlignment(Pos.CENTER);
       setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, new CornerRadii(15),BorderWidths.DEFAULT)));
       setBackground(new Background(new BackgroundFill(Color.web("#013215"),new CornerRadii(15),Insets.EMPTY)));
-      getChildren().addAll(header, userInputBox, submitButton);
+      getChildren().addAll(header, errorMsg, userInputBox, submitButton);
     }
     public double getBet() {return Double.parseDouble(userInputBox.getText());}
     public Button getSubmitButton() {return submitButton;}
+    public void setErrorMsg(String str) {
+      errorMsg.setText(str);
+    }
   }
 
 
 
+      /**                                                   
+    *     Validates if the passed raise value is an acceptable raise based on the current wager and balance 
+    *     @param wager The object that keeps track of the player's wager
+    *     @param raiseVal The proposed new raise value
+    *     @return True if raise is valid, false otherwise
+    */
+     public boolean handleRaiseValidation(Bettor wager, double raiseVal, boolean isNumber) // Decided to implement this as it allows more custom "error" messages than if I did it in Bettor
+    { // All raises must be > current bet, ALSO, > big blind
+        double currBal = wager.getBalance();
+        if(!isNumber)
+        {
+          bettingUI.setErrorMsg("Input was not a number. Only accepted values are numbers with/without decimals");
+          return false;
+        }
+
+        else if(raiseVal < 0)
+        {
+            bettingUI.setErrorMsg("Raise of $" + raiseVal + " was negative."); //TODO: If doing raise, force more than curr bet?
+            return false;
+        }
+        if(raiseVal > currBal)
+        {
+            bettingUI.setErrorMsg("Raise was higher than the current balance of $" + currBal); //TODO: If doing raise, force more than curr bet?
+            return false;
+        }
+        else if(raiseVal < wager.getEntryPay() * 2)
+        {
+            bettingUI.setErrorMsg("Raise must be at least the value of the big blind, raise of $" + raiseVal + " < $" + (wager.getEntryPay() * 2) );
+            return false;
+        }
+         else if(raiseVal < wager.getRoundWinnings()) //getRoundWinnings is to access the currWager
+        {
+            bettingUI.setErrorMsg("Raise must be at least the value of the your current bet, raise of $" + raiseVal + " < $" + (wager.getRoundWinnings()) );
+            return false;
+        }
+        return true;
+    }
+
+  public void handleNextRound()
+  {
+    dealerSpace.setDisplayedRank("");
+    pokerGame.nextRound();
+    betStats.updatePlayerAndDealerStats(pokerGame.getEntryPay(), pokerGame.getEntryPay());
+    balStat.updatePlayerStat(pokerGame.getBalanceAsString()); // This is a duplicate in some cases but the overhead is light enough that I'd like to keep the modularity
+    userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
+    cBoard.updatePot(pokerGame.getWager() * 2);
+    userSpace.updateHand(pokerGame.getPlayerHand());
+    userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
+    dealerSpace.updateHand(pokerGame.getDealerHand());
+  }
+  
+  public void handleFold() throws PokerException
+  {
+    pokerGame.fold(); // handles penalty for folding
+    pokerState = PokerStates.BETTING1;
+    cBoard.updateMsgBoardHeader("Betting Phase 1");
+    handleNextRound();
+  }
+
+  public void handleResults() //shows dealer hand + rank, increments or decrements users balance.
+  {
+      PokerHand pHand = pokerGame.getPlayerHand();
+      PokerHand dHand =  pokerGame.getDealerHand();
+      HandRank dealerRank =  dHand.getHandRank();
+      dealerSpace.revealCards();
+      dealerSpace.setDisplayedRank(dealerRank);
+      String result = pokerGame.getWagerObject().collectWinnings(pHand, dHand);
+      cBoard.updatePot(pokerGame.getBalance());
+      cBoard.updateMsg(result + ". Select end round to start a new game");
+  }
+  
   public void createPokerEventHandlingSuite()
   {
     PokerButton callButton = userSpace.getCallButton();
     PokerButton raiseButton = userSpace.getRaiseButtion();
     PokerButton foldButton = userSpace.getFoldButton();
+    PokerButton endRoundButton = userSpace.getEndRoundButton();
+
     callButton.setOnAction(e -> {
         if(pokerState == PokerStates.BETTING1)
+        {
           try{
             pokerGame.call(true);
             betStats.updatePlayerAndDealerStats(pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
-            pokerState = PokerStates.DISCARD1;
+            cBoard.updatePot(pokerGame.getWager() * 2);
+            pokerState = PokerStates.DISCARD;
+            cBoard.updateMsgBoardHeader("Discard Phase 1");
+            cBoard.updateMsg("Select the checkboxes underneath cards you want to keep, then hit end round to confirm");
           }
           catch(PokerException err) {cBoard.updateMsg(err.getMessage());} // TODO MUST ACCOUNT FOR ERROR CASES
+        }
+        else if(pokerState == PokerStates.BETTING2)
+        {
+          pokerState = PokerStates.REVEAL; // TODO THIS SHOULD INSTANTLY REVEAL TOO
+          handleResults();
+          cBoard.updateMsgBoardHeader("Results");
+        }
     });
     
     raiseButton.setOnAction(e -> {
         if(pokerState == PokerStates.BETTING1 || pokerState == PokerStates.BETTING2)
         {
           displayBetUI();
-            bettingUI.getSubmitButton().setOnAction(e2 -> {
+          bettingUI.getSubmitButton().setOnAction(e2 -> {
+            double bet = -1;
+            boolean isNumber = true;
+
+            try{
+            bet = bettingUI.getBet();
+            } catch(NumberFormatException err) {isNumber = false;} // TODO INSERT ERROR MESSAGE ON BETTING SCREEN Case of non double value being entered
+            if(handleRaiseValidation(pokerGame.getWagerObject(), bet, isNumber)) 
+            {
+             
               try{
-              double bet = bettingUI.getBet();
-              pokerGame.raise(bet);
-              betStats.updatePlayerAndDealerStats(pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
-              pokerState = PokerStates.DISCARD1;
+                pokerGame.raise(bet);
+              } catch (PokerException err) {} // This case never happens due to the above check
               hideBetUI();
-            } catch(PokerException err) {} // TODO INSERT ERROR MESSAGE ON BETTING SCREEN Case of non double value being entered
+              betStats.updatePlayerAndDealerStats(pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
+              cBoard.updatePot(pokerGame.getWager() * 2);
+              if(pokerState == PokerStates.BETTING1)
+              {
+                pokerState = PokerStates.DISCARD;
+                cBoard.updateMsgBoardHeader("Discard Phase 2");
+                cBoard.updateMsg("Select the checkboxes underneath cards you want to keep, then hit end round to confirm");
+              }
+              else
+              {
+                pokerState = PokerStates.REVEAL; // TODO SHOULD INSTANTLY REVEAL
+                handleResults();
+                cBoard.updateMsgBoardHeader("Results");
+              }
+            }
             });
         }
-   // TODO MUST ACCOUNT FOR ERROR CASES
+    // TODO MUST ACCOUNT FOR ERROR CASES
     });
-    foldButton.setOnAction(null);
+
+    foldButton.setOnAction(e -> {
+        if(pokerState == PokerStates.BETTING1 || pokerState == PokerStates.BETTING2)
+        {
+          try{
+            handleFold();
+          } catch (PokerException err){} // "Unexpected behavior occured of withdrawing more money than current balance" TODO
+        }
+    });
+
+    endRoundButton.setOnAction(e -> {
+        if(pokerState == PokerStates.DISCARD)
+        {
+          ArrayList<Integer> idxsToBeDiscarded = new ArrayList<>();
+          ArrayList<Boolean> isHeldCard = userSpace.determineChecked();
+          for(int i = 0; i < pokerGame.getPlayerHand().getHand().size(); i++)
+          {
+            if(!isHeldCard.get(i))
+              idxsToBeDiscarded.add(i);
+          }
+          try{
+          pokerGame.discard(idxsToBeDiscarded);
+          } catch (PokerException err) {cBoard.updateMsg(err.getMessage());}
+
+          userSpace.updateHand(pokerGame.getPlayerHand());
+          userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
+          pokerState = PokerStates.BETTING2;
+          cBoard.updateMsgBoardHeader("Betting Phase 2");
+          cBoard.updateMsg("Select call, raise, or fold to decide on your bet");
+        }
+        else if(pokerState == PokerStates.REVEAL) //End round does behavior of revealing card
+        {
+          handleNextRound();
+          pokerState = PokerStates.BETTING1;
+          cBoard.updateMsgBoardHeader("Betting Phase 1");
+          cBoard.updateMsg("Select call, raise, or fold to decide on your bet");
+        }
+
+
+         // TODO MAKE HANDLE FUNCTIONS FOR THESE TO MAKE THIS SUITE SMALLER
+    });
+   
+ 
   }
 
 
@@ -914,6 +1085,7 @@ PokerStates pokerState;
     betStats    = new PokerStatsUI("Bet", pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
     balStat     = new PokerStatsUI("Bal", pokerGame.getBalanceAsString()); 
     cBoard      = new CenterBoard(0.0, "Bet Phase", "Select call, raise, or fold to decide on your bet");
+    cBoard.updatePot(pokerGame.getWager() * 2);
     bettingUI   = new BettingRequestUI(); // Hidden at the start
     overlay     = new StackPane(pokerScreen); // Use this version to hide the betting popup UI
     pokerState = PokerStates.BETTING1;
@@ -953,3 +1125,9 @@ PokerStates pokerState;
 
 
 //TODO : Make sure to be updating the displayed hand rank as hands change
+
+
+//TODO : Make sure to use wager.collectwinnings for win case
+
+
+// NEED TO ADD END ROUND PROTECTION WITH BET SCREEN UP TODO

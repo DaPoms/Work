@@ -78,14 +78,14 @@ public class Bettor {
             {
                 case 1 ->  {
                     currBal += currWager; 
-                    return  name + " earned $" + currWager;
+                    return "Player won! +$" + currWager;
                 } // Because dealer wager matches player, net reward is the wager
                 case 0 ->  {
-                    return name + " refunded wager of $" + currWager;
+                    return "Tie!: Player was refunded wager of $" + currWager;
                 }
                 case -1 -> {
                     currBal -= currWager;
-                    return name + " lost $" + currWager;
+                    return "Player lost! -$" + currWager;
                 }
             }
         return "ERROR: compareTo did not evaluate to any number from -1 to 1"; 
