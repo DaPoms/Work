@@ -17,7 +17,7 @@
             "request": "launch",
             "mainClass": "fiveCard/fiveCard.PokerApp",
             "projectName": "demo",
-            //"args": "-p 6C 8C 10C KC AS -d 2S 4S 10C 10S JS"
+            //"args": "-p 10C JC QC KC AC -d 10S JS QS KS AS"
         }
     ]
 }

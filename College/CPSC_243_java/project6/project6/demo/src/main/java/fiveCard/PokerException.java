@@ -2,10 +2,10 @@
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
 /* Creation Date:  April 21, 2026                           */
-/* Due Date:       April 24, 2026                           */
+/* Due Date:       May 16th, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #4                                       */
+/* Project:        #6                                       */
 /* Filename:       PokerException.java                      */
 /* Purpose:        Implements error handling for            */
 /*                 poker                                    */

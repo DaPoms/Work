@@ -2,10 +2,10 @@
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
 /* Creation Date:  April 21, 2026                           */
-/* Due Date:       April 24, 2026                           */
+/* Due Date:       May 16th, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #4                                       */
+/* Project:        #6                                       */
 /* Filename:       Hand.java                                */
 /* Purpose:        Implements the behavior of card hands in */
 /*                 a card Game                              */
@@ -29,13 +29,16 @@ public class Hand implements Comparable<Hand>{
     */
     protected ArrayList<Card> hand; // With professor permission, we are allowed to make hand protected for use by pokerHand
 
-
     /**                                                   
     *      Default constructor for hand class
     */
      public Hand() { hand = new ArrayList<>(); }//end constructor 
 
-    public ArrayList<Card> getHand() {return hand;} // TODO: ADD TO JAVADOC
+    /**  
+    *      Returns a reference to a hand's array, which holds the hand's cards                                                     
+    *      @return The array representatino of the hand.
+    */
+    public ArrayList<Card> getHand() {return hand;}
 
     /**                                                   
     *     Returns the card at a given position

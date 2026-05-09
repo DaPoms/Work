@@ -2,10 +2,10 @@
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
 /* Creation Date:  April 21, 2026                           */
-/* Due Date:       April 24, 2026                           */
+/* Due Date:       May 16th, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #4                                       */
+/* Project:        #6                                       */
 /* Filename:       CasinoCardGame.java                      */
 /* Purpose:        Abstract class that enforces the         */
 /*                 structure required of a casino card game */
@@ -49,13 +49,6 @@ public abstract class CasinoCardGame  {
         this.player = player;
     };
 
-    /**                                                   
-    *     Abstract method for running the casino card game's logic
-    *     @param args Command line arguements for manual test cases. Must follow a fixed format of -p followed by 5 card, then -d followed by 5 cards.
-	*      Cards are referenced via a one character representation for their value (except for 10, the symbols are 2,3,4,5,6,7,8,9,10,J,Q,K,A) followed by the first letter of the suit name (C,S,H,D)
-    */
-    public abstract void play(String...args); 
-    
 } 
 
 

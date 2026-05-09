@@ -2,10 +2,10 @@
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
 /* Creation Date:  April 21, 2026                           */
-/* Due Date:       April 24, 2026                           */
+/* Due Date:       May 16th, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
-/* Project:        #4                                       */
+/* Project:        #6                                       */
 /* Filename:       Bettor.java                              */
 /* Purpose:        Implements betting functionality         */
 /************************************************************/
@@ -78,14 +78,14 @@ public class Bettor {
             {
                 case 1 ->  {
                     currBal += currWager; 
-                    return "Player won! +$" + currWager;
+                    return String.format("Player won! +$%.2f", currWager);
                 } // Because dealer wager matches player, net reward is the wager
                 case 0 ->  {
-                    return "Tie!: Player was refunded wager of $" + currWager;
+                    return String.format("Tie!: Player was refunded wager of $%.2f", currWager);
                 }
                 case -1 -> {
                     currBal -= currWager;
-                    return "Player lost! -$" + currWager;
+                    return String.format("Player lost! -$%.2f",currWager);
                 }
             }
         return "ERROR: compareTo did not evaluate to any number from -1 to 1"; 
@@ -104,6 +104,11 @@ public class Bettor {
     public double getBalance(){return currBal;}
 
     /**                                                   
+    *     Resets the player's current balance to the starting balance
+    */
+    public void resetBalance(){currBal = startBal;}
+
+    /**                                                   
     *     Gets the player's required minimum bet (in poker, this is the small blind)
     *     @return Price of entry for the betting game
     */
@@ -116,7 +121,7 @@ public class Bettor {
     public void subtractByWager() throws PokerException //placebet sort of prevents this exception, but just in case
     {
         if(currWager > currBal) 
-            throw new PokerException("Tried to withdraw more than balance has. Wager was " + (currWager) + " when total balance was " + currBal);
+            throw new PokerException("Tried to withdraw more than balance has. Wager was $" + (currWager) + " when total balance was $" + currBal);
         currBal -= currWager;
         currWager = entryPay;
     }

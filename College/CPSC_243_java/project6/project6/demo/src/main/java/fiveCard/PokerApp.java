@@ -2,8 +2,8 @@ package fiveCard;
 /************************************************************/
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
-/* Creation Date:  April 28th, 2026                         */
-/* Due Date:       May 5th, 2026                            */
+/* Creation Date:  May 1st, 2026                            */
+/* Due Date:       May 16th, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
 /* Project:        #6                                       */
@@ -12,7 +12,6 @@ package fiveCard;
 /************************************************************/
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -28,39 +27,43 @@ import javafx.scene.image.*;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.CheckBox;
-
-
 import fiveCard.PokerHand.HandRank;
 import fiveCard.Card.Rank;
 import fiveCard.Card.Suit;
-import fiveCard.PokerApp.BettingRequestUI;
 import java.util.List;
 
+  /**
+  * Implements the frontend to backend relationship of the game poker
+  * fiveCard.PokerApp.java
+  * CPSC243 Spring 2026
+  * @author Daniel Tripoli
+  */  
 public class PokerApp extends Application {
-
-  private enum PokerStates
-  {
-    BETTING1,
-    DISCARD,
-    BETTING2,
-    REVEAL
-  }
-PokerCasinoGame pokerGame; // The backend object
-PlayerSpace userSpace;
-DealerSpace dealerSpace;
-PokerStatsUI betStats;
-PokerStatsUI balStat;
-CenterBoard cBoard;
-BettingRequestUI bettingUI;
-StackPane overlay; // Contains all the UI for our poker game (used for adding/removing overlays)
-PokerStates pokerState;
+    private enum PokerStates
+    {
+        BETTING1,
+        DISCARD,
+        BETTING2,
+        REVEAL,
+        GAMEEND,
+        ENTERINGRAISE
+    }
+    PokerCasinoGame pokerGame; // The backend object
+    PlayerSpace userSpace;
+    DealerSpace dealerSpace;
+    PokerStatsUI betStats;
+    PokerStatsUI balStat;
+    CenterBoard cBoard;
+    BettingRequestUI bettingUI;
+    StackPane overlay; // Contains all the UI for our poker game (used for adding/removing overlays)
+    PokerStates pokerState;
   
 
   //////////// end of old code ////////////
 
   /**
   * Implements a box with a header + value
-  * fiveCard.ValueBoxWithHeader.java
+  * fiveCard.PokerApp.ValueBoxWithHeader
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */  
@@ -105,7 +108,7 @@ PokerStates pokerState;
 
   /**
   * Implements stats displayed for both the player and dealer (or just player based on constructor)
-  * fiveCard.PokerStatsUI.java
+  * fiveCard.PokerApp.PokerStatsUI
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */
@@ -119,9 +122,9 @@ PokerStates pokerState;
     *      @param statName The name of the stat being displayed
     *      @param playerStatVal The player's starting stat value
     */
-    PokerStatsUI(String statName, String playerStatVal) //Player only variant
+    PokerStatsUI(String statName, double playerStatVal) //Player only variant
     {
-      playerStatsUI = new ValueBoxWithHeader("Player " + statName, "$" + playerStatVal);
+      playerStatsUI = new ValueBoxWithHeader("Player " + statName, String.format("$%.2f", playerStatVal));
       dealerStatsUI = null;
       setMargin(playerStatsUI, new Insets(638,0,0,0));
       getChildren().addAll(playerStatsUI);
@@ -134,10 +137,10 @@ PokerStates pokerState;
     *      @param playerStatVal The player's starting stat value
     *      @param dealerStatVal The dealer's starting stat value
     */
-    PokerStatsUI(String statName, String playerStatVal, String dealerStatVal)
+    PokerStatsUI(String statName, double playerStatVal, double dealerStatVal)
     {
-      dealerStatsUI = new ValueBoxWithHeader("Dealer " + statName,  "$" + dealerStatVal);
-      playerStatsUI = new ValueBoxWithHeader("Player " + statName,  "$" + playerStatVal);
+      dealerStatsUI = new ValueBoxWithHeader("Dealer " + statName,  String.format("$%.2f", dealerStatVal));
+      playerStatsUI = new ValueBoxWithHeader("Player " + statName,  String.format("$%.2f", playerStatVal));
 
       setSpacing(526);
 
@@ -148,18 +151,18 @@ PokerStates pokerState;
     *      Updates the player text to the passed text (intended for values/stats)
     *      @param playerStat The player's value for the stat that the player's text will be updated to
     */
-    public void updatePlayerStat(String stat)
+    public void updatePlayerStat(double stat)
     {
-      playerStatsUI.setValue( "$" + stat);
+      playerStatsUI.setValue(String.format("$%.2f", stat));
     }
 
     /**                                                   
     *      Updates the dealer text to the passed text (intended for values/stats)
     *      @param dealerStat The dealer's value for the stat that the dealer's text will be updated to
     */
-    public void updateDealerStat(String stat)
+    public void updateDealerStat(double stat)
     {
-      dealerStatsUI.setValue( "$" + stat);
+      dealerStatsUI.setValue(String.format("$%.2f", stat));
     }
 
     /**                                                   
@@ -167,10 +170,10 @@ PokerStates pokerState;
     *      @param dealerStat The dealer's value for the stat that the dealer's text will be updated to
     *      @param playerStat The player's value for the stat that the dealer's text will be updated to
     */
-    public void updatePlayerAndDealerStats(String dealerStat, String playerStat)
+    public void updatePlayerAndDealerStats(double dealerStat, double playerStat)
     {
-      dealerStatsUI.setValue( "$" + dealerStat);
-       playerStatsUI.setValue( "$" + playerStat);
+      dealerStatsUI.setValue(String.format("$%.2f", dealerStat));
+      playerStatsUI.setValue(String.format("$%.2f", playerStat));
     }
   }
 
@@ -190,7 +193,7 @@ PokerStates pokerState;
 
   /**
   * Implements a player card UI, which is a poker card paired with a checkbox for discards
-  * fiveCard.PlayerCardUI.java
+  * fiveCard.PokerApp.PlayerCardUI
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */
@@ -245,7 +248,7 @@ PokerStates pokerState;
 
   /**
   * Implements a generalized poker card UI
-  * fiveCard.PokerCardUI.java
+  * fiveCard.PokerApp.PokerCardUI
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */
@@ -341,9 +344,9 @@ PokerStates pokerState;
       getChildren().add(backOfCard); // freshly instantiated cards are hidden (ensures no peeking!)
     }  
     
-  /**                                                   
-  *      Reveals the front of the card
-  */
+    /**                                                   
+    *      Reveals the front of the card
+    */
     public void revealCard()
     {
       getChildren().remove(backOfCard);
@@ -351,8 +354,8 @@ PokerStates pokerState;
   }
 
   /**                                                   
-  *      C
-  *      @param 
+  *      Creates the shape of a card UI
+  *      @return The shape of a card
   */
   public Rectangle createCardShape()
   {
@@ -365,7 +368,7 @@ PokerStates pokerState;
 
   /**
   * Implements Implements the player hand UI
-  * fiveCard.PlayerHandUI.java
+  * fiveCard.PokerApp.PlayerHandUI
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */
@@ -420,7 +423,7 @@ PokerStates pokerState;
 
   /**
    * Implements the player's UI
-   * fiveCard.pokerButton.java
+   * fiveCard.PokerApp.pokerButton
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -446,7 +449,7 @@ PokerStates pokerState;
 
    /**
    * Implements user interaction buttons for poker (call, raise, fold, end)
-   * fiveCard.PokerTurnDecisions.java
+   * fiveCard.PokerApp.PokerTurnDecisions
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -497,7 +500,7 @@ PokerStates pokerState;
 
   /**
    * Implements the player's UI
-   * fiveCard.PlayerSpace.java
+   * fiveCard.PokerApp.PlayerSpace
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -585,7 +588,7 @@ PokerStates pokerState;
 
   /**
    * Implements the dealer's UI
-   * fiveCard.DealerSpace.java
+   * fiveCard.PokerApp.DealerSpace
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -655,7 +658,7 @@ PokerStates pokerState;
 
   /**
   * Implements the UI for the message board, used to display messages to the user
-  * fiveCard.MessageBoard.java
+  * fiveCard.PokerApp.MessageBoard
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */
@@ -684,16 +687,16 @@ PokerStates pokerState;
 
     /**                                                   
     *      Updates the message displayed on the message board
-    *      @param s 
+    *      @param s The message the message board body gets updated with
     */
     public void setMessage(String s)
     {
       textBody.setText(s);
     }
 
-        /**                                                   
+    /**                                                   
     *      Updates the title displayed on the message board
-    *      @param s 
+    *      @param s The message the header gets updated with
     */
     public void setHeader(String s)
     {
@@ -704,7 +707,7 @@ PokerStates pokerState;
 
   /**
    * Implements a box that contains text below it, and an image above
-   * fiveCard.pokerTextWithImage.java
+   * fiveCard.PokerApp.pokerTextWithImage
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -756,7 +759,7 @@ PokerStates pokerState;
 
   /**
   * Implements the UI for the betting pot
-  * fiveCard.PotPool.java
+  * fiveCard.PokerApp.PotPool
   * CPSC243 Spring 2026
   * @author Daniel Tripoli
   */
@@ -783,13 +786,13 @@ PokerStates pokerState;
     */
     public void updateVal(Double d)
     {
-      pot.setText("$" + Double.toString(d));
+      pot.setText(String.format("$%.2f", d));
     }
   }
 
    /**
    * Implements the center UI of the poker game (displays messages + betting pot)
-   * fiveCard.CenterBoard.java
+   * fiveCard.PokerApp.CenterBoard
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -830,6 +833,11 @@ PokerStates pokerState;
       pot.updateVal(d);
     }
 
+
+    /**                                    
+    *      Updates the header of the message board to the passed string               
+    *      @param s The message the header gets updated with
+    */
     public void updateMsgBoardHeader(String s)
     {
       msgBoard.setHeader(s);
@@ -838,7 +846,7 @@ PokerStates pokerState;
 
   /**
    * Implements the betting UI and it's associated behaviors
-   * fiveCard.BettingRequestUI.java
+   * fiveCard.PokerApp.BettingRequestUI
    * CPSC243 Spring 2026
    * @author Daniel Tripoli
    */
@@ -876,8 +884,22 @@ PokerStates pokerState;
       setBackground(new Background(new BackgroundFill(Color.web("#013215"),new CornerRadii(15),Insets.EMPTY)));
       getChildren().addAll(header, errorMsg, userInputBox, submitButton);
     }
+    /**        
+    *      Returns the user input stored in the betting UI input box. Only returns doubles, throws an error otherwise                                            
+    *      @return The value that was entered the the text box of the betting UI
+    */
     public double getBet() {return Double.parseDouble(userInputBox.getText());}
+
+    /**           
+    *      Returns a reference to the submit button                                  
+    *      @return A reference to the submit button
+    */
     public Button getSubmitButton() {return submitButton;}
+
+    /**           
+    *      Updates the text of a dedicated error printout section of the betting UI                                        
+    *      @param str The message the error text space gets updated with
+    */
     public void setErrorMsg(String str) {
       errorMsg.setText(str);
     }
@@ -885,50 +907,53 @@ PokerStates pokerState;
 
 
 
-      /**                                                   
-    *     Validates if the passed raise value is an acceptable raise based on the current wager and balance 
-    *     @param wager The object that keeps track of the player's wager
-    *     @param raiseVal The proposed new raise value
-    *     @return True if raise is valid, false otherwise
-    */
-     public boolean handleRaiseValidation(Bettor wager, double raiseVal, boolean isNumber) // Decided to implement this as it allows more custom "error" messages than if I did it in Bettor
-    { // All raises must be > current bet, ALSO, > big blind
-        double currBal = wager.getBalance();
-        if(!isNumber)
-        {
-          bettingUI.setErrorMsg("Input was not a number. Only accepted values are numbers with/without decimals");
+  /**                                                   
+  *     Validates if the passed raise value is an acceptable raise based on the current wager and balance 
+  *     @param wager The object that keeps track of the player's wager
+  *     @param raiseVal The proposed new raise value
+  *     @return True if raise is valid, false otherwise
+  */
+    public boolean handleRaiseValidation(Bettor wager, double raiseVal, boolean isNumber) // Decided to implement this as it allows more custom "error" messages than if I did it in Bettor
+  { // All raises must be > current bet, ALSO, > big blind
+      double currBal = wager.getBalance();
+      if(!isNumber)
+      {
+        bettingUI.setErrorMsg("Input was not a number. Only accepted values are numbers with/without decimals");
+        return false;
+      }
+
+      else if(raiseVal < 0)
+      {
+          bettingUI.setErrorMsg("Raise of $" + raiseVal + " was negative."); //TODO: If doing raise, force more than curr bet?
           return false;
-        }
+      }
+      if(raiseVal > currBal)
+      {
+          bettingUI.setErrorMsg("Raise was higher than the current balance of $" + currBal); //TODO: If doing raise, force more than curr bet?
+          return false;
+      }
+      else if(raiseVal < wager.getEntryPay() * 2)
+      {
+          bettingUI.setErrorMsg("Raise must be at least the value of the big blind, raise of $" + raiseVal + " < $" + (wager.getEntryPay() * 2) );
+          return false;
+      }
+        else if(raiseVal < wager.getRoundWinnings()) //getRoundWinnings is to access the currWager
+      {
+          bettingUI.setErrorMsg("Raise must be at least the value of the your current bet, raise of $" + raiseVal + " < $" + (wager.getRoundWinnings()) );
+          return false;
+      }
+      return true;
+  }
 
-        else if(raiseVal < 0)
-        {
-            bettingUI.setErrorMsg("Raise of $" + raiseVal + " was negative."); //TODO: If doing raise, force more than curr bet?
-            return false;
-        }
-        if(raiseVal > currBal)
-        {
-            bettingUI.setErrorMsg("Raise was higher than the current balance of $" + currBal); //TODO: If doing raise, force more than curr bet?
-            return false;
-        }
-        else if(raiseVal < wager.getEntryPay() * 2)
-        {
-            bettingUI.setErrorMsg("Raise must be at least the value of the big blind, raise of $" + raiseVal + " < $" + (wager.getEntryPay() * 2) );
-            return false;
-        }
-         else if(raiseVal < wager.getRoundWinnings()) //getRoundWinnings is to access the currWager
-        {
-            bettingUI.setErrorMsg("Raise must be at least the value of the your current bet, raise of $" + raiseVal + " < $" + (wager.getRoundWinnings()) );
-            return false;
-        }
-        return true;
-    }
-
-  public void handleNextRound()
+  /**                                                   
+  *      Handles both the frontend and backend behavior of starting the next round
+  */
+  public void handleNextRound() // TODO HERE IS WHERE WE ARE TRYING TO REPLACE RSEULT TO BE IN REVEAL NOT ON NExT ROUND
   {
     dealerSpace.setDisplayedRank("");
-    pokerGame.nextRound();
+    pokerGame.nextRound(); // backend of next round
     betStats.updatePlayerAndDealerStats(pokerGame.getEntryPay(), pokerGame.getEntryPay());
-    balStat.updatePlayerStat(pokerGame.getBalanceAsString()); // This is a duplicate in some cases but the overhead is light enough that I'd like to keep the modularity
+    balStat.updatePlayerStat(pokerGame.getBalance()); // This is a duplicate for any case that isnt a fold, but the overhead is light enough that I'd like to keep the simplicity
     userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
     cBoard.updatePot(pokerGame.getWager() * 2);
     userSpace.updateHand(pokerGame.getPlayerHand());
@@ -936,15 +961,11 @@ PokerStates pokerState;
     dealerSpace.updateHand(pokerGame.getDealerHand());
   }
   
-  public void handleFold() throws PokerException
-  {
-    pokerGame.foldWager(); // handles penalty for folding
-    pokerState = PokerStates.BETTING1;
-    cBoard.updateMsgBoardHeader("Betting Phase 1");
-    handleNextRound();
-  }
-
-  public void handleResults() //shows dealer hand + rank, increments or decrements users balance.
+  /**
+  *      Handles the behavior of revealing the result of the poker match. Reveals the dealer's hand and rank, displays if player won, tied, or pushed, and updates the user's balance in response to the match result.                                              
+  *      @return The text that explains the result of the round (won, lost, tie, how much money)
+  */
+  public String handleResults() //shows dealer hand + rank, increments or decrements users balance.
   {
       PokerHand pHand = pokerGame.getPlayerHand();
       PokerHand dHand =  pokerGame.getDealerHand();
@@ -952,10 +973,217 @@ PokerStates pokerState;
       dealerSpace.revealCards();
       dealerSpace.setDisplayedRank(dealerRank);
       String result = pokerGame.getWagerObject().collectWinnings(pHand, dHand);
-      cBoard.updatePot(pokerGame.getBalance());
-      cBoard.updateMsg(result + ". Select end round to start a new game");
+      cBoard.updatePot(pokerGame.getWager() * 2);
+      balStat.updatePlayerStat(pokerGame.getBalance());
+      return result;
   }
-  
+
+
+
+  /**    
+  *     Handles the interaction the decision buttons have with the center message UI                                                 
+  *     @param s The current state of the poker game
+  *     @param result Empty for all events except the final reveal phase of a match. Contains the text associated with the result of the match.
+  */
+  private void handleMsgBoardUpdate(PokerStates s, String result)
+  {
+    if(s == PokerStates.BETTING1)
+    {
+      cBoard.updateMsgBoardHeader("Betting Phase 1");
+      cBoard.updateMsg("Select call, raise, or fold to decide on your bet");
+    }
+    else if(s == PokerStates.DISCARD)
+    {
+      cBoard.updateMsgBoardHeader("Discard Phase");
+      cBoard.updateMsg("Select the checkboxes underneath cards you want to keep, then hit end round to confirm");
+    }
+
+    else if(s == PokerStates.BETTING2)
+    {
+      cBoard.updateMsgBoardHeader("Betting Phase 2");
+      cBoard.updateMsg("Select call, raise, or fold to decide on your bet");
+    }
+
+    else if (s == PokerStates.REVEAL)
+    {
+      cBoard.updateMsgBoardHeader("Results");
+      cBoard.updateMsg(result + ". Select end round to start the next round");
+    }
+    else // End game case
+    {
+      cBoard.updateMsgBoardHeader("You lost!");
+      cBoard.updateMsg("You ran out of money. Press 'End Round' to restart the game!");
+    }
+    
+  }
+
+  /**                                                   
+  *      Handes the behavior of the call button. Copies the big blind on the 1st betting phase, and in the 2nd betting phase, skips the bet.
+  */
+  public void handleCall()
+  {
+    if(pokerState == PokerStates.BETTING1)
+        {
+          try{
+            pokerGame.call(true); //does backend call behavior
+            betStats.updatePlayerAndDealerStats(pokerGame.getWager(), pokerGame.getWager());
+            cBoard.updatePot(pokerGame.getWager() * 2);
+            pokerState = PokerStates.DISCARD;
+            handleMsgBoardUpdate(pokerState, "");
+          }
+          catch(PokerException err) {cBoard.updateMsg(err.getMessage());} // TODO MUST ACCOUNT FOR ERROR CASES
+        }
+        else if(pokerState == PokerStates.BETTING2)
+        {
+          pokerState = PokerStates.REVEAL; // TODO THIS SHOULD INSTANTLY REVEAL TOO
+          String s = handleResults();
+          handleMsgBoardUpdate(pokerState, s);
+        }
+  }
+
+  /**                                                   
+  *      Handles the behavior betting UI, ensuring that only a valid betting input is accepted, and removes the betting UI once input is valid.
+  *      @param startingState The state that the game was in when the raisie button was pressed in an accepted state
+  */
+  public void handleBetUI(PokerStates startingState)
+  {
+    double bet = -1;
+    boolean isNumber = true;
+
+    try{
+    bet = bettingUI.getBet();
+    } catch(NumberFormatException err) {isNumber = false;} 
+    if(handleRaiseValidation(pokerGame.getWagerObject(), bet, isNumber)) 
+    {
+      bettingUI.setErrorMsg("");
+      
+      try{
+        pokerGame.raise(bet);
+      } catch (PokerException err) {} // This case never happens due to the above check
+      hideBetUI();
+      betStats.updatePlayerAndDealerStats(pokerGame.getWager(), pokerGame.getWager());
+      cBoard.updatePot(pokerGame.getWager() * 2);
+      if(startingState == PokerStates.BETTING1)
+      {
+        pokerState = PokerStates.DISCARD;
+        handleMsgBoardUpdate(pokerState, "");
+      }
+      else if (startingState == PokerStates.BETTING2)
+      {
+        pokerState = PokerStates.REVEAL; 
+        String s = handleResults();
+        handleMsgBoardUpdate(pokerState, s);
+      }
+    }
+  }
+
+  /**                                                   
+  *      Handles the behavior of the raise button, which requests and accepts from the user a raise value.
+  */
+  public void handleRaise()
+  {
+    if(pokerState == PokerStates.BETTING1 || pokerState == PokerStates.BETTING2)
+    {
+      displayBetUI();
+      PokerStates startingState = pokerState; //Starting state is needed as pokerState is disabled when betting UI is up to prevent any other inputs
+      pokerState = PokerStates.ENTERINGRAISE; // Used to ensure other options arent selected while UI is up
+      bettingUI.getSubmitButton().setOnAction(e2 -> {handleBetUI(startingState);});
+    }
+  }
+
+  /**                                                   
+  *      Handles the behavior of the fold button, which makes the user instantly lose and start a new 'match'
+  */
+  public void handleFold()
+  {
+    if(pokerState == PokerStates.BETTING1 || pokerState == PokerStates.BETTING2)
+    {
+      try{
+          pokerGame.foldWager(); // handles penalty for folding
+          pokerState = PokerStates.BETTING1;
+          handleMsgBoardUpdate(pokerState, "");
+          handleNextRound();
+      } catch (PokerException err){
+        cBoard.updateMsg("Unexpected error occured of withdrawing more money than current balance while folding");
+      } 
+      Bettor wager = pokerGame.getWagerObject();  
+      if(wager.getBalance() < wager.getEntryPay()) 
+      {
+        pokerState = PokerStates.GAMEEND;
+        handleMsgBoardUpdate(pokerState, "");
+      }
+    }
+  }
+
+  /**                                                   
+  *      Handles the behavior of discarding in the discard phases. The hold buttons determine which cards to not discard.
+  */
+  public void handleDiscard()
+  {
+    ArrayList<Integer> idxsToBeDiscarded = new ArrayList<>();
+    ArrayList<Boolean> isHeldCard = userSpace.determineChecked();
+    for(int i = 0; i < pokerGame.getPlayerHand().getHand().size(); i++)
+    {
+      if(!isHeldCard.get(i))
+        idxsToBeDiscarded.add(i);
+    }
+    try{
+    pokerGame.discard(idxsToBeDiscarded);
+    } catch (PokerException err) {cBoard.updateMsg(err.getMessage());}
+
+    userSpace.updateHand(pokerGame.getPlayerHand());
+    dealerSpace.updateHand(pokerGame.getDealerHand()); // note that .discard() also does dealer's discard, so we must update it too!
+    userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
+    pokerState = PokerStates.BETTING2;
+    handleMsgBoardUpdate(pokerState, "");
+  }
+
+  /**                                                   
+  *      Handles the behavior of what happens between the end of a round (when the dealer's hand gets revealed) and the next round. 
+  *      Accounts for if user has lost or not and if they haven't lost, sets up the next round
+  */
+  public void handleReveal() //handles post reveal operations
+  {
+    Bettor wager = pokerGame.getWagerObject();
+    if(wager.getBalance() < wager.getEntryPay()) 
+        pokerState = PokerStates.GAMEEND;
+        else
+        {
+            pokerState = PokerStates.BETTING1;
+            handleNextRound();
+        }
+    handleMsgBoardUpdate(pokerState, "");
+  }
+
+  /**                                                   
+  *     Handles the behavior of the game ending, which is when the user runs out of money, resetting to a similar state as in the beginning.
+  */
+  public void handleGameEnd()
+  {
+    pokerState = PokerStates.BETTING1;
+    handleNextRound();
+    pokerGame.getWagerObject().resetBalance();
+    balStat.updatePlayerStat(pokerGame.getBalance());
+    handleMsgBoardUpdate(pokerState, "");
+  }
+
+  /**                                                   
+  *      Handles all behaviors of the end round button, which is used to submit discards, 
+  *      cleanup after the final hand reveals, and restart the game in case of losing
+  */
+  public void handleEndRound()
+  {
+    if(pokerState == PokerStates.DISCARD)
+      handleDiscard();
+    else if(pokerState == PokerStates.REVEAL) //End round does behavior of cleanup for reveal
+     handleReveal();
+    else if(pokerState == PokerStates.GAMEEND) // TODO NEED TO ADD NEW GAME STATE
+      handleGameEnd();
+  }
+
+  /**                                                   
+  *      Creates all the event handlers needed for user interaction in the poker game: call, raise, fold, and end round
+  */
   public void createPokerEventHandlingSuite()
   {
     PokerButton callButton = userSpace.getCallButton();
@@ -963,112 +1191,17 @@ PokerStates pokerState;
     PokerButton foldButton = userSpace.getFoldButton();
     PokerButton endRoundButton = userSpace.getEndRoundButton();
 
-    callButton.setOnAction(e -> {
-        if(pokerState == PokerStates.BETTING1)
-        {
-          try{
-            pokerGame.call(true);
-            betStats.updatePlayerAndDealerStats(pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
-            cBoard.updatePot(pokerGame.getWager() * 2);
-            pokerState = PokerStates.DISCARD;
-            cBoard.updateMsgBoardHeader("Discard Phase 1");
-            cBoard.updateMsg("Select the checkboxes underneath cards you want to keep, then hit end round to confirm");
-          }
-          catch(PokerException err) {cBoard.updateMsg(err.getMessage());} // TODO MUST ACCOUNT FOR ERROR CASES
-        }
-        else if(pokerState == PokerStates.BETTING2)
-        {
-          pokerState = PokerStates.REVEAL; // TODO THIS SHOULD INSTANTLY REVEAL TOO
-          handleResults();
-          cBoard.updateMsgBoardHeader("Results");
-        }
-    });
-    
-    raiseButton.setOnAction(e -> {
-        if(pokerState == PokerStates.BETTING1 || pokerState == PokerStates.BETTING2)
-        {
-          displayBetUI();
-          bettingUI.getSubmitButton().setOnAction(e2 -> {
-            double bet = -1;
-            boolean isNumber = true;
-
-            try{
-            bet = bettingUI.getBet();
-            } catch(NumberFormatException err) {isNumber = false;} // TODO INSERT ERROR MESSAGE ON BETTING SCREEN Case of non double value being entered
-            if(handleRaiseValidation(pokerGame.getWagerObject(), bet, isNumber)) 
-            {
-              bettingUI.setErrorMsg("");
-             
-              try{
-                pokerGame.raise(bet);
-              } catch (PokerException err) {} // This case never happens due to the above check
-              hideBetUI();
-              betStats.updatePlayerAndDealerStats(pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
-              cBoard.updatePot(pokerGame.getWager() * 2);
-              if(pokerState == PokerStates.BETTING1)
-              {
-                pokerState = PokerStates.DISCARD;
-                cBoard.updateMsgBoardHeader("Discard Phase 2");
-                cBoard.updateMsg("Select the checkboxes underneath cards you want to keep, then hit end round to confirm");
-              }
-              else
-              {
-                pokerState = PokerStates.REVEAL; // TODO SHOULD INSTANTLY REVEAL
-                handleResults();
-                cBoard.updateMsgBoardHeader("Results");
-              }
-            }
-            });
-        }
-    // TODO MUST ACCOUNT FOR ERROR CASES
-    });
-
-    foldButton.setOnAction(e -> {
-        if(pokerState == PokerStates.BETTING1 || pokerState == PokerStates.BETTING2)
-        {
-          try{
-            handleFold();
-          } catch (PokerException err){} // "Unexpected behavior occured of withdrawing more money than current balance" TODO
-        }
-    });
-
-    endRoundButton.setOnAction(e -> {
-        if(pokerState == PokerStates.DISCARD)
-        {
-          ArrayList<Integer> idxsToBeDiscarded = new ArrayList<>();
-          ArrayList<Boolean> isHeldCard = userSpace.determineChecked();
-          for(int i = 0; i < pokerGame.getPlayerHand().getHand().size(); i++)
-          {
-            if(!isHeldCard.get(i))
-              idxsToBeDiscarded.add(i);
-          }
-          try{
-          pokerGame.discard(idxsToBeDiscarded);
-          } catch (PokerException err) {cBoard.updateMsg(err.getMessage());}
-
-          userSpace.updateHand(pokerGame.getPlayerHand());
-          dealerSpace.updateHand(pokerGame.getDealerHand()); // note that .discard() also does dealer's discard, so we must update it too!
-          userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
-          pokerState = PokerStates.BETTING2;
-          cBoard.updateMsgBoardHeader("Betting Phase 2");
-          cBoard.updateMsg("Select call, raise, or fold to decide on your bet");
-        }
-        else if(pokerState == PokerStates.REVEAL) //End round does behavior of revealing card
-        {
-          handleNextRound();
-          pokerState = PokerStates.BETTING1;
-          cBoard.updateMsgBoardHeader("Betting Phase 1");
-          cBoard.updateMsg("Select call, raise, or fold to decide on your bet");
-        }
-
-
-         // TODO MAKE HANDLE FUNCTIONS FOR THESE TO MAKE THIS SUITE SMALLER
-    });
-   
- 
+    callButton.setOnAction(e -> {handleCall();});
+    raiseButton.setOnAction(e -> {handleRaise();});
+    foldButton.setOnAction(e -> {handleFold();});
+    endRoundButton.setOnAction(e -> {handleEndRound();});
   }
 
 
+  
+  /**                                                   
+  *      Inititalizes the backend of the poker game
+  */
   @Override 
   public void init() // runs before start (good for elements that require backend first on startup)
   {
@@ -1077,7 +1210,6 @@ PokerStates pokerState;
     for (int i = 0; i < listOfArg.size(); i++)
       arrOfArgs[i] = listOfArg.get(i);
 
-      
     try{
       pokerGame = new PokerCasinoGame(1000.0, arrOfArgs);
     } catch(PokerException e) {System.out.println("Reshufflecount was not within bounds."); System.exit(1);}
@@ -1086,15 +1218,19 @@ PokerStates pokerState;
   }
 
 
+  /**                      
+  *     Sets up the initial state of the poker game UI, with the first round setup and displayed.                              
+  *     @param primaryStage The stage that holds all the UI elements to be displayed
+  */
   @Override
   public void start(Stage primaryStage) {
     BorderPane pokerScreen = new BorderPane(); 
     userSpace   = new PlayerSpace(pokerGame.getPlayerHand());
     userSpace.setDisplayedRank(pokerGame.getPlayerHand().getHandRank());
     dealerSpace = new DealerSpace(pokerGame.getDealerHand());
-    betStats    = new PokerStatsUI("Bet", pokerGame.getWagerAsString(), pokerGame.getWagerAsString());
-    balStat     = new PokerStatsUI("Bal", pokerGame.getBalanceAsString()); 
-    cBoard      = new CenterBoard(0.0, "Bet Phase", "Select call, raise, or fold to decide on your bet");
+    betStats    = new PokerStatsUI("Bet", pokerGame.getWager(), pokerGame.getWager());
+    balStat     = new PokerStatsUI("Bal", pokerGame.getBalance()); 
+    cBoard      = new CenterBoard(0.00, "Bet Phase", "Select call, raise, or fold to decide on your bet");
     cBoard.updatePot(pokerGame.getWager() * 2);
     bettingUI   = new BettingRequestUI(); // Hidden at the start
     overlay     = new StackPane(pokerScreen); // Use this version to hide the betting popup UI
@@ -1116,12 +1252,18 @@ PokerStates pokerState;
     primaryStage.show();               //Display the stage    
   }//end start
 
+  /**                                                   
+  *      Displays betting UI / adds betting UI to the displayed UI
+  */
   public void displayBetUI()
   {
     overlay.getChildren().add(bettingUI);
   }
 
-    public void hideBetUI()
+  /**                                                   
+  *      Removes the betting UI from the displayed UI
+  */
+  public void hideBetUI()
   {
     overlay.getChildren().remove(bettingUI);
   }
@@ -1131,13 +1273,6 @@ PokerStates pokerState;
     launch(args);
   }
     
-}//end MyFirstGUI
+} //end MyFirstGUI
 
-
-//TODO : Make sure to be updating the displayed hand rank as hands change
-
-
-//TODO : Make sure to use wager.collectwinnings for win case
-
-
-// NEED TO ADD END ROUND PROTECTION WITH BET SCREEN UP TODO
+// TODO extra credit reasoning: Added betting overlay screen, and implemented game restarting, followed GUI example in style

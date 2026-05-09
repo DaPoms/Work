@@ -2,7 +2,7 @@
 /* Author:         Daniel Tripoli                           */
 /* Major:          Computer Science                         */
 /* Creation Date:  April 21, 2026                           */
-/* Due Date:       April 24, 2026                           */
+/* Due Date:       May 16th, 2026                           */
 /* Course: CPSC    243 010                                  */
 /* Professor Name: Griffin Nye                              */
 /* Project:        #6                                       */
@@ -12,18 +12,10 @@
 /*                 game specific functions declared in this */
 /*                 file.                                    */
 /************************************************************/
-
-
-// HUGE TODO :           MUST REVAMP ALL THE JAVADOCS COMMENTS ON THIS FILE!
-
-
 package fiveCard;
-import java.util.Scanner;
 import fiveCard.PokerHand.HandRank;
-import fiveCard.PokerHand.HandResult;
 import fiveCard.PokerHand.cardByCountAndRank;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 /**
  * implements the entirety of the game of poker through the fivecard package and   
@@ -40,51 +32,47 @@ public class PokerCasinoGame extends CasinoCardGame {
     private PokerHand dealerHand;
     private Bettor wager;
     private Deck gameDeck;
-    private boolean didFirstDrawOnCommandLine; // TODO MIGHT REMOVE DPEENDING ON PROF ANSWER
-
-
-
-
-
 
         ///////////////////////////Project 6 code ///////////////////////////
-        
-        
+        /**                 
+        *    Returns a reference to the player's hand
+        *    @return A reference to the player's hand
+        */
         public PokerHand getPlayerHand() {return playerHand;}
+
+        /**                 
+        *    Returns a reference to the dealer's hand
+        *    @return A reference to the dealer's hand
+        */
         public PokerHand getDealerHand() {return dealerHand;}
-        public String getBalanceAsString() {return Double.toString(wager.getBalance());}
+
+        /**                 
+        *    Returns the current balance of the user
+        *    @return The user's current balance
+        */
         public Double getBalance() {return wager.getBalance();}
-        public String getWagerAsString() {return Double.toString(wager.getRoundWinnings());} //Yes, round winnings returns the profit IF player wins, which is = the current wager
+
+        /**                 
+        *    Returns the user's current wager value 
+        *    @return The current wager value of the user
+        */
         public Double getWager() {return wager.getRoundWinnings();}
+
+        /**                 
+        *    Returns a reference to the wager object
+        *    @return A reference to the wager object
+        */
         public Bettor getWagerObject() {return wager;}
-        public String getEntryPay() {return Double.toString(wager.getEntryPay());} // Just passes function up for easier access
-        /* public void setupGame(double startBal, String... args) // Only for initial setup
-        {
-            int smallBlind = 25;
-            playerHand = new PokerHand();
-            dealerHand = new PokerHand();
-            wager = new Bettor("", startBal, smallBlind); //Our frontend doesnt ask for a name, but I decided we'll just not use the name related functions rather than altering Bettor
-            didFirstDrawOnCommandLine = false;       
 
-            gameDeck = null; // This is required as try catch's are inferred to not succeed by compiler
-            try{
-                gameDeck = new Deck(-1); // -1 reshufflecount is just used to denote an unshuffled deck
-                gameDeck.shuffle(rollReshuffleCount(11,44)); // sets the reshufflecount to a proper value, + shuffles deck
-            } catch(PokerException e) 
-            {
-                e.printStackTrace();
-                System.exit(1); // My general rule of thumb is all execption cases dealt with in main are meant to terminate the program
-            }       
+        /**                 
+        *    Returns the cost required to reach the big blind
+        *    @return The cost required to reach the big blind from the user's perspective
+        */
+        public double getEntryPay() {return wager.getEntryPay();} // Just passes function up for easier access
 
-            if( args.length > 0 ) 
-            {
-                    CmdLineInput.parseArguments(args, playerHand, dealerHand);// Note we need a try catch here because parseArgs uses addCard, which does have 'throws' functionality
-                    didFirstDrawOnCommandLine = true;
-            }     
-        } */
-
-
-
+        /**                 
+        *    Fills both the player and dealer hand with cards
+        */
         public void draw()
         {
             try { // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
@@ -95,11 +83,6 @@ public class PokerCasinoGame extends CasinoCardGame {
                 System.exit(1);
             }
         }
-
-      /*   public void handleBet() TODO Done by BACKEND on button press (call, raise, fold. Dealer's bet also occurs at the same time, copying the user's move)
-        {
-
-        } */
 
     /**                                                                    
     *    The full behavior of the user's discard: both asks the user which cards to discard,
@@ -191,13 +174,10 @@ public class PokerCasinoGame extends CasinoCardGame {
         return false; //returns that reshuffle is not needed
     }
 
-    /**                                                          TODO MUST UPDATE
-    *    Covers both the player and dealer's turn during the discard phase of poker. 
-    *    Also accounts for if a reshuffle is needed after the discard phase
-    *    @param playerHand Player's poker hand for their discard turn
-    *    @param dealerHand Dealer's poker hand for their discard turn
-    *    @param deck The deck that cards are dealt from
-    *    @param scan - The input stream for user input
+    /**                                                      
+    *   Covers both the player and dealer's turn during the discard phase of poker. 
+    *   Also accounts for if a reshuffle is needed after the discard phase
+    *   @param playerCardsToBeDiscarded The indexes in the player's hand that will be discarded
     *   @throws PokerException If drawing a null card to hand   
     */
     public void discard(ArrayList<Integer> playerCardsToBeDiscarded) throws PokerException
@@ -223,7 +203,6 @@ public class PokerCasinoGame extends CasinoCardGame {
         playerHand = new PokerHand();
         dealerHand = new PokerHand();
         wager = new Bettor("", startBal, smallBlind); //Our frontend doesnt ask for a name, but I decided we'll just not use the name related functions rather than altering Bettor
-        didFirstDrawOnCommandLine = false;       
 
         gameDeck = null; // This is required as try catch's are inferred to not succeed by compiler
         try{
@@ -236,454 +215,51 @@ public class PokerCasinoGame extends CasinoCardGame {
         }       
 
         if( args.length > 0 ) 
-        {
-                CmdLineInput.parseArguments(args, playerHand, dealerHand);// Note we need a try catch here because parseArgs uses addCard, which does have 'throws' functionality
-                didFirstDrawOnCommandLine = true;
-        }     
+            CmdLineInput.parseArguments(args, playerHand, dealerHand);// Note we need a try catch here because parseArgs uses addCard, which does have 'throws' functionality
+           
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    /**                                                   
-    *     Runs the entire poker game, carrying out drawing, dealing, discarding, and betting.
-    *     @param args Command line argument for the case of starting with a premade hand
+    /**                 
+    *    Raises the user's bet to the big blind (or does nothing in the case of the 2nd betting round, so long as isFirstBet is properly set)                                    
+    *    @param isFirstBet True if on the 1st bet, false otherwise. Only the 1st bet affects a user's wager
+    *    @throws PokerException If the call requires more money than the current balance or the blind is negative 
     */
-
-    /*  public void play(String... args) // chop up for use in front end event handling
+    public void call(boolean isFirstBet) throws PokerException
     {
-      
-        setupGame(startBal, args);
-        
-        do  ///////////////////////////////// Actual game ////////////////////////////////////
-        {   
-            printBalance(wager);
-            // DRAW PHASE //
-            if(didFirstDrawOnCommandLine == true) //Very ugly system for allowing normal running after a command line turn (I did not want to just copy the entire code below into the command line case)
-                didFirstDrawOnCommandLine = false; 
-            else
-            {
-                try { // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
-                    drawPhase(playerHand, dealerHand, gameDeck);
-                } catch(PokerException e) {
-                    System.err.println("Shuffling did not reshuffle the deck, leading to a failed card deal."); // Should be impossible to happen (you never know! :) )
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-            }
-
-
-/////////////////////
-
-            boolean isFold = false;
-             try{
-                isFold = handleBet(wager, scan, true, playerHand, dealerHand);
-            if(isFold) 
-                continue;  
-            } catch(PokerException e)
-            {
-                e.printStackTrace();
-                System.exit(1);
-            }
-
-            // DISCARD PHASE //
-            try {
-            discardPhase(playerHand, dealerHand, gameDeck, scan);
-            } catch(PokerException e)
-            {
-                e.printStackTrace();
-                System.exit(1); //Note that the deal() error is caught INSIDE discardPhase, so this accounts for any error other than deal()'s (like the addCard(null) case )
-            }
-
-   
-             try{
-                isFold = handleBet(wager, scan, false, playerHand, dealerHand);
-            if(isFold)
-                continue;  
-            } catch(PokerException e)
-            {
-                e.printStackTrace();
-                System.exit(1);
-            }
-
-
-
-            // RESULTS PHASE //
-            int playerComparator = -2; // 0 = same, -1 = less, 1 = greater 
-            HandRank playerRank = playerHand.getHandRank();
-            HandRank dealerRank =  dealerHand.getHandRank();
-            try { // Did this to ensure separation of I/O from "backend"
-                playerComparator = playerHand.compareTo(dealerHand);                    
-            } catch(Exception e) // This is needed for getKickerArr()'s usage of getCard()
-            {
-                e.printStackTrace(); // printStackTrace also displays the message of exception
-                System.exit(1);
-            }                
-
-            
-            printResults(playerHand, dealerHand, playerRank, dealerRank, PokerHand.comparatorIntToHandResult(playerComparator));
-            System.out.println(wager.collectWinnings(playerHand, dealerHand));
-
-            //resets hands for next round 
-            playerHand.clear();
-            dealerHand.clear();
-            System.out.println();
-            wager.resetBet();
-            printTotalWinnings(wager);
-        } while ((wager.getBalance() >= wager.getEntryPay() * 2)); // * 2 is just the assumption that small blind is 1/2 the value of the big blind, and the player MUST bet at LEAST the big blind to get past discard phase
-        System.out.println("Ending balance: $" + wager.getBalance());
-    } */
-
-
-
-
-
-   /*  public void play(String... args) // chop up for use in front end event handling
-    {
-        int smallBlind = 25;
-        Scanner scan = new Scanner(System.in);
-        String name = getName(scan);
-        greetToPoker(name);
-        PokerHand playerHand = new PokerHand();
-        PokerHand dealerHand = new PokerHand();
-        Bettor wager = new Bettor(name, startBal, smallBlind); 
-        boolean didFirstDrawOnCommandLine = false;    
-
-        // Deck initialization
-        Deck gameDeck = null; // This is required as try catch's are inferred to not succeed by compiler
-        try{
-            gameDeck = new Deck(-1); // -1 reshufflecount is just used to denote an unshuffled deck
-            gameDeck.shuffle(rollReshuffleCount(11,44)); // sets the reshufflecount to a proper value, + shuffles deck
-        } catch(PokerException e) 
-        {
-            e.printStackTrace();
-            System.exit(1); // My general rule of thumb is all execption cases dealt with in main are meant to terminate the program
-        }       
-
-        if( args.length > 0 ) 
-        {
-                CmdLineInput.parseArguments(args, playerHand, dealerHand);// Note we need a try catch here because parseArgs uses addCard, which does have 'throws' functionality
-                didFirstDrawOnCommandLine = true;
-        }     
-        
-        do  ///////////////////////////////// Actual game ////////////////////////////////////
-        {   
-            printBalance(wager);
-            // DRAW PHASE //
-            if(didFirstDrawOnCommandLine == true) //Very ugly system for allowing normal running after a command line turn (I did not want to just copy the entire code below into the command line case)
-                didFirstDrawOnCommandLine = false; 
-            else
-            {
-                try { // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
-                    drawPhase(playerHand, dealerHand, gameDeck);
-                } catch(PokerException e) {
-                    System.err.println("Shuffling did not reshuffle the deck, leading to a failed card deal."); // Should be impossible to happen (you never know! :) )
-                    e.printStackTrace();
-                    System.exit(1);
-                }
-            }
-
-
-            boolean isFold = false;
-             try{
-                isFold = handleBet(wager, scan, true, playerHand, dealerHand);
-            if(isFold) 
-                continue;  
-            } catch(PokerException e)
-            {
-                e.printStackTrace();
-                System.exit(1);
-            }
-
-            // DISCARD PHASE //
-            try {
-            discardPhase(playerHand, dealerHand, gameDeck, scan);
-            } catch(PokerException e)
-            {
-                e.printStackTrace();
-                System.exit(1); //Note that the deal() error is caught INSIDE discardPhase, so this accounts for any error other than deal()'s (like the addCard(null) case )
-            }
-
-             // TODO: NEED TO MAKE MODULAR (PUT IN CLASS!!!!)
-             try{
-                isFold = handleBet(wager, scan, false, playerHand, dealerHand);
-            if(isFold)
-                continue;  
-            } catch(PokerException e)
-            {
-                e.printStackTrace();
-                System.exit(1);
-            }
-
-
-
-            // RESULTS PHASE //
-            int playerComparator = -2; // 0 = same, -1 = less, 1 = greater 
-            HandRank playerRank = playerHand.getHandRank();
-            HandRank dealerRank =  dealerHand.getHandRank();
-            try { // Did this to ensure separation of I/O from "backend"
-                playerComparator = playerHand.compareTo(dealerHand);                    
-            } catch(Exception e) // This is needed for getKickerArr()'s usage of getCard()
-            {
-                e.printStackTrace(); // printStackTrace also displays the message of exception
-                System.exit(1);
-            }                
-
-            
-            printResults(playerHand, dealerHand, playerRank, dealerRank, PokerHand.comparatorIntToHandResult(playerComparator));
-            System.out.println(wager.collectWinnings(playerHand, dealerHand));
-
-            //resets hands for next round 
-            playerHand.clear();
-            dealerHand.clear();
-            System.out.println();
-            wager.resetBet();
-            printTotalWinnings(wager);
-        } while ((wager.getBalance() >= wager.getEntryPay() * 2) && askIfContinue(scan)); // * 2 is just the assumption that small blind is 1/2 the value of the big blind, and the player MUST bet at LEAST the big blind to get past discard phase
-        System.out.println("Ending balance: $" + wager.getBalance());
-    } */
-
-    /**                                                   
-    *     Carries out the bet phase, but with handling for when a fold occurs (except it does not skip a round on its own, only prepares the round for being skipped)
-    *     @param wager The object that keeps track of the player/dealer wagering
-    *     @param scan Collects user input
-    *     @param isFirstBet Changes behavior based on bet round (there are 2 bet rounds). Round 1 calls match the big blind, Round 2 calls skip the bet
-    *     @param playerHand The player's hand to be displayed for making betting judgements 
-    *     @param dealerHand The dealer's hand that is only used for the case of a fold (which initiates a round reset)
-    *     @throws PokerException If withdrawing or betting more money than balance 
-    *     @return True if fold occurs, false otherwise. This is to notify the caller that the round needs to be reset
-    */
-/*     public boolean handleBet(Bettor wager, Double bet, boolean isFirstBet, PokerHand playerHand, PokerHand dealerHand) throws PokerException
-    {
-            boolean isFold = betPhase(wager, scan, isFirstBet, playerHand);
-            printPotVal(wager);
-            //System.out.println();    /// NOTE : DEBUGGING CODE
-            if(isFold) // STILL MIGHT ME AN ISSUE, NEED TO RESET HAND
-            {
-                playerHand.clear();
-                dealerHand.clear();
-                System.out.println(wager.getName() + " folded and lost $" + wager.getRoundWinnings());
-                wager.subtractByWager();    
-                printTotalWinnings(wager);
-                wager.resetBet();
-                System.out.println();
-            }
-            return isFold;
-    } */
-
-
-    /**                                                   
-    *     Prints the balance of the player
-    *     @param wager the object that keeps track of the player's wagering + balance
-    */
- /*    public static void printBalance(Bettor wager)
-    {
-        System.out.println("Current balance: $" + wager.getBalance());
-    } */
-
-    /**                                                   
-    *     Returns if string is an accepted betting comamand for poker
-    *     @param s - The string being validated for being a command 
-    *     @return True if string is an accepted poker command, false otherwise
-    */
-/*     public static boolean isValidBetCommand(String s)
-    {
-        switch(s)
-        {
-            case "C","c","R","r","F","f" -> {return true;}
-            default -> {return false;}
-        }
-    } */
-
-    /**                                                   
-    *     Asks and collects input for making a betting decision
-    *     @param scan Used to collect user input
-    *     @return User's inputted bet instruction, in lowercase form
-    */
- /*    public static String getBetInstruction(Scanner scan)
-    {
-        String s;
-        do{
-            System.out.print("Enter your bet action: C = Call, R = Raise, F = fold: ");
-            s = scan.nextLine();
-        } while(!isValidBetCommand(s));
-
-        return s.toLowerCase();
-    } */
-
-    /**                                                   
-    *     Validates if the passed raise value is an acceptable raise based on the current wager and balance 
-    *     @param wager The object that keeps track of the player's wager
-    *     @param raiseVal The proposed new raise value
-    *     @return True if raise is valid, false otherwise
-    */
-/*      public static boolean isValidRaise(Bettor wager, double raiseVal) // Decided to implement this as it allows more custom "error" messages than if I did it in Bettor
-    { // All raises must be > current bet, ALSO, > big blind
-        double currBal = wager.getBalance();
-        if(raiseVal < 0)
-        {
-            System.out.println("Raise of $" + raiseVal + " was negative."); //TODO: If doing raise, force more than curr bet?
-            return false;
-        }
-        if(raiseVal > currBal)
-        {
-            System.out.println("Raise was higher than the current balance of $" + currBal); //TODO: If doing raise, force more than curr bet?
-            return false;
-        }
-        else if(raiseVal < wager.getEntryPay() * 2)
-        {
-            System.out.println("Raise must be at least the value of the big blind, raise of " + raiseVal + " < " + (wager.getEntryPay() * 2) );
-            return false;
-        }
-         else if(raiseVal < wager.getRoundWinnings()) //getRoundWinnings is to access the currWager
-        {
-            System.out.println("Raise must be at least the value of the your current bet, raise of " + raiseVal + " < " + (wager.getRoundWinnings()) );
-            return false;
-        }
-        return true;
-    } */
-
-    /**                                                   
-    *     Collects user/player's raise value with validation checking to ensure an acceptable value is given.
-    *     @param wager  The object that keeps track of the player's wager
-    *     @param scan Collects user's raise input
-    *     @return The user's entered raise value
-    */
-    /*public static Double getUserRaise(Bettor wager, Scanner scan)
-    {
-        while(true) // Doesnt finish till proper input is recieved
-        {
-
-            System.out.print("What do you want to raise your wager to?: "); 
-            Scanner stringScanner = new Scanner(scan.nextLine());
-            if(stringScanner.hasNextDouble() )
-            {
-                Double ans = stringScanner.nextDouble();
-                if(isValidRaise(wager, ans))
-                {
-                    stringScanner.close();
-                    return ans;
-                }
-            }
-            System.out.println("Input not accepted. Try again.");
-            stringScanner.close();
-        }          
-    }
- */
-
-//TODO BREAK EACH INTO SEPARATE FUNCTIONS
-
-public void call(boolean isFirstBet) throws PokerException
-{
-    if(isFirstBet) // Case of matching big blind (first round)
-        wager.placeBet(wager.getRoundWinnings() + wager.getEntryPay());
-}
-
-public void raise(double bet) throws PokerException
-{
-    wager.placeBet(bet);
-}
-
-public void nextRound()
-{
-    playerHand.clear();
-    dealerHand.clear();
-    wager.resetBet();
-    draw();
-}
-
-public void foldWager() throws PokerException
-{
-    wager.subtractByWager();    
-    wager.resetBet();
-}
-
-//Fold is just to do nothing, will move on to next phase
-
-/* 
-    public static boolean betPhase(Bettor wager, Scanner scan, boolean isFirstBet, PokerHand playerHand) throws PokerException
-    { // Returns true if fold occurs
-
-        String choice = getBetInstruction(scan);
-
-        switch(choice)
-        {
-            case "c" -> 
-            {
-                if(isFirstBet) // Case of matching big blind (first round)
-                    wager.placeBet(wager.getRoundWinnings() + wager.getEntryPay());
-                //else is case of round 2, where call = check (bet of $0)
-                // Case of check (does nothing)
-                
-            } // call                   
-            case "r" -> 
-            {
-                wager.placeBet(getUserRaise(wager, scan)
-            );} // raise
-            //case "f" -> {} // fold is automatically done
-            case "f" -> {return true;}
-        }
-        return false;
-    } */
-
-    /**                                                   
-    *     Displays the total value being betting between dealer and player combined. Winner recieves this pot
-    *     @param wager The object that simulates player/dealer wagering
-    */
-    public String getPotVal()
-    {
-        return Double.toString(wager.getRoundWinnings() * 2);
+        if(isFirstBet) // Case of matching big blind (first round)
+            wager.placeBet(wager.getRoundWinnings() + wager.getEntryPay());
     }
 
-    
-    /**                                                   
-    *     Displays the net winnings of the player in poker through @see fiveCard.Bettor#getTotalWinnings() getTotalWinnings
-    *     @param wager The players wager object, keeps track of betting history
+    /**                 
+    *    Raises the user's bet by the passed value                                     
+    *    @param bet The value of the bet
+    *    @throws PokerException If trying to wager more than the current balance or a negative number 
     */
-  /*   public static void printTotalWinnings(Bettor wager)
+    public void raise(double bet) throws PokerException
     {
-        double playerEarnings = wager.getTotalWinnings();
-        if(playerEarnings > 0)
-             System.out.println( "Your total earnings is $" + playerEarnings );
-        else if(playerEarnings < 0)
-            System.out.println( "Your total loss is  $" + playerEarnings );
-        else
-            System.out.println("You've currently broke even, get out while you can!");
-    } */
+        wager.placeBet(bet);
+    }
 
+    /**                                                     
+    *    Resets both the dealer and player's hands and draws new hands
+    */
+    public void nextRound()
+    {
+        playerHand.clear();
+        dealerHand.clear();
+        wager.resetBet();
+        draw();
+    }
 
- 
-
-
+    /**                                                     
+    *   Implements the wager behaviors of folding. User loses their bet money and their bet gets reset for the next round
+    *   @throws PokerException If more money is taken from the user's balance than they have
+    */
+    public void foldWager() throws PokerException
+    {
+        wager.subtractByWager();    
+        wager.resetBet();
+    }
 
     /////////////////////////////////////////////////////////////////////
 
@@ -716,33 +292,22 @@ public void foldWager() throws PokerException
     /**                                                     
     *    Fills dealer and player hands with 5 cards each (hands should be empty before calling this).
     *    Also accounts for reshuffling, in which reshuffle will restart the draw if the reshuffle value is reached
-    *    @param playerHand Player's poker hand for drawing 5 cards
-    *    @param dealerHand Dealer's poker hand for drawing 5 cards
-    *    @param deck The deck that cards are dealt from
     */
     public void drawPhase() throws PokerException
-    {
-         //Any case after the first command line OR if there never was a command line hand
-        
-            try
-            {
+    {        
+        try
+        {
+            draw5(playerHand, gameDeck);
+            draw5(dealerHand, gameDeck);
+        } catch(PokerException e) // Deck.deal case, this allows us to draw 10 cards even if there is an out of bounds error, in which we know to reshuffle
+        { // If we hit the rehsufflecount of draw phase, we should undo the draw, reshuffle, and draw again!
+            gameDeck.shuffle(rollReshuffleCount(11, 44)); // We reshuffle if we hit the reshufflecount after the draw phase
+            playerHand.clear(); // resets draws
+            dealerHand.clear();
+                // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
                 draw5(playerHand, gameDeck);
                 draw5(dealerHand, gameDeck);
-            } catch(PokerException e) // Deck.deal case, this allows us to draw 10 cards even if there is an out of bounds error, in which we know to reshuffle
-            { // If we hit the rehsufflecount of draw phase, we should undo the draw, reshuffle, and draw again!
-                gameDeck.shuffle(rollReshuffleCount(11, 44)); // We reshuffle if we hit the reshufflecount after the draw phase
-                playerHand.clear(); // resets draws
-                dealerHand.clear();
-                    // Case of redrawing after hitting reshuffle in draw phase (guaranteed to not happen again, but catch is still required with my draw5() function)
-                    draw5(playerHand, gameDeck);
-                    draw5(dealerHand, gameDeck);
-            }
+        }
     }
-
-    @Override
-    public void play(String... args) {
-    // There is no use for this in our final project, but due to abstract classes, this must be implemented
-    }
-
 }
 
